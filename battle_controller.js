@@ -1,7 +1,7 @@
-let Squad = require('./Squad')
+let Hero = require('./Hero')
 let Unit = require('./Unit')
-let Weapon = require('./weapon')
-let Armor = require('./Armor')
+let Modification = require('./Modification')
+let Effect = require('./Effect')
 let Tile = require('./Tile')
 let Player = require('./Player')
 let PriorityQueue = require('priorityqueuejs');
@@ -17,133 +17,42 @@ class battle_controller {
     constructor () {
         this.AAA = 250
         this.turn = 0
-        let weapon_list = weapon_params.new()
-        let unit_list = unit_params.new()
-        let armor_list = armor_params.new()
-        this.param_weapon_reb = weapon_list.ar_Tellur_old
-        this.param_weapon_unarmed = weapon_list.fists
-        this.param_weapon_gov = weapon_list.ar_Thalassa
-        this.param_weapon_snooper = weapon_list.rf_Tellur_old
-        this.param_weapon_flamer = weapon_list.flamer_Tellur
-        this.param_weapon_mg = weapon_list.mg_Thalassa
+        let hero_params = {
+            'health': 10,
+            'energy': 20,
+            'vision': 6
+        } 
+        let unit_params = {
+            'health': 5,
+            'vision': 3
+        } 
+        let big_claw = Modification.new({        
+            "name": "Big claw",
+            "this.effects": [],
+            "damage": 3,
+            "defense": 0,
+            "cost": 1,
+            "health": 0,
+            "passive_cost": 0.01,
+            "is_active": true})
 
-        this.param_armor_reb = armor_list.armor_rebel
-        this.param_armor_gov = armor_list.armor_old
-
-        let units_reb = []
-        let units_gov1 = []
-        let units_gov2 = []
-        let units_gov3 = []
-        let units_civ1 = []
-        let units_civ2 = []
-        this.param_unit_reb = unit_list.aravian_rebel
-        this.param_unit_civ = unit_list.aravian_civilian
-        this.param_unit_gov = unit_list.mercenary_Thalassa
-        for (let i = 0; i < 5; i++) {
-            let unit1 = Unit.new(this.param_unit_reb, Weapon.new(this.param_weapon_reb), Armor.new(this.param_armor_reb))
-            units_reb.push(unit1)
-            let unit1g
-            let unit2g
-            let unit3g
-            if (i === 0) {
-                unit1g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_flamer),Armor.new(this.param_armor_gov))
-                unit2g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_snooper),Armor.new(this.param_armor_gov))
-                unit3g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_mg),Armor.new(this.param_armor_gov))
-                
-            } else {
-                unit1g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_gov),Armor.new(this.param_armor_gov))
-                unit2g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_gov),Armor.new(this.param_armor_gov))
-                unit3g = Unit.new(this.param_unit_gov,Weapon.new(this.param_weapon_gov),Armor.new(this.param_armor_gov))
-                
-            }
-            units_gov1.push(unit1g)
-            units_gov2.push(unit2g)
-            units_gov3.push(unit3g)
-            let param_rand_civ = this.param_unit_civ
-            if (getRandomInt(1) === 1) {
-                param_rand_civ.gender = 'female'
-            } else {
-                param_rand_civ.gender = 'male'
-            }
-            let unit3 = Unit.new(param_rand_civ, Weapon.new(this.param_weapon_unarmed), Armor.new(this.param_armor_reb))
-            param_rand_civ = this.param_unit_civ
-            if (getRandomInt(1) === 1) {
-                param_rand_civ.gender = 'female'
-            } else {
-                param_rand_civ.gender = 'male'
-            }
-            let unit4 = Unit.new(param_rand_civ, Weapon.new(this.param_weapon_unarmed), Armor.new(this.param_armor_reb))
-            units_civ1.push(unit3)
-            units_civ2.push(unit4)
- 
-        }
-
+        let small_claw = Modification.new({        
+            "name": "Big claw",
+            "this.effects": [],
+            "damage": 2,
+            "defense": 0,
+            "cost": 0.75,
+            "health": 0,
+            "passive_cost": 0.01,
+            "is_active": true})
+        this.hero = Hero.new(hero_params, [big_claw], 3, 3)
+        this.unit_1 = Unit.new(unit_params, [small_claw], 5, 3, null)
+        this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null)
+        this.units = []
+        this.units.push(this.hero)
+        this.units.push(this.unit_1)
+        this.units.push(this.unit_2)
         this.battlefield = []
-
-        //-----
-        // this.battlefield_X = 11
-        // this.battlefield_Y = 10
-        // for (let i = 0; i < this.battlefield_X; i++) {
-        //     this.battlefield.push([])
-        //     for (let j = 0; j < this.battlefield_Y; j++) {
-        //         if ((i === 1 && j === 3) || (i === 8 && j === 1) || (i === 5 && j === 6) || (i === 4 && j === 6) || (i === 3 && j === 6)){
-        //             this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, 15))
-        //         } else if ((i === 4 && j === 5) || (i === 8 && j === 2)) {
-        //             this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, 0))
-        //         } else {
-        //             this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, 0))
-        //         }
-                
-        //     }
-        // }
-        // for (let j = 0; j < this.battlefield_Y; j++) {
-        //     this.battlefield[2][j] = (Tile.new(2, j, 'desert_hill', 2, true, 15))
-        //     this.battlefield[3][j] = (Tile.new(3, j, 'desert_hill', 2, true, 15))
-        // }
-
-        // for (let i = 0; i < this.battlefield_X; i++) {
-        //     for (let j = 0; j < this.battlefield_Y; j++) {
-        //         if (i > 0) {
-        //             this.battlefield[i][j].neighbors.push({X: i - 1, Y: j})
-        //         }
-        //         if (i < this.battlefield_X - 1) {
-        //             this.battlefield[i][j].neighbors.push({X: i + 1, Y: j})
-        //         }
-        //         if (j > 0) {
-        //             this.battlefield[i][j].neighbors.push({X: i, Y: j - 1})
-        //         }
-        //         if (j < this.battlefield_Y - 1) {
-        //             this.battlefield[i][j].neighbors.push({X: i, Y: j + 1})
-        //         }
-        //     }
-        // }
-        // // x * 10 + y
-        // this.player_gov = Player.new('Player', 0)
-        // this.player_reb = Player.new('AI', 1)
-
-        // this.AI_reb = AI.new(this.battlefield, this.player_reb.index, 'attack')
-        // this.AI_civ = AI.new(this.battlefield, this.player_reb.index, 'flee')
-
-        // this.squad_reb = Squad.new(units_reb, 5, 8, 1, this.AI_reb)
-        // this.battlefield[5][8].squad = this.squad_reb
-        // this.squad_civ1 = Squad.new(units_civ1, 7, 1, 1, this.AI_civ)
-        // this.battlefield[7][1].squad = this.squad_civ1
-        // this.squad_civ2 = Squad.new(units_civ2, 4, 2, 1, this.AI_civ)
-        // this.battlefield[4][2].squad = this.squad_civ2
-        // this.squad_gov1 = Squad.new(units_gov1, 5, 0, 0, null)
-        // this.battlefield[5][0].squad = this.squad_gov1
-        // this.squad_gov2 = Squad.new(units_gov2, 0, 5, 0, null)
-        // this.battlefield[0][5].squad = this.squad_gov2
-        // this.squad_gov3 = Squad.new(units_gov3, 5, 9, 0, null)
-        // this.battlefield[5][9].squad = this.squad_gov3
-
-    
-        // this.player_gov.squads.push(this.squad_gov1)
-        // this.player_gov.squads.push(this.squad_gov2)
-        // this.player_gov.squads.push(this.squad_gov3)
-        // this.player_reb.squads.push(this.squad_reb)
-        // this.player_reb.squads.push(this.squad_civ1)
-        // this.player_reb.squads.push(this.squad_civ2)
         this.battlefield_X = 15
         this.battlefield_Y = 5
         for (let i = 0; i < this.battlefield_X; i++) {
@@ -180,45 +89,26 @@ class battle_controller {
                 }
             }
         }
+
+        for (let unit of this.units) {
+            this.battlefield[unit.X][unit.Y].unit = unit
+        }
         // x * 10 + y
-        this.player_gov = Player.new('Player', 0)
-        this.player_reb = Player.new('AI', 1)
+        this.player_human = Player.new('Player', 0, this.hero)
+        this.player_human.create_visibility_map(this.battlefield)
+        this.player_human.get_visible_tile(this.battlefield)
+    }
 
-        this.AI_reb = AI.new(this.battlefield, this.player_reb.index, 'scout')
-        this.AI_civ = AI.new(this.battlefield, this.player_reb.index, 'flee')
-
-        this.squad_reb = Squad.new(units_reb, 12, 2, 1, this.AI_reb)
-        this.battlefield[12][2].squad = this.squad_reb
-        this.squad_civ1 = Squad.new(units_civ1, 11, 1, 1, this.AI_civ)
-        this.battlefield[11][1].squad = this.squad_civ1
-        this.squad_civ2 = Squad.new(units_civ2, 4, 2, 1, this.AI_civ)
-        this.battlefield[4][2].squad = this.squad_civ2
-        this.squad_gov1 = Squad.new(units_gov1, 0, 3, 0, null)
-        this.battlefield[0][3].squad = this.squad_gov1
-        this.squad_gov2 = Squad.new(units_gov2, 0, 4, 0, null)
-        this.battlefield[0][4].squad = this.squad_gov2
-        this.squad_gov3 = Squad.new(units_gov3, 0, 2, 0, null)
-        this.battlefield[0][2].squad = this.squad_gov3
-
-    
-        this.player_gov.squads.push(this.squad_gov1)
-        this.player_gov.squads.push(this.squad_gov2)
-        this.player_gov.squads.push(this.squad_gov3)
-        this.player_reb.squads.push(this.squad_reb)
-        this.player_reb.squads.push(this.squad_civ1)
-        this.player_reb.squads.push(this.squad_civ2)
-        //-----
-        
-        this.players = []
-        this.players.push(this.player_gov)
-        this.players.push(this.player_reb)
-        for (let player of this.players) {
-            player.create_visibility_map(this.battlefield)
-            player.get_visible_tile(this.battlefield)
+    check_unit_existing() {
+        for (let i = 0 ; i < this.units.length; i++){
+        let unit = this.units[i]
+            if (unit.health <= 0) {
+                battlefield[unit.X][unit.Y].unit = null
+                this.units.splice(i, 1)
+            }
         }
     }
 
-    
     get_tile_id_from_coords(tile) {
         return tile.X * this.battlefield_Y + tile.Y
     }
@@ -403,6 +293,6 @@ module.exports.get_tile_to_move = function(in_potential_range) {
     controller.get_tile_to_move(in_potential_range)
 }
 
-// module.exports.make_AI_turns = function () {
-//     controller.make_AI_turns()
-// }
+module.exports.check_unit_existing = function () {
+    controller.check_unit_existing()
+}

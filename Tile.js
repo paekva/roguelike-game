@@ -6,16 +6,15 @@ function getRandomInt(max) {
 class Tile {
 
     constructor(X, Y, type, mp_required, is_passable, eva_bonus) { 
-        this.squad_id = null
+        this.unit_id = null
         this.squad_player = null
-        this.squad = null
+        this.unit = null
         this.X = X
         this.Y = Y
         this.type = type
         this.mp_required = mp_required
         this.is_passable = is_passable
         this.neighbors = []
-        this.eva_bonus = eva_bonus
         // console.log(this)
     }
     

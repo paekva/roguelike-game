@@ -3,32 +3,35 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max + 1));
 }
 
-class Unit {
+class Hero {
     
-    constructor(params, modifications, X, Y, AI) {         
+    constructor(params, modifications, X, Y) { 
+        this.has_attacked = false
         this.X = X
         this.Y = Y
-        this.AI = AI
         this.health = params.health
         this.max_health = this.health
-        this.movement = params.movement
+        this.energy = params.energy
+        this.max_energy = this.energy
         this.vision = params.vision
         this.modifications = modifications
+        this.inventory = []
+        this.firstname = "Main"
+        this.lastname = "Character"
+        this.fullname = "Main Character"
         this.effects = []
-        let rawnames = JSON.parse(fs.readFileSync('./Names/FirstNames.json'))
-        let rawlastnames = JSON.parse(fs.readFileSync('./Names/LastNames.json'))
-        this.firstname = rawnames[getRandomInt(rawnames.length - 1)]
-        this.lastname = rawlastnames[getRandomInt(rawlastnames.length - 1)]
-        this.fullname = this.firstname + ' ' + this.lastname
         this.min_range = 1
         this.max_range = 1
     }
 
     move_unit (target_tile) {
-        if (target_tile.is_passable && !target_tile.unit) {
+        // console.log(target_tile)
+        if ((this.energy - this.get_move_cost() >= 0) && target_tile.is_passable && !target_tile.unit) {
             if ((target_tile.X === this.X && Math.abs(target_tile.Y - this.Y) === 1) || (target_tile.Y === this.Y && Math.abs(target_tile.X - this.X) === 1)){
+                this.energy -= this.get_move_cost()
                 this.X = target_tile.X
                 this.Y = target_tile.Y
+                target_tile.unit = this
                 return true
             }
         }
@@ -67,7 +70,21 @@ class Unit {
         return reduction
     }
 
-    attack_unit (target, tgt_tile) {
+    get_move_cost () {
+        let cost = 0
+        for (let part of this.modifications) {
+            if (part.is_active) {
+                cost += part.passive_cost
+            }
+        }
+        for (let effect of this.effects) {
+            cost += effect.energy
+        }
+        return cost
+    }
+
+    attack_unit (target) {
+        this.has_attacked = true
         console.log(this.fullname + ' attacked!')
         let damage_stats = this.get_damage()
         let dmg = damage_stats[0] - target.get_damage_reduction()
@@ -76,17 +93,7 @@ class Unit {
             console.log(this.fullname + ' dealt ' + dmg + ' to ' + target.fullname)
             target.health -= dmg
             if (target.health <= 0) {
-                if(target.status === 'Alive') {
-                    console.log(target.fullname + ' is unconscious!')
-                }
-                target.status = 'Unconscious'
-                target.death_health += target.health
-                target.health = 0
-                
-                if (target.death_health <= 0) {
-                    target.status = 'Dead'
-                    console.log(target.fullname + ' is dead!')
-                }
+                console.log(target.fullname + ' is dead!')
             }
         } else {
             console.log(this.fullname + " dealt no damage to " + target.fullname + "!")
@@ -96,6 +103,6 @@ class Unit {
 }
 
 module.exports.new = function (params, modifications, X, Y) {
-    let unit = new Unit(params, modifications, X, Y)
+    let unit = new Hero(params, modifications, X, Y)
     return unit
 }

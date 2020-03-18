@@ -1,8 +1,8 @@
 let canvassize = 400
-let dialogue = 0
-let battlefield_active = false
+let dialogue = 4
+let battlefield_active = true
 let controller
-let chosen_squad
+let chosen_unit
 let turn = 0
 let shiftX = 25
 let shiftY = 0
@@ -11,61 +11,61 @@ let tile_size = 25
 let unit_info
 let dialogue_zone
 let battlefield_map
-let squad_info_popup
-let squad_info_required = false
-let squad_info_requested
+let unit_info_popup
+let unit_info_required = false
+let unit_info_requested
 
 let draw_path = false
 let move_through_path = -1
-let squad_that_is_moved = null
+let unit_that_is_moved = null
 let path_to_move
 let confirm_move_info
 let chosen_tile
 
-function checkClickOnSquad() {
+function checkClickOnUnit() {
+
 	if (move_through_path === -1) {
 		let valX = (mouseX - shiftX) / tile_size
 		let valY = (mouseY - shiftY) / tile_size
-		for (let i = 0; i < controller.players.length; i++){
-			// for (let squad of controller.players[i].squads){
-			for (let j = 0; j < controller.players[i].squads.length; j++){
-				let squad = controller.players[i].squads[j]
-				if (valX > squad.X && valX < squad.X + 1 && valY > squad.Y && valY < squad.Y + 1 ) {
-					//We found a squad
-					// return squad
-					if (controller.players[controller.turn].visibility_map[squad.X][squad.Y] !== 0) {
-						return [i, j]
-					} else {
-						return null
-					}
+		for (let i = 0; i < controller.units.length; i++) {
+			let unit = controller.units[i]
+			if (valX > unit.X && valX < unit.X + 1 && valY > unit.Y && valY < unit.Y + 1 ) {
+				// console.log("checking")
+				// We found a unit
+				// return unit
+				// console.log(controller.player_human.visibility_map[unit.X][unit.Y])
+				if (controller.player_human.visibility_map[unit.X][unit.Y] !== 0) {
+					return i
+				} else {
+					return -1
 				}
 			}
 		}
 	}
-	return null
+	return -1
 }
 
-function circling_lines (turn, squad) {
+function circling_lines (turn, unit) {
 	battlefield_map.strokeWeight(3);
 	battlefield_map.stroke(0, 192, 0)
 	if (turn > 0 && turn <= tile_size){
-		battlefield_map.line((squad.X * tile_size) + shiftX, (((squad.Y+1) * tile_size) - turn) + shiftY, (squad.X * tile_size) + shiftX, (squad.Y * tile_size) + shiftY)//vert
-		battlefield_map.line(((squad.X) * tile_size) + shiftX, (squad.Y * tile_size) + shiftY, ((squad.X * tile_size) + turn) + shiftX, (squad.Y * tile_size) + shiftY)//hor
+		battlefield_map.line((unit.X * tile_size) + shiftX, (((unit.Y+1) * tile_size) - turn) + shiftY, (unit.X * tile_size) + shiftX, (unit.Y * tile_size) + shiftY)//vert
+		battlefield_map.line(((unit.X) * tile_size) + shiftX, (unit.Y * tile_size) + shiftY, ((unit.X * tile_size) + turn) + shiftX, (unit.Y * tile_size) + shiftY)//hor
 	}
 	if (turn > tile_size && turn <= tile_size * 2){
 		turn = turn - tile_size
-		battlefield_map.line(((squad.X+1) * tile_size) + shiftX, (squad.Y * tile_size) + shiftY, ((squad.X+1) * tile_size) + shiftX, ((squad.Y * tile_size) + turn) + shiftY)//vert
-		battlefield_map.line(((squad.X) * tile_size) + shiftX + turn, (squad.Y * tile_size) + shiftY, ((squad.X+1) * tile_size) + shiftX, (squad.Y * tile_size) + shiftY)//hor
+		battlefield_map.line(((unit.X+1) * tile_size) + shiftX, (unit.Y * tile_size) + shiftY, ((unit.X+1) * tile_size) + shiftX, ((unit.Y * tile_size) + turn) + shiftY)//vert
+		battlefield_map.line(((unit.X) * tile_size) + shiftX + turn, (unit.Y * tile_size) + shiftY, ((unit.X+1) * tile_size) + shiftX, (unit.Y * tile_size) + shiftY)//hor
 	}
 	if (turn > (tile_size * 2) && turn <= tile_size * 3){
 		turn = turn - (tile_size * 2)
-		battlefield_map.line(((squad.X+1) * tile_size) + shiftX, ((squad.Y * tile_size) + turn) + shiftY, ((squad.X+1) * tile_size) + shiftX, ((squad.Y + 1) * tile_size) + shiftY)//vert
-		battlefield_map.line(((squad.X + 1) * tile_size) + shiftX, ((squad.Y + 1) * tile_size) + shiftY, (((squad.X+1) * tile_size) - turn) + shiftX, ((squad.Y + 1) * tile_size) + shiftY)//hor
+		battlefield_map.line(((unit.X+1) * tile_size) + shiftX, ((unit.Y * tile_size) + turn) + shiftY, ((unit.X+1) * tile_size) + shiftX, ((unit.Y + 1) * tile_size) + shiftY)//vert
+		battlefield_map.line(((unit.X + 1) * tile_size) + shiftX, ((unit.Y + 1) * tile_size) + shiftY, (((unit.X+1) * tile_size) - turn) + shiftX, ((unit.Y + 1) * tile_size) + shiftY)//hor
 	}
 	if (turn > tile_size * 3 && turn <= tile_size * 4){
 		turn = turn - (tile_size * 3)
-		battlefield_map.line((squad.X * tile_size) + shiftX, ((squad.Y + 1) * tile_size) + shiftY, (squad.X * tile_size) + shiftX, ((squad.Y+1) * tile_size) - turn + shiftY)//vert
-		battlefield_map.line((squad.X * tile_size) + shiftX, ((squad.Y + 1) * tile_size) + shiftY, (((squad.X + 1) * tile_size) - turn) + shiftX, ((squad.Y + 1) * tile_size) + shiftY)//hor
+		battlefield_map.line((unit.X * tile_size) + shiftX, ((unit.Y + 1) * tile_size) + shiftY, (unit.X * tile_size) + shiftX, ((unit.Y+1) * tile_size) - turn + shiftY)//vert
+		battlefield_map.line((unit.X * tile_size) + shiftX, ((unit.Y + 1) * tile_size) + shiftY, (((unit.X + 1) * tile_size) - turn) + shiftX, ((unit.Y + 1) * tile_size) + shiftY)//hor
 	}
 	battlefield_map.strokeWeight(0)
 	battlefield_map.stroke('black')
@@ -81,7 +81,7 @@ function setup() {
 	unit_info = createGraphics(400, 100);
 	dialogue_zone = createGraphics(400, 100);
 	battlefield_map = createGraphics(400, 300)
-	squad_info_popup = createGraphics(225, 150)
+	unit_info_popup = createGraphics(225, 150)
 	  
 
 socket.on('Init',
@@ -90,18 +90,31 @@ socket.on('Init',
     }
   );
 
-  socket.on('updatesquad',
+  	socket.on('updatebattlefield',
+		function(data) {
+			controller = data;
+		}
+	);
+
+
+  socket.on('updateunits',
+    function(data) {
+		controller.units = data.units;
+    }
+  );
+
+  socket.on('updateunit',
     function(data) {
 		// console.log(controller.players[controller.turn].visibility_map)
 		if (data.path.length === 0) {
-			controller.players[data.player].squads[data.index] = data.squad;
-			if (data.squad.units.length === 0) {
-				controller.players[data.player].squads.splice(data.index, 1)
+			controller.players[data.player].units[data.index] = data.unit;
+			if (data.unit.units.length === 0) {
+				controller.players[data.player].units.splice(data.index, 1)
 			}
 		} else {
 			move_through_path = 0
 			path_to_move = data.path
-			squad_that_is_moved = controller.players[data.player].squads[data.index]
+			unit_that_is_moved = controller.players[data.player].units[data.index]
 		}
     }
   );
@@ -129,7 +142,7 @@ function(data) {
 
   socket.on('updateturn',
     function(data) {
-		chosen_squad = null
+		chosen_unit = null
 		draw_path = false
 		path = null
 		confirm_move_info = null
@@ -154,14 +167,14 @@ function draw() {
 		image(dialogue_zone, 0, 250);
 	}
 
-	if (squad_info_required) {
-		drawSquadInfoPopup(squad_info_requested)
-		image(squad_info_popup, shiftX + 25, shiftY + 20);
-	}
+	// if (unit_info_required) {
+	// 	drawunitInfoPopup(unit_info_requested)
+	// 	image(unit_info_popup, shiftX + 25, shiftY + 20);
+	// }
 
 }
 
-function moveThroughPath (path, squad) {
+function moveThroughPath (path, unit) {
 	if (move_through_path < path.length * 5) {
 		let tile_index = Math.floor(move_through_path / 5)
 		tile_index = path.length - tile_index - 1
@@ -171,13 +184,13 @@ function moveThroughPath (path, squad) {
 		let x2 = line_path[1].X 
 		let y1 = line_path[0].Y 
 		let y2 = line_path[1].Y 
-		squad.X = x2 - ((x2 - x1) * (path_part))
-		squad.Y = y2 - ((y2 - y1) * (path_part))
+		unit.X = x2 - ((x2 - x1) * (path_part))
+		unit.Y = y2 - ((y2 - y1) * (path_part))
 		move_through_path++
-		// console.log(squad.X + ' ' + squad.Y)
+		// console.log(unit.X + ' ' + unit.Y)
 	} else {
 		move_through_path = -1
-		squad_that_is_moved = null
+		unit_that_is_moved = null
 	}
 }
 
@@ -226,11 +239,6 @@ function drawTile (tile, fog) {
 		battlefield_map.fill(0);
 		battlefield_map.strokeWeight(1)
 	}
-	// battlefield_map.line((tile.X * tile_size) + shiftX, (tile.Y * tile_size) + shiftY, ((tile.X + 1) * tile_size) + shiftX, (tile.Y * tile_size) + shiftY); 
-	// battlefield_map.line((tile.X * tile_size) + shiftX, (tile.Y * tile_size) + shiftY, (tile.X * tile_size) + shiftX, ((tile.Y + 1) * tile_size) + shiftY); 
-
-	// battlefield_map.line((tile.X * tile_size) + shiftX, ((tile.Y + 1) * tile_size) + shiftY, ((tile.X + 1) * tile_size) + shiftX, ((tile.Y + 1) * tile_size) + shiftY); 
-	// battlefield_map.line(((tile.X +1) * tile_size) + shiftX, (tile.Y * tile_size) + shiftY, ((tile.X +1) * tile_size) + shiftX, ((tile.Y + 1) * tile_size) + shiftY); 
 
 	if (tile.type === 'house') {
 		battlefield_map.fill('yellow')
@@ -258,7 +266,7 @@ function drawBattlefieldMap () {
 	battlefield_map.fill(0)
 	for (let i = 0; i < controller.battlefield.length; i++){
 		for (let j = 0; j < controller.battlefield[i].length; j++){
-			if (controller.players[controller.turn].visibility_map[i][j] === 0) {
+			if (controller.player_human.visibility_map[i][j] === 0) {
 				drawTile(controller.battlefield[i][j], true)
 			} else {
 				drawTile(controller.battlefield[i][j], false)
@@ -267,41 +275,23 @@ function drawBattlefieldMap () {
 	}
 	battlefield_map.strokeWeight(0);
 	
-	for (let i = 0; i < controller.players[1].squads.length; i++){
-		let squad = controller.players[1].squads[i]
-		
-		// if (controller.players[controller.turn].visibility_map[squad.X][squad.Y] !== 0) {
-			if (chosen_squad) {	
-				if (chosen_squad.player === 1 && chosen_squad.index === i){
-					circling_lines(turn, squad)
-					turn++
-					if (turn > 100) {
-						turn = 0
-					}
-				}
-			}
-			battlefield_map.fill(0, 255, 0)
-			battlefield_map.ellipse(squad.X * tile_size + (tile_size/2) + shiftX, squad.Y * tile_size + (tile_size/2) + shiftY, 23, 23);
-			// battlefield_map.fill(255)
-			battlefield_map.fill('yellow')
-			battlefield_map.ellipse(squad.X * tile_size + (16/2) + shiftX, squad.Y * tile_size + (16/2) + shiftY, 14, 14);
-		// }
-	}
-	for (let i = 0; i < controller.players[0].squads.length; i++){
-		let squad = controller.players[0].squads[i]
-		// if (controller.players[controller.turn].visibility_map[squad.X][squad.Y] !== 0) {
-			if (chosen_squad) {	
-				if (chosen_squad.player === 0 && chosen_squad.index === i){
-					circling_lines(turn, squad)
-					turn++
-					if (turn > 100){
-						turn = 0
-					}
-				}
+	for (let i = 0; i < controller.units.length; i++) {
+		let unit = controller.units[i]
+		if (unit.energy) {	
+			circling_lines(turn, unit)
+			turn++
+			if (turn > 100) {
+				turn = 0
 			}
 			battlefield_map.fill(0)
-			battlefield_map.ellipse(squad.X * tile_size + (tile_size / 2) + shiftX, squad.Y * tile_size + (tile_size/2) + shiftY, 23, 23);
+			battlefield_map.ellipse(unit.X * tile_size + (tile_size / 2) + shiftX, unit.Y * tile_size + (tile_size/2) + shiftY, 23, 23);
 		// }
+		} else {
+			battlefield_map.fill(0, 255, 0)
+			battlefield_map.ellipse(unit.X * tile_size + (tile_size/2) + shiftX, unit.Y * tile_size + (tile_size/2) + shiftY, 23, 23);
+			battlefield_map.fill('yellow')
+			battlefield_map.ellipse(unit.X * tile_size + (16/2) + shiftX, unit.Y * tile_size + (16/2) + shiftY, 14, 14);
+		}
 	}
 
 	if (draw_path) {
@@ -309,7 +299,7 @@ function drawBattlefieldMap () {
 	}
 
 	if (move_through_path >= 0) {
-		moveThroughPath(path_to_move, squad_that_is_moved)
+		moveThroughPath(path_to_move, unit_that_is_moved)
 	}
 
 	battlefield_map.strokeWeight(1);
@@ -321,8 +311,6 @@ function drawDialogue () {
 	dialogue_zone.strokeWeight(0);
 	dialogue_zone.textSize(15);
 	battlefield_active = true
-
-	// dialogue_zone.strokeWeight(1);
 }
 
 function drawUnitInfo() {
@@ -330,57 +318,53 @@ function drawUnitInfo() {
 		unit_info.background(255);
 		unit_info.strokeWeight(1);
 		unit_info.fill(0);
-		let getting_squad_info = false
-		let indexes = checkClickOnSquad()
-		if (indexes) {
-		let squad = controller.players[indexes[0]].squads[indexes[1]]
+		let getting_unit_info = false
+		let index = -1
+		index = checkClickOnUnit()
+		if (index !== -1) {
+			let unit = controller.units[index]
 			unit_info.strokeWeight(0);
 			unit_info.textSize(10);
-			for (let i = 0; i < squad.units.length; i++){
-				unit_info.text(squad.units[i].firstname + ' ' + squad.units[i].lastname.substring(0, 1) + ' ' + (squad.units[i].health + squad.units[i].death_health) + ' ' + squad.units[i].weapon.name, 10, 15 + (i * 10))
-				// unit_info.text(squad.units[i].gender, 10, 15 + (i * 10))
-			}
+			unit_info.text(unit.firstname + ' ' + unit.lastname + ' ' + (unit.health) + ' ' + (unit.energy), 10, 15)
 			unit_info.textSize(15);
 			unit_info.strokeWeight(1);
-			getting_squad_info = true
+			getting_unit_info = true
 		}
+		if (chosen_unit && !getting_unit_info) {
+			let unit = controller.units[0]
 
-		if (chosen_squad && !getting_squad_info) {
-			let squad = controller.players[chosen_squad.player].squads[chosen_squad.index]
-			for (let i = 0; i < squad.units.length; i++){
-				unit_info.strokeWeight(0);
-				unit_info.textSize(10);
-				unit_info.text(squad.units[i].firstname + ' ' + squad.units[i].lastname.substring(0, 1) + ' ' + (squad.units[i].health + squad.units[i].death_health) + ' ' + squad.units[i].weapon.name, 10, 15 + (i * 10))
-				unit_info.textSize(15);
-				unit_info.strokeWeight(1);
-			}
+			unit_info.strokeWeight(0);
+			unit_info.textSize(10);
+			unit_info.text(unit.firstname + ' ' + unit.lastname + ' ' + (unit.health) + ' ' + (unit.energy), 10, 15)
+			unit_info.textSize(15);
+			unit_info.strokeWeight(1);
 		}
 	}
 }
 
-function drawSquadInfoPopup(squad) {
-	squad_info_popup.background(255, 0, 0)
-	squad_info_popup.textSize(10);
-	squad_info_popup.text('Name', 5, 10)
-	squad_info_popup.text('HP', 48, 10)
-	squad_info_popup.text('RNG', 73, 10)
-	squad_info_popup.text('DMG', 98, 10)
-	squad_info_popup.text('SPD', 123, 10)
-	squad_info_popup.text('ACC', 148, 10)
-	squad_info_popup.text('EVA', 173, 10)
-	squad_info_popup.text('DEF', 198, 10)
+// function drawunitInfoPopup(unit) {
+// 	unit_info_popup.background(255, 0, 0)
+// 	unit_info_popup.textSize(10);
+// 	unit_info_popup.text('Name', 5, 10)
+// 	unit_info_popup.text('HP', 48, 10)
+// 	unit_info_popup.text('RNG', 73, 10)
+// 	unit_info_popup.text('DMG', 98, 10)
+// 	unit_info_popup.text('SPD', 123, 10)
+// 	unit_info_popup.text('ACC', 148, 10)
+// 	unit_info_popup.text('EVA', 173, 10)
+// 	unit_info_popup.text('DEF', 198, 10)
 
-	for (let i = 0; i < squad.units.length; i++){
-		squad_info_popup.text(squad.units[i].firstname + ' ' + squad.units[i].lastname.substring(0, 1), 5, 25 + (i * 10))
-		squad_info_popup.text(squad.units[i].health + '/' + squad.units[i].death_health, 48, 25 + (i * 10))
-		squad_info_popup.text(squad.units[i].weapon.min_range + '-' + squad.units[i].weapon.max_range, 73, 25 + (i * 10))
-		squad_info_popup.text(squad.units[i].weapon.min_damage + '-' + squad.units[i].weapon.max_damage, 98, 25 + (i * 10))
-		squad_info_popup.text(squad.units[i].movement, 123, 25 + (i * 10))
-		squad_info_popup.text((squad.units[i].accuracy + squad.units[i].weapon.accuracy), 148, 25 + (i * 10))
-		squad_info_popup.text((squad.units[i].evasion + squad.units[i].armor.evasion), 173, 25 + (i * 10))
-		squad_info_popup.text((squad.units[i].armor.damage_reduction), 198, 25 + (i * 10))
-	}
-}
+// 	for (let i = 0; i < unit.units.length; i++){
+// 		unit_info_popup.text(unit.units[i].firstname + ' ' + unit.units[i].lastname.substring(0, 1), 5, 25 + (i * 10))
+// 		unit_info_popup.text(unit.units[i].health + '/' + unit.units[i].death_health, 48, 25 + (i * 10))
+// 		unit_info_popup.text(unit.units[i].weapon.min_range + '-' + unit.units[i].weapon.max_range, 73, 25 + (i * 10))
+// 		unit_info_popup.text(unit.units[i].weapon.min_damage + '-' + unit.units[i].weapon.max_damage, 98, 25 + (i * 10))
+// 		unit_info_popup.text(unit.units[i].movement, 123, 25 + (i * 10))
+// 		unit_info_popup.text((unit.units[i].accuracy + unit.units[i].weapon.accuracy), 148, 25 + (i * 10))
+// 		unit_info_popup.text((unit.units[i].evasion + unit.units[i].armor.evasion), 173, 25 + (i * 10))
+// 		unit_info_popup.text((unit.units[i].armor.damage_reduction), 198, 25 + (i * 10))
+// 	}
+// }
 
 function keyPressed() {
 	if (keyCode === ENTER) {
@@ -390,26 +374,43 @@ function keyPressed() {
 	}
 
 	if (keyCode === 27) {
-		if (squad_info_required === true) {
+		if (unit_info_required === true) {
 			battlefield_active = true
-			squad_info_required = false
+			unit_info_required = false
 		}
 	}
 
 	if (keyCode === 68) {
-		shiftX += tile_size
+		socket.emit('moveherotile', 'right')
+		// shiftX += tile_size
 	}
 	if (keyCode === 65) {
-		shiftX -= tile_size
+		socket.emit('moveherotile', 'left')
+		// shiftX -= tile_size
 	}
 	if (keyCode === 87) {
-		shiftY -= tile_size
+		socket.emit('moveherotile', 'up')
+		// shiftY -= tile_size
 	}
 	if (keyCode === 83) {
-		shiftY += tile_size
+		socket.emit('moveherotile', 'down')
+		// shiftY += tile_size
 	}
 
-	if (chosen_squad && battlefield_active){
+	// if (keyCode === 68) {
+	// 	shiftX += tile_size
+	// }
+	// if (keyCode === 65) {
+	// 	shiftX -= tile_size
+	// }
+	// if (keyCode === 87) {
+	// 	shiftY -= tile_size
+	// }
+	// if (keyCode === 83) {
+	// 	shiftY += tile_size
+	// }
+
+	if (chosen_unit && battlefield_active){
 	}
 
 	if (keyCode === 59 && battlefield_active) {
@@ -429,30 +430,27 @@ function mousePressed() {
 	if (battlefield_active && move_through_path === -1) {
 		if (mouseButton === 'left') {
 			// Left click   
-			let indexes = checkClickOnSquad()
-			if (indexes) {
-				if (!draw_path){
-					let squad = controller.players[indexes[0]].squads[indexes[1]]	
-					if (squad.owner === controller.turn) {
-						chosen_squad = {player: indexes[0], index: indexes[1]}
-					}
-					if (squad.owner !== controller.turn) {
-						if (chosen_squad){
-							socket.emit('attacksquad', {attacker: chosen_squad, defender: {player: indexes[0], index: indexes[1]}})
-						}	
+			let index = checkClickOnUnit()
+			if (index !== -1) {
+				if (!draw_path) {
+					let unit = controller.units[index]	
+					if (index !== 0) {
+						// if (chosen_unit) {
+						socket.emit('attackunit', {defender: index})
+						// }	
 					}
 				}
 			} else {
-				if (chosen_squad) {
+				if (chosen_unit) {
 					let valX = Math.floor((mouseX - shiftX) / tile_size)
 					let valY = Math.floor((mouseY - shiftY) / tile_size)
 					// console.log(valX, valY)
 					if (draw_path && chosen_tile.X === valX && chosen_tile.Y === valY) {
-						socket.emit('movesquadtile2', confirm_move_info)
+						socket.emit('moveunittile2', confirm_move_info)
 					} else {
 						if (checkInsideBattlefied (valX, valY)) {
-							if (controller.players[chosen_squad.player].squads[chosen_squad.index].has_moved === false) {
-								socket.emit('movesquadtile', {player: controller.turn, index: chosen_squad.index, X: valX, Y: valY})
+							if (controller.players[chosen_unit.player].units[chosen_unit.index].has_moved === false) {
+								socket.emit('moveunittile', {player: controller.turn, index: chosen_unit.index, X: valX, Y: valY})
 								chosen_tile = {X:valX, Y: valY}
 							}
 						}
@@ -463,10 +461,10 @@ function mousePressed() {
 		}
 		if (mouseButton === 'right') {
 			//Right click
-			let indexes = checkClickOnSquad()
-			if (indexes) {
-				squad_info_requested =  controller.players[indexes[0]].squads[indexes[1]]
-				squad_info_required = true
+			let index = checkClickOnUnit()
+			if (index !== -1) {
+				unit_info_requested =  controller.units[index]
+				unit_info_required = true
 				battlefield_active = false
 			}
 		}

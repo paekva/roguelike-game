@@ -1,9 +1,10 @@
 class Player {
-    constructor(name, index) { 
+    constructor(name, index, hero) { 
         this.name = name
         this.index = index
         this.squads = []
         this.visibility_map = []
+        this.hero = hero
     }
 
     create_visibility_map (battlefield) {
@@ -29,36 +30,64 @@ class Player {
             str = ''
         }
     }
-
-    get_visible_tile (battlefield) {
-        for (let l = 0; l < this.squads.length; l++) {
-            let squad = this.squads[l]
-            let distances = squad.BFS({X: squad.X, Y: squad.Y}, battlefield, 1)
-            for (let i = 0; i < battlefield.length; i++) {
-                for (let j = 0 ; j < battlefield[0].length; j++) {
-                    if (squad.vision >= distances[i][j]) {
-                        this.visibility_map[i][j]++
-                    }
+    BFS (start, battlefield, mode) {
+        //mode = 0 -> calculate distance in tiles, 1 -> range with terrain, 2 -> vision distance
+        let visited = []
+        let distance = []
+        for (let i = 0; i < battlefield.length; i++) {
+            visited.push([])
+            distance.push([])
+            for (let j = 0 ; j < battlefield[0].length; j++) {
+                visited[i].push(false)
+                distance[i].push(1000)
+            }
+        }
+        visited[start.X][start.Y] = true
+        distance[start.X][start.Y] = 0
+        let toExplore = [start]
+        while (toExplore.length > 0) {
+            let tileIndex = toExplore.shift();
+            for (let neighbor of battlefield[tileIndex.X][tileIndex.Y].neighbors) {
+                if (battlefield[neighbor.X][neighbor.Y].is_passable){
+                    // if (battlefield[neighbor.X][neighbor.Y].squad === null || battlefield[neighbor.X][neighbor.Y].squad.owner === this.player){
+                        if (!visited[neighbor.X][neighbor.Y]) {
+                            visited[neighbor.X][neighbor.Y] = true
+                            if (mode === 0) {
+                                if (distance[neighbor.X][neighbor.Y] === 1000) {
+                                    distance[neighbor.X][neighbor.Y] = distance[tileIndex.X][tileIndex.Y] + 1
+                                }
+                            }
+                            if (mode === 1) {
+                                if (distance[neighbor.X][neighbor.Y] > distance[tileIndex.X][tileIndex.Y] + battlefield[tileIndex.X][tileIndex.Y].mp_required) {
+                                    distance[neighbor.X][neighbor.Y] = distance[tileIndex.X][tileIndex.Y] + battlefield[tileIndex.X][tileIndex.Y].mp_required
+                                }
+                            }
+                            toExplore.push({X:neighbor.X, Y:neighbor.Y})
+                        }
+                    // }
                 }
             }
         }
-        // this.print_map(this.visibility_map)
+        return distance
     }
 
-    check_squad_existing(battlefield) {
-        for (let i = 0 ; i < this.squads.length; i++){
-        let squad = this.squads[i]
-            if (squad.units.length === 0) {
-                battlefield[squad.X][squad.Y].squad = null
-                this.squads.splice(i, 1)
+    get_visible_tile (battlefield) {
+        let distances = this.BFS({X: this.hero.X, Y: this.hero.Y}, battlefield, 1)
+        for (let i = 0; i < battlefield.length; i++) {
+            for (let j = 0 ; j < battlefield[0].length; j++) {
+                if (this.hero.vision >= distances[i][j]) {
+                    this.visibility_map[i][j]++
+                }
             }
         }
+        
+        // this.print_map(this.visibility_map)
     }
 }
 
 let player = null
-module.exports.new = function (name, index) {
-    new_player = new Player(name, index)
+module.exports.new = function (name, index, hero) {
+    new_player = new Player(name, index, hero)
     player = new_player
     return new_player
 }
