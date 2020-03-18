@@ -320,20 +320,8 @@ function drawDialogue () {
 	dialogue_zone.background(255);
 	dialogue_zone.strokeWeight(0);
 	dialogue_zone.textSize(15);
-  	if (dialogue === 0) {
-		dialogue_zone.text('Good morning.', 25, 25);
-	}
-  	if (dialogue === 1) {
-		dialogue_zone.text('Your task today is simple.', 25, 25);
-	}
-  	if (dialogue === 2) {
-		dialogue_zone.text('This village is believed to be terrorist', 25, 25);
-		dialogue_zone.text('training camp.', 25, 40);
-	}
-  	if (dialogue === 3) {
-		dialogue_zone.text('Kill everyone there.', 25, 25);
-   		battlefield_active = true
-	}
+	battlefield_active = true
+
 	// dialogue_zone.strokeWeight(1);
 }
 
