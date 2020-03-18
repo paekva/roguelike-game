@@ -1,0 +1,25 @@
+{
+  "name": "roguelike-game",
+  "version": "0.0.1",
+  "description": "",
+  "main": "AI.js",
+  "dependencies": {
+    "priorityqueuejs": "^1.0.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paekva/roguelike-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paekva/roguelike-game/issues"
+  },
+  "homepage": "https://github.com/paekva/roguelike-game#readme"
+}

@@ -6,9 +6,9 @@ let Tile = require('./Tile')
 let Player = require('./Player')
 let PriorityQueue = require('priorityqueuejs');
 let AI = require('./AI')
-let weapon_params = require('./weapon_params')
-let armor_params = require('./armor_params')
-let unit_params = require('./unit_params')
+// let weapon_params = require('./weapon_params')
+// let armor_params = require('./armor_params')
+// let unit_params = require('./unit_params')
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max + 1));
 }
