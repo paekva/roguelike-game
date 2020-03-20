@@ -1,11 +1,11 @@
-let Hero = require('./Hero')
-let Unit = require('./Unit')
-let Modification = require('./Modification')
-let Effect = require('./Effect')
-let Tile = require('./Tile')
-let Player = require('./Player')
+let Hero = require('./Hero');
+let Unit = require('./Unit');
+let Modification = require('./Modification');
+let Effect = require('./Effect');
+let Tile = require('./Tile');
+let Player = require('./Player');
 let PriorityQueue = require('priorityqueuejs');
-let AI = require('./AI')
+let AI = require('./AI');
 // let weapon_params = require('./weapon_params')
 // let armor_params = require('./armor_params')
 // let unit_params = require('./unit_params')
@@ -15,17 +15,17 @@ function getRandomInt(max) {
 
 class battle_controller {
     constructor () {
-        this.AAA = 250
-        this.turn = 0
+        this.AAA = 250;
+        this.turn = 0;
         let hero_params = {
             'health': 10,
             'energy': 20,
             'vision': 6
-        } 
+        };
         let unit_params = {
             'health': 5,
             'vision': 3
-        } 
+        };
         let big_claw = Modification.new({        
             "name": "Big claw",
             "this.effects": [],
@@ -34,7 +34,7 @@ class battle_controller {
             "cost": 1,
             "health": 0,
             "passive_cost": 0.01,
-            "is_active": true})
+            "is_active": true});
 
         let small_claw = Modification.new({        
             "name": "Big claw",
@@ -44,19 +44,19 @@ class battle_controller {
             "cost": 0.75,
             "health": 0,
             "passive_cost": 0.01,
-            "is_active": true})
-        this.hero = Hero.new(hero_params, [big_claw], 3, 3)
-        this.unit_1 = Unit.new(unit_params, [small_claw], 5, 3, null)
-        this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null)
-        this.units = []
-        this.units.push(this.hero)
-        this.units.push(this.unit_1)
-        this.units.push(this.unit_2)
-        this.battlefield = []
-        this.battlefield_X = 15
-        this.battlefield_Y = 5
+            "is_active": true});
+        this.hero = Hero.new(hero_params, [big_claw], 3, 3);
+        this.unit_1 = Unit.new(unit_params, [small_claw], 5, 3, null);
+        this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
+        this.units = [];
+        this.units.push(this.hero);
+        this.units.push(this.unit_1);
+        this.units.push(this.unit_2);
+        this.battlefield = [];
+        this.battlefield_X = 15;
+        this.battlefield_Y = 5;
         for (let i = 0; i < this.battlefield_X; i++) {
-            this.battlefield.push([])
+            this.battlefield.push([]);
             for (let j = 0; j < this.battlefield_Y; j++) {
                 if ((i === 1 && j === 3) || (i === 0 && j === 1) || (i === 3 && j === 6) || (i === 4 && j === 6) || (i === 3 && j === 6)){
                     this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, 15))
@@ -69,7 +69,7 @@ class battle_controller {
             }
         }
         for (let j = 0; j < this.battlefield_X; j++) {
-            this.battlefield[j][1] = (Tile.new(j, 1, 'desert_hill', 2, true, 15))
+            this.battlefield[j][1] = (Tile.new(j, 1, 'desert_hill', 2, true, 15));
             this.battlefield[j][2] = (Tile.new(j, 2, 'desert_hill', 2, true, 15))
         }
 
@@ -94,16 +94,16 @@ class battle_controller {
             this.battlefield[unit.X][unit.Y].unit = unit
         }
         // x * 10 + y
-        this.player_human = Player.new('Player', 0, this.hero)
-        this.player_human.create_visibility_map(this.battlefield)
+        this.player_human = Player.new('Player', 0, this.hero);
+        this.player_human.create_visibility_map(this.battlefield);
         this.player_human.get_visible_tile(this.battlefield)
     }
 
     check_unit_existing() {
         for (let i = 0 ; i < this.units.length; i++){
-        let unit = this.units[i]
+        let unit = this.units[i];
             if (unit.health <= 0) {
-                battlefield[unit.X][unit.Y].unit = null
+                battlefield[unit.X][unit.Y].unit = null;
                 this.units.splice(i, 1)
             }
         }
@@ -119,29 +119,29 @@ class battle_controller {
     aStar (start, goal) {
         let frontier = new PriorityQueue(function(a, b) {
             return b.priority - a.priority;
-        })
-        frontier.enq({coords: start, priority: 0})
-        let came_from = {}
-        let cost_so_far = {}
-        let id_start = this.get_tile_id_from_coords(start)
-        came_from[id_start] = null
-        cost_so_far[id_start] = 0
+        });
+        frontier.enq({coords: start, priority: 0});
+        let came_from = {};
+        let cost_so_far = {};
+        let id_start = this.get_tile_id_from_coords(start);
+        came_from[id_start] = null;
+        cost_so_far[id_start] = 0;
     
         while (frontier.size() !== 0) {
-            let current = frontier.deq()
+            let current = frontier.deq();
             if (current.coords.X === goal.X && current.coords.Y === goal.Y){
                 return {path: came_from, cost: cost_so_far[this.get_tile_id_from_coords(current.coords)]}
             }
-            let tile = this.battlefield[current.coords.X][current.coords.Y]
+            let tile = this.battlefield[current.coords.X][current.coords.Y];
             for (let next of tile.neighbors){
-                let nextTile = this.battlefield[next.X][next.Y]
-                let new_cost = cost_so_far[this.get_tile_id_from_coords(current.coords)] + nextTile.mp_required
-                let id_next = this.get_tile_id_from_coords(next)
+                let nextTile = this.battlefield[next.X][next.Y];
+                let new_cost = cost_so_far[this.get_tile_id_from_coords(current.coords)] + nextTile.mp_required;
+                let id_next = this.get_tile_id_from_coords(next);
                 if (!cost_so_far[id_next] || new_cost < cost_so_far[id_next]){
                     if (this.battlefield[next.X][next.Y].is_passable && (this.battlefield[next.X][next.Y].squad === null || this.players[this.turn].visibility_map[next.X][next.Y] === 0)) {
-                        cost_so_far[id_next] = new_cost
-                        let priority = new_cost + goal.distance_to_tile(nextTile)
-                        frontier.enq({coords: next, priority: priority})
+                        cost_so_far[id_next] = new_cost;
+                        let priority = new_cost + goal.distance_to_tile(nextTile);
+                        frontier.enq({coords: next, priority: priority});
                         came_from[id_next] = current
                     }
                 }
@@ -151,15 +151,15 @@ class battle_controller {
     }
 
     move_squad_to_tile(squad_info, goal, res) {
-        let squad = this.players[squad_info.player].squads[squad_info.index]
-        let prevX = squad.X
-        let prevY = squad.Y
+        let squad = this.players[squad_info.player].squads[squad_info.index];
+        let prevX = squad.X;
+        let prevY = squad.Y;
         if (this.battlefield[goal.X][goal.Y].squad === null && this.battlefield[goal.X][goal.Y].is_passable && this.players[squad_info.player].squads[squad_info.index].cur_movement >= res.cost) {   
-            this.players[squad_info.player].squads[squad_info.index].cur_movement -= res.cost
-            this.players[squad_info.player].squads[squad_info.index].X = goal.X
-            this.players[squad_info.player].squads[squad_info.index].Y = goal.Y
-            this.battlefield[goal.X][goal.Y].squad = this.players[squad_info.player].squads[squad_info.index]
-            this.battlefield[prevX][prevY].squad = null
+            this.players[squad_info.player].squads[squad_info.index].cur_movement -= res.cost;
+            this.players[squad_info.player].squads[squad_info.index].X = goal.X;
+            this.players[squad_info.player].squads[squad_info.index].Y = goal.Y;
+            this.battlefield[goal.X][goal.Y].squad = this.players[squad_info.player].squads[squad_info.index];
+            this.battlefield[prevX][prevY].squad = null;
             return true
         }
         return false
@@ -167,8 +167,8 @@ class battle_controller {
 
 
     check_squad_access_tile(squad_info, start, goal) {
-        let squad = this.players[squad_info.player].squads[squad_info.index]
-        let res = this.aStar(start, goal)
+        let squad = this.players[squad_info.player].squads[squad_info.index];
+        let res = this.aStar(start, goal);
         if (res) {
             if (res.cost > squad.cur_movement) {
                 // console.log(squad.cur_movement)
@@ -178,10 +178,10 @@ class battle_controller {
                 if (goal.is_passable === false || goal.squad) {
                     return null
                 }
-                let cur_key = this.get_tile_id_from_coords({X: goal.X, Y: goal.Y})
-                let ret_path = []
+                let cur_key = this.get_tile_id_from_coords({X: goal.X, Y: goal.Y});
+                let ret_path = [];
                 while (this.get_coords_from_tile_id(cur_key).X !== start.X || this.get_coords_from_tile_id(cur_key).Y !== start.Y){
-                    ret_path.push([{X: this.get_coords_from_tile_id(cur_key).X, Y: this.get_coords_from_tile_id(cur_key).Y}, {X: res.path[cur_key].coords.X, Y: res.path[cur_key].coords.Y}])
+                    ret_path.push([{X: this.get_coords_from_tile_id(cur_key).X, Y: this.get_coords_from_tile_id(cur_key).Y}, {X: res.path[cur_key].coords.X, Y: res.path[cur_key].coords.Y}]);
                     cur_key = this.get_tile_id_from_coords(res.path[cur_key].coords)
                 }
                 return [ret_path, squad_info, goal, res]
@@ -193,12 +193,12 @@ class battle_controller {
     }
 
     get_tile_to_move (in_potential_range) {
-        let priority = -1000
-        let tile_ind = -1
+        let priority = -1000;
+        let tile_ind = -1;
         for (let i = 0; i < in_potential_range.length; i++) {
-            let tile = in_potential_range[i]
+            let tile = in_potential_range[i];
             if (tile.priority > priority) {
-                priority = tile.priority
+                priority = tile.priority;
                 tile_ind = i
             }
         }
@@ -268,31 +268,31 @@ class battle_controller {
     
 }
 
-let controller = null
+let controller = null;
 module.exports.new = function () {
-    let new_controller = new battle_controller()
-    controller = new_controller
+    let new_controller = new battle_controller();
+    controller = new_controller;
     return new_controller
-}
+};
 
 //aStar returns path and cost OR null
 module.exports.aStar = function (start, goal) {
     controller.aStar(start, goal)
-}
+};
 
 //returns 
 module.exports.check_squad_access_tile = function (squad_info, start, goal) {
     controller.check_squad_access_tile(squad_info, start, goal)
-}
+};
 
 module.exports.move_squad_to_tile = function(squad_info, goal, res) {
     controller.move_squad_to_tile(squad_info, goal, res)
-}
+};
 
 module.exports.get_tile_to_move = function(in_potential_range) {
     controller.get_tile_to_move(in_potential_range)
-}
+};
 
 module.exports.check_unit_existing = function () {
     controller.check_unit_existing()
-}
+};

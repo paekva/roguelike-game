@@ -6,32 +6,32 @@ function getRandomInt(max) {
 class Squad {
 
     constructor(units, X, Y, owner, AI) { 
-        this.units = units
-        this.X = X
-        this.Y = Y
-        this.max_range = 0
-        this.min_range = 100
-        this.movement = 100
-        this.cur_movement = 100
-        this.has_attacked = false
-        this.has_moved = false
-        this.update_squad_movement()
-        this.set_range()
-        this.vision = 0
-        this.check_vision()
-        this.owner = owner
-        this.is_active = true
+        this.units = units;
+        this.X = X;
+        this.Y = Y;
+        this.max_range = 0;
+        this.min_range = 100;
+        this.movement = 100;
+        this.cur_movement = 100;
+        this.has_attacked = false;
+        this.has_moved = false;
+        this.update_squad_movement();
+        this.set_range();
+        this.vision = 0;
+        this.check_vision();
+        this.owner = owner;
+        this.is_active = true;
         this.AI = AI
        
     }
 
     move_squad (target_tile) {
-        let mp_req = target_tile.mp_required
+        let mp_req = target_tile.mp_required;
         if (this.cur_movement >= mp_req && this.is_active && target_tile.is_passable) {
-            this.cur_movement -= mp_req
-            this.X = target_tile.X
-            this.Y = target_tile.Y
-            this.has_moved = true
+            this.cur_movement -= mp_req;
+            this.X = target_tile.X;
+            this.Y = target_tile.Y;
+            this.has_moved = true;
             return true
         }
         return false
@@ -40,7 +40,7 @@ class Squad {
     update_squad_movement() {
         for (let unit of this.units) {
             if (unit.movement < this.movement){
-                this.movement = unit.movement
+                this.movement = unit.movement;
                 if (this.cur_movement > this.movement) {
                     this.cur_movement = this.movement
                 }
@@ -68,7 +68,7 @@ class Squad {
     }
 
     check_if_active () {
-        this.is_active = false
+        this.is_active = false;
         for (let unit of this.units) {
             if (unit.status === 'Alive') {
                 this.is_active = true
@@ -78,7 +78,7 @@ class Squad {
     }
 
     check_vision () {
-        this.vision = 0
+        this.vision = 0;
         for (let unit of this.units) {
             if (unit.status === 'Alive') {
                 if (unit.vision > this.vision) {
@@ -89,7 +89,7 @@ class Squad {
     }
 
     get_target_priorities () {
-        let priority = 0
+        let priority = 0;
         for (let unit of this.units) {
             if (unit.status === 'Alive') {
                 priority +=2
@@ -98,8 +98,8 @@ class Squad {
                 priority +=1
             }
         }
-        let iterator = 0
-        let result = getRandomInt(priority)
+        let iterator = 0;
+        let result = getRandomInt(priority);
         for (let unit of this.units) {
             if (unit.status === 'Alive') {
                 iterator +=2
@@ -115,7 +115,7 @@ class Squad {
     }
 
     squad_get_danger () {
-        let danger = 0
+        let danger = 0;
         for (let unit of squad.units) {
             danger += unit.unit_get_danger()
         }
@@ -123,15 +123,15 @@ class Squad {
     }
 
     attack_squad(target_squad, range, tgt_tile) {
-        this.has_attacked = true
+        this.has_attacked = true;
         for (let unit of this.units) {
             if (unit.status === 'Alive' && target_squad.units.length !== 0 && unit.weapon.max_range >= range && unit.weapon.min_range <= range && unit.weapon.ammo !== 0) {
                 if (unit.weapon.type === 'Assault') {
                     for (let i = 0; i < unit.weapon.attacks; i++) {
-                        unit.attack_unit(target_squad.get_target_priorities(), tgt_tile)
-                        target_squad.remove_dead()
-                        target_squad.check_if_active()
-                        target_squad.check_vision()
+                        unit.attack_unit(target_squad.get_target_priorities(), tgt_tile);
+                        target_squad.remove_dead();
+                        target_squad.check_if_active();
+                        target_squad.check_vision();
                         target_squad.set_range()
                     }
                 }
@@ -139,9 +139,9 @@ class Squad {
                     for (let tgt_unit of target_squad.units){
                         unit.attack_unit(tgt_unit, tgt_tile)
                     }
-                    target_squad.remove_dead()
-                    target_squad.check_if_active()
-                    target_squad.check_vision()
+                    target_squad.remove_dead();
+                    target_squad.check_if_active();
+                    target_squad.check_vision();
                     target_squad.set_range()
                 }
             }
@@ -151,26 +151,26 @@ class Squad {
 
     BFS (start, battlefield, mode) {
         //mode = 0 -> calculate distance in tiles, 1 -> range with terrain, 2 -> vision distance
-        let visited = []
-        let distance = []
+        let visited = [];
+        let distance = [];
         for (let i = 0; i < battlefield.length; i++) {
-            visited.push([])
-            distance.push([])
+            visited.push([]);
+            distance.push([]);
             for (let j = 0 ; j < battlefield[0].length; j++) {
-                visited[i].push(false)
+                visited[i].push(false);
                 distance[i].push(1000)
             }
         }
-        visited[start.X][start.Y] = true
-        distance[start.X][start.Y] = 0
-        let toExplore = [start]
+        visited[start.X][start.Y] = true;
+        distance[start.X][start.Y] = 0;
+        let toExplore = [start];
         while (toExplore.length > 0) {
             let tileIndex = toExplore.shift();
             for (let neighbor of battlefield[tileIndex.X][tileIndex.Y].neighbors) {
                 if (battlefield[neighbor.X][neighbor.Y].is_passable){
                     // if (battlefield[neighbor.X][neighbor.Y].squad === null || battlefield[neighbor.X][neighbor.Y].squad.owner === this.player){
                         if (!visited[neighbor.X][neighbor.Y]) {
-                            visited[neighbor.X][neighbor.Y] = true
+                            visited[neighbor.X][neighbor.Y] = true;
                             if (mode === 0) {
                                 if (distance[neighbor.X][neighbor.Y] === 1000) {
                                     distance[neighbor.X][neighbor.Y] = distance[tileIndex.X][tileIndex.Y] + 1
@@ -191,25 +191,25 @@ class Squad {
     }
 
 }
-let squad = null
+let squad = null;
 module.exports.new = function (units, X, Y, owner, AI) {
-    new_squad = new Squad(units, X, Y, owner, AI)
-    squad = new_squad
+    new_squad = new Squad(units, X, Y, owner, AI);
+    squad = new_squad;
     return new_squad
-}
+};
 
 module.exports.move_squad = function (direction) {
     squad.move_squad(direction)
-}
+};
 
 module.exports.attack_squad = function (target) {
     squad.attack_squad(target)
-}
+};
 
 module.exports.squad_get_danger  = function () {
     squad.squad_get_danger()
-}
+};
 
 module.exports.BFS = function (start, battlefield, mode) {
     squad.BFS(start, battlefield, mode)
-}
+};

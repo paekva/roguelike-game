@@ -2,7 +2,7 @@
   "name": "roguelike-game",
   "version": "0.0.1",
   "description": "",
-  "main": "AI.js",
+  "main": "src/server/AI.js",
   "dependencies": {
     "priorityqueuejs": "^1.0.0",
     "socket.io": "^2.3.0"
