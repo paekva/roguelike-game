@@ -118,64 +118,7 @@ function circling_lines(turn, unit) {
 function preload() {
 	//rawnames = loadStrings('http://localhost:8080/p5/empty-example/test.txt')
 }
-function setup() {
-	socket = io.connect();
-	createCanvas(canvassize + 100, canvassize);
-	textSize(15);
-	unit_info = createGraphics(400, 100);
-	dialogue_zone = createGraphics(400, 100);
-	battlefield_map = createGraphics(400, 300);
-	unit_info_popup = createGraphics(225, 150);
 
-	socket.on('Init', function(data) {
-		controller = data;
-	});
-
-	socket.on('updatebattlefield', function(data) {
-		controller = data;
-	});
-
-	socket.on('updateunits', function(data) {
-		controller.units = data.units;
-	});
-
-	socket.on('updateunit', function(data) {
-		// console.log(controller.players[controller.turn].visibility_map)
-		if (data.path.length === 0) {
-			controller.players[data.player].units[data.index] = data.unit;
-			if (data.unit.units.length === 0) {
-				controller.players[data.player].units.splice(data.index, 1);
-			}
-		} else {
-			move_through_path = 0;
-			path_to_move = data.path;
-			unit_that_is_moved = controller.players[data.player].units[data.index];
-		}
-	});
-
-	socket.on('getvisibility', function(data) {
-		controller.players[data.player].visibility_map = data.visibility_map;
-	});
-	socket.on('drawpath', function(data) {
-		draw_path = true;
-		path = data.res[0];
-		confirm_move_info = data.res;
-	});
-	socket.on('drawpathstop', function(data) {
-		draw_path = false;
-		path = null;
-		confirm_move_info = null;
-	});
-
-	socket.on('updateturn', function(data) {
-		chosen_unit = null;
-		draw_path = false;
-		path = null;
-		confirm_move_info = null;
-		controller.turn = data.index;
-		console.log('Turn of player: ' + controller.turn);
-	});
-}
 function draw() {
 	background(255);
 	if (controller) {
@@ -472,59 +415,6 @@ function drawUnitInfo() {
 // 	}
 // }
 
-function keyPressed() {
-	if (keyCode === ENTER) {
-		if (dialogue < 4) {
-			dialogue++;
-		}
-	}
-
-	if (keyCode === 27) {
-		if (unit_info_required === true) {
-			battlefield_active = true;
-			unit_info_required = false;
-		}
-	}
-
-	if (keyCode === 68) {
-		socket.emit('moveherotile', 'right');
-		// shiftX += tile_size
-	}
-	if (keyCode === 65) {
-		socket.emit('moveherotile', 'left');
-		// shiftX -= tile_size
-	}
-	if (keyCode === 87) {
-		socket.emit('moveherotile', 'up');
-		// shiftY -= tile_size
-	}
-	if (keyCode === 83) {
-		socket.emit('moveherotile', 'down');
-		// shiftY += tile_size
-	}
-
-	// if (keyCode === 68) {
-	// 	shiftX += tile_size
-	// }
-	// if (keyCode === 65) {
-	// 	shiftX -= tile_size
-	// }
-	// if (keyCode === 87) {
-	// 	shiftY -= tile_size
-	// }
-	// if (keyCode === 83) {
-	// 	shiftY += tile_size
-	// }
-
-	if (chosen_unit && battlefield_active) {
-	}
-
-	if (keyCode === 59 && battlefield_active) {
-		console.log('End turn of player: ' + controller.turn);
-		socket.emit('endturn', { index: controller.turn });
-	}
-}
-
 function checkInsideBattlefied(valX, valY) {
 	if (
 		valX >= 0 &&
@@ -537,54 +427,3 @@ function checkInsideBattlefied(valX, valY) {
 	return false;
 }
 
-function mousePressed() {
-	if (battlefield_active && move_through_path === -1) {
-		if (mouseButton === 'left') {
-			// Left click
-			let index = checkClickOnUnit();
-			if (index !== -1) {
-				if (!draw_path) {
-					let unit = controller.units[index];
-					if (index !== 0) {
-						// if (chosen_unit) {
-						socket.emit('attackunit', { defender: index });
-						// }
-					}
-				}
-			} else {
-				if (chosen_unit) {
-					let valX = Math.floor((mouseX - shiftX) / tile_size);
-					let valY = Math.floor((mouseY - shiftY) / tile_size);
-					// console.log(valX, valY)
-					if (draw_path && chosen_tile.X === valX && chosen_tile.Y === valY) {
-						socket.emit('moveunittile2', confirm_move_info);
-					} else {
-						if (checkInsideBattlefied(valX, valY)) {
-							if (
-								controller.players[chosen_unit.player].units[chosen_unit.index]
-									.has_moved === false
-							) {
-								socket.emit('moveunittile', {
-									player: controller.turn,
-									index: chosen_unit.index,
-									X: valX,
-									Y: valY,
-								});
-								chosen_tile = { X: valX, Y: valY };
-							}
-						}
-					}
-				}
-			}
-		}
-		if (mouseButton === 'right') {
-			//Right click
-			let index = checkClickOnUnit();
-			if (index !== -1) {
-				unit_info_requested = controller.units[index];
-				unit_info_required = true;
-				battlefield_active = false;
-			}
-		}
-	}
-}
