@@ -8,6 +8,7 @@ function setup() {
 	unit_info_popup = createGraphics(225, 150);
 
 	socket.on('Init', function(data) {
+		console.warn(data);
 		controller = data;
 	});
 
