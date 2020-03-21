@@ -22,12 +22,6 @@ let path_to_move;
 let confirm_move_info;
 let chosen_tile;
 
-const TileType = {
-	DESERT: 'desert',
-	DESERT_HILL: 'desert_hill',
-	HOUSE: 'house',
-};
-
 const PersonType = {
 	HERO: 'hero',
 	MONSTER: 'monster',

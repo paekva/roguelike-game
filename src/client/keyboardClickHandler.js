@@ -13,19 +13,19 @@ function keyPressed() {
 	}
 
 	if (keyCode === 68) {
-		socket.emit('moveherotile', 'right');
+		socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'right');
 		// shiftX += tile_size
 	}
 	if (keyCode === 65) {
-		socket.emit('moveherotile', 'left');
+		socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'left');
 		// shiftX -= tile_size
 	}
 	if (keyCode === 87) {
-		socket.emit('moveherotile', 'up');
+		socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'up');
 		// shiftY -= tile_size
 	}
 	if (keyCode === 83) {
-		socket.emit('moveherotile', 'down');
+		socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'down');
 		// shiftY += tile_size
 	}
 
@@ -47,6 +47,6 @@ function keyPressed() {
 
 	if (keyCode === 59 && battlefield_active) {
 		console.log('End turn of player: ' + controller.turn);
-		socket.emit('endturn', { index: controller.turn });
+		socket.emit(SocketEmitEventType.END_TURN, { index: controller.turn });
 	}
 }

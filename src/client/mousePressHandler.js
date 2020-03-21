@@ -8,7 +8,7 @@ function mousePressed() {
 					let unit = controller.units[index];
 					if (index !== 0) {
 						// if (chosen_unit) {
-						socket.emit('attackunit', { defender: index });
+						socket.emit(SocketEmitEventType.ATTACK_UNIT, { defender: index });
 						// }
 					}
 				}
@@ -18,14 +18,17 @@ function mousePressed() {
 					let valY = Math.floor((mouseY - shiftY) / tile_size);
 					// console.log(valX, valY)
 					if (draw_path && chosen_tile.X === valX && chosen_tile.Y === valY) {
-						socket.emit('moveunittile2', confirm_move_info);
+						socket.emit(
+							SocketEmitEventType.MOVE_UNIT_TILE_2,
+							confirm_move_info
+						);
 					} else {
 						if (checkInsideBattlefield(valX, valY)) {
 							if (
 								controller.players[chosen_unit.player].units[chosen_unit.index]
 									.has_moved === false
 							) {
-								socket.emit('moveunittile', {
+								socket.emit(SocketEmitEventType.MOVE_UNIT_TILE, {
 									player: controller.turn,
 									index: chosen_unit.index,
 									X: valX,

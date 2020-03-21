@@ -1,3 +1,9 @@
+const TileType = {
+	DESERT: 'desert',
+	DESERT_HILL: 'desert_hill',
+	HOUSE: 'house',
+};
+
 const makeSquareTile = (field, x, y, size) => {
 	return field.square(x, y, size);
 };
