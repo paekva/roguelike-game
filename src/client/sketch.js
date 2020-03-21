@@ -22,6 +22,17 @@ let path_to_move;
 let confirm_move_info;
 let chosen_tile;
 
+const TileType = {
+	DESERT: 'desert',
+	DESERT_HILL: 'desert_hill',
+	HOUSE: 'house',
+};
+
+const PersonType = {
+	HERO: 'hero',
+	MONSTER: 'monster',
+};
+
 function checkClickOnUnit() {
 	if (move_through_path === -1) {
 		let valX = (mouseX - shiftX) / tile_size;
@@ -177,12 +188,6 @@ function drawPath(path) {
 	}
 }
 
-const TileType = {
-	DESERT: 'desert',
-	DESERT_HILL: 'desert_hill',
-	HOUSE: 'house',
-};
-
 const makeSquareTile = (field, x, y, size) => {
 	return field.square(x, y, size);
 };
@@ -196,7 +201,7 @@ const makeCommonTile = tile => {
 	);
 };
 
-function drawTile(tile, isFoggy) {
+const drawTile = (tile, isFoggy) => {
 	switch (tile.type) {
 		case TileType.DESERT: {
 			battlefield_map.fill('yellow');
@@ -269,32 +274,19 @@ function drawTile(tile, isFoggy) {
 	}
 
 	if (isFoggy) {
+		// TODO: make fog when server is ready
 		// battlefield_map.strokeWeight(2);
 		// battlefield_map.stroke('white');
-		battlefield_map.noFill();
-		makeCommonTile(tile).fill(0,0,0,155);
-		battlefield_map.stroke('black');
-		battlefield_map.strokeWeight(5);
+		// battlefield_map.noFill();
+		// makeCommonTile(tile).fill(0, 0, 0, 155);
+		// battlefield_map.stroke('black');
+		// battlefield_map.strokeWeight(5);
 	}
-}
+};
 
-function drawBattlefieldMap() {
-	battlefield_map.background(255);
-	battlefield_map.fill(0);
-	for (let i = 0; i < controller.battlefield.length; i++) {
-		for (let j = 0; j < controller.battlefield[i].length; j++) {
-			if (controller.player_human.visibility_map[i][j] === 0) {
-				drawTile(controller.battlefield[i][j], true);
-			} else {
-				drawTile(controller.battlefield[i][j], false);
-			}
-		}
-	}
-	battlefield_map.strokeWeight(0);
-
-	for (let i = 0; i < controller.units.length; i++) {
-		let unit = controller.units[i];
-		if (unit.energy) {
+const drawPerson = (unit, type) => {
+	switch (type) {
+		case PersonType.HERO: {
 			circling_lines(turn, unit);
 			turn++;
 			if (turn > 100) {
@@ -307,8 +299,9 @@ function drawBattlefieldMap() {
 				23,
 				23
 			);
-			// }
-		} else {
+			break;
+		}
+		case PersonType.MONSTER: {
 			battlefield_map.fill(0, 255, 0);
 			battlefield_map.ellipse(
 				unit.X * tile_size + tile_size / 2 + shiftX,
@@ -323,7 +316,29 @@ function drawBattlefieldMap() {
 				14,
 				14
 			);
+			break;
 		}
+		default:
+			break;
+	}
+};
+
+function drawBattlefieldMap() {
+	battlefield_map.background(255);
+	battlefield_map.fill(0);
+
+	for (let i = 0; i < controller.battlefield.length; i++) {
+		for (let j = 0; j < controller.battlefield[i].length; j++) {
+			drawTile(
+				controller.battlefield[i][j],
+				controller.player_human.visibility_map[i][j] === 0
+			);
+		}
+	}
+
+	for (let i = 0; i < controller.units.length; i++) {
+		let unit = controller.units[i];
+		drawPerson(unit, unit.energy ? PersonType.HERO : PersonType.MONSTER);
 	}
 
 	if (draw_path) {
@@ -345,51 +360,61 @@ function drawDialogue() {
 	battlefield_active = true;
 }
 
+const drawPersonInfo = (unit, type) => {
+	switch (type) {
+		case PersonType.HERO: {
+			unit_info.strokeWeight(0);
+			unit_info.textSize(10);
+			unit_info.text(
+				unit.firstname +
+					' ' +
+					unit.lastname +
+					' ' +
+					unit.health +
+					' ' +
+					unit.energy,
+				10,
+				15
+			);
+			unit_info.textSize(15);
+			unit_info.strokeWeight(1);
+			break;
+		}
+		default: {
+			unit_info.strokeWeight(0);
+			unit_info.textSize(10);
+			unit_info.text(
+				unit.firstname +
+					' ' +
+					unit.lastname +
+					' ' +
+					unit.health +
+					' ' +
+					unit.energy,
+				10,
+				15
+			);
+			unit_info.textSize(15);
+			unit_info.strokeWeight(1);
+		}
+	}
+};
+
 function drawUnitInfo() {
 	if (controller) {
 		unit_info.background(255);
 		unit_info.strokeWeight(1);
 		unit_info.fill(0);
 		let getting_unit_info = false;
-		let index = -1;
-		index = checkClickOnUnit();
+		let index = checkClickOnUnit();
 		if (index !== -1) {
 			let unit = controller.units[index];
-			unit_info.strokeWeight(0);
-			unit_info.textSize(10);
-			unit_info.text(
-				unit.firstname +
-					' ' +
-					unit.lastname +
-					' ' +
-					unit.health +
-					' ' +
-					unit.energy,
-				10,
-				15
-			);
-			unit_info.textSize(15);
-			unit_info.strokeWeight(1);
+			drawPersonInfo(unit, PersonType.MONSTER);
 			getting_unit_info = true;
 		}
 		if (chosen_unit && !getting_unit_info) {
 			let unit = controller.units[0];
-
-			unit_info.strokeWeight(0);
-			unit_info.textSize(10);
-			unit_info.text(
-				unit.firstname +
-					' ' +
-					unit.lastname +
-					' ' +
-					unit.health +
-					' ' +
-					unit.energy,
-				10,
-				15
-			);
-			unit_info.textSize(15);
-			unit_info.strokeWeight(1);
+			drawPersonInfo(unit, PersonType.HERO);
 		}
 	}
 }
@@ -419,13 +444,8 @@ function drawUnitInfo() {
 // }
 
 function checkInsideBattlefied(valX, valY) {
-	if (
-		valX >= 0 &&
+	return valX >= 0 &&
 		valY >= 0 &&
 		valX < controller.battlefield_X &&
-		valY < controller.battlefield_Y
-	) {
-		return true;
-	}
-	return false;
+		valY < controller.battlefield_Y;
 }
