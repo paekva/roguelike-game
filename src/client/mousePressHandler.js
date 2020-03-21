@@ -20,7 +20,7 @@ function mousePressed() {
 					if (draw_path && chosen_tile.X === valX && chosen_tile.Y === valY) {
 						socket.emit('moveunittile2', confirm_move_info);
 					} else {
-						if (checkInsideBattlefied(valX, valY)) {
+						if (checkInsideBattlefield(valX, valY)) {
 							if (
 								controller.players[chosen_unit.player].units[chosen_unit.index]
 									.has_moved === false
