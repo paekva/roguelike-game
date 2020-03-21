@@ -119,7 +119,7 @@ function preload() {
 	//rawnames = loadStrings('http://localhost:8080/p5/empty-example/test.txt')
 }
 function setup() {
-	const socket = io.connect();
+	socket = io.connect();
 	createCanvas(canvassize + 100, canvassize);
 	textSize(15);
 	unit_info = createGraphics(400, 100);
