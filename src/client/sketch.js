@@ -5,7 +5,7 @@ let controller;
 let chosen_unit;
 let turn = 0;
 let shiftX = 25;
-let shiftY = 0;
+let shiftY = 25;
 let tile_size = 25;
 
 let unit_info;

@@ -1,6 +1,5 @@
 function drawBattlefieldMap() {
 	battlefield_map.background(255);
-	battlefield_map.fill(0);
 
 	for (let i = 0; i < controller.battlefield.length; i++) {
 		for (let j = 0; j < controller.battlefield[i].length; j++) {
@@ -23,9 +22,6 @@ function drawBattlefieldMap() {
 	if (move_through_path >= 0) {
 		moveThroughPath(path_to_move, unit_that_is_moved);
 	}
-
-	battlefield_map.strokeWeight(1);
-	battlefield_map.fill(0);
 }
 
 const checkInsideBattlefield = (valX, valY) => {
