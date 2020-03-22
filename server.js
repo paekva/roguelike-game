@@ -54,6 +54,7 @@ function sleep(ms) {
 		setTimeout(resolve, ms);
 	});
 }
+
 function handleRequest(req, res) {
 	// What did we request?
 	let pathname = req.url;
@@ -98,31 +99,33 @@ io.sockets.on('connection', function(socket) {
 	socket.on('moveherotile', function(data) {
 		let result = false;
 		let orig_tile =
-			controller.battlefield[controller.hero.X][controller.hero.Y];
+			controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y];
 		if (data === 'right') {
-			result = controller.hero.move_unit(
-				controller.battlefield[controller.hero.X + 1][controller.hero.Y]
+			result = controller.player_human.hero.move_unit(
+				controller.battlefield[controller.player_human.hero.X + 1][controller.player_human.hero.Y]
 			);
 		}
 		if (data === 'left') {
-			result = controller.hero.move_unit(
-				controller.battlefield[controller.hero.X - 1][controller.hero.Y]
+			result = controller.player_human.hero.move_unit(
+				controller.battlefield[controller.player_human.hero.X - 1][controller.player_human.hero.Y]
 			);
 		}
 		if (data === 'up') {
-			result = controller.hero.move_unit(
-				controller.battlefield[controller.hero.X][controller.hero.Y - 1]
+			result = controller.player_human.hero.move_unit(
+				controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y - 1]
 			);
 		}
 		if (data === 'down') {
-			result = controller.hero.move_unit(
-				controller.battlefield[controller.hero.X][controller.hero.Y + 1]
+			result = controller.player_human.hero.move_unit(
+				controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y + 1]
 			);
 		}
 		if (result) {
 			orig_tile.unit = null;
+			controller.player_human.get_visible_tile(controller.battlefield)
 		}
-		io.sockets.emit('updateunits', { units: controller.units });
+		io.sockets.emit('updateplayer', { player: controller.player_human });
+		io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 });
 		// io.sockets.emit('updatebattlefield', controller)
 	});
 

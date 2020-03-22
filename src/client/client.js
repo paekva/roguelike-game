@@ -2,6 +2,7 @@ const SocketReceiveEventType = {
 	INIT: 'Init',
 	UPDATE_BATTLE_FIELD: 'updatebattlefield',
 	UPDATE_UNITS: 'updateunits',
+	UPDATE_PLAYER: 'updateplayer',
 	UPDATE_UNIT: 'updateunit',
 	GET_VISIBILITY: 'getvisibility',
 	DRAW_PATH: 'drawpath',
@@ -39,13 +40,14 @@ function setup() {
 		controller.units = data.units;
 	});
 
+	socket.on(SocketReceiveEventType.UPDATE_PLAYER, function(data) {
+		controller.player_human = data.player;
+	});
+
 	socket.on(SocketReceiveEventType.UPDATE_UNIT, function(data) {
 		// console.log(controller.players[controller.turn].visibility_map)
-		if (data.path.length === 0) {
-			controller.players[data.player].units[data.index] = data.unit;
-			if (data.unit.units.length === 0) {
-				controller.players[data.player].units.splice(data.index, 1);
-			}
+		if (!data.path) {
+			controller.units[data.index] = data.unit;
 		} else {
 			move_through_path = 0;
 			path_to_move = data.path;

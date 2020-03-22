@@ -13,7 +13,6 @@ class Tile {
 		this.mp_required = mp_required;
 		this.is_passable = is_passable;
 		this.neighbors = [];
-		// console.log(this)
 	}
 
 	distance_to_tile(tile) {
