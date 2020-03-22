@@ -95,7 +95,7 @@ class Player {
 			}
 		}
 
-		this.print_map(this.visibility_map);
+		// this.print_map(this.visibility_map);
 	}
 }
 

@@ -123,9 +123,13 @@ io.sockets.on('connection', function(socket) {
 		if (result) {
 			orig_tile.unit = null;
 			controller.player_human.get_visible_tile(controller.battlefield)
+			io.sockets.emit('updateplayer', { player: controller.player_human });
+			io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 });
+			controller.turn += 1
+			controller.make_AI_turns()
+			io.sockets.emit('updateunits', { units: controller.units });
 		}
-		io.sockets.emit('updateplayer', { player: controller.player_human });
-		io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 });
+
 		// io.sockets.emit('updatebattlefield', controller)
 	});
 
@@ -136,18 +140,18 @@ io.sockets.on('connection', function(socket) {
 		let range =
 			Math.abs(attacker.X - defender.X) + Math.abs(attacker.Y - defender.Y);
 		if (range <= attacker.max_range && range >= attacker.min_range) {
-			if (attacker.has_attacked === false) {
-				attacker.attack_unit(defender);
-				controller.check_unit_existing();
-				io.sockets.emit('updateunits', { units: controller.units });
-				// io.sockets.emit('updatebattlefield', controller)
-			} else {
-				console.log('unit already attacked');
-			}
+			attacker.attack_unit(defender);
+			controller.check_unit_existing();
+			io.sockets.emit('updateunits', { units: controller.units });
+			controller.turn += 1
+			controller.make_AI_turns()
+			io.sockets.emit('updateunits', { units: controller.units });
+			// io.sockets.emit('updatebattlefield', controller)
 		} else {
 			console.log('Out of range');
 		}
 	});
+
 	socket.on('endturn', function(data) {
 		for (let j = 0; j < controller.players[controller.turn].units.length; j++) {
 			let unit = controller.players[controller.turn].units[j];
