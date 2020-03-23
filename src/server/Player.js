@@ -30,6 +30,7 @@ class Player {
 			str = '';
 		}
 	}
+
 	BFS(start, battlefield, mode) {
 		//mode = 0 -> calculate distance in tiles, 1 -> range with terrain, 2 -> vision distance
 		let visited = [];
@@ -87,12 +88,14 @@ class Player {
 		for (let i = 0; i < battlefield.length; i++) {
 			for (let j = 0; j < battlefield[0].length; j++) {
 				if (this.hero.vision >= distances[i][j]) {
-					this.visibility_map[i][j]++;
+					this.visibility_map[i][j] = 1;
+				} else {
+					this.visibility_map[i][j] = 0;
 				}
 			}
 		}
 
-		// this.print_map(this.visibility_map)
+		// this.print_map(this.visibility_map);
 	}
 }
 
