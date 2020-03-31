@@ -70,8 +70,8 @@ class battle_controller {
 			}
 		}
 		for (let j = 0; j < this.battlefield_X; j++) {
-			this.battlefield[j][1] = Tile.new(j, 1, 'desert_hill', 2, true, 15);
-			this.battlefield[j][2] = Tile.new(j, 2, 'desert_hill', 2, true, 15);
+			this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
+			this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
 		}
 
 		for (let i = 0; i < this.battlefield_X; i++) {
