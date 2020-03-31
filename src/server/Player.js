@@ -70,9 +70,28 @@ class Player {
 									battlefield[tileIndex.X][tileIndex.Y].mp_required;
 							}
 						}
+						if (mode === 2) {
+							if (
+								distance[neighbor.X][neighbor.Y] >
+								distance[tileIndex.X][tileIndex.Y] + 1
+							) {
+								distance[neighbor.X][neighbor.Y] =
+									distance[tileIndex.X][tileIndex.Y] + 1;
+							}
+						}
 						toExplore.push({ X: neighbor.X, Y: neighbor.Y });
 					}
 					// }
+				} else {
+					if (mode === 2) {
+						if (
+							distance[neighbor.X][neighbor.Y] >
+							distance[tileIndex.X][tileIndex.Y] + 1
+						) {
+							distance[neighbor.X][neighbor.Y] =
+								distance[tileIndex.X][tileIndex.Y] + 1;
+						}
+					}
 				}
 			}
 		}
@@ -83,7 +102,7 @@ class Player {
 		let distances = this.BFS(
 			{ X: this.hero.X, Y: this.hero.Y },
 			battlefield,
-			1
+			2
 		);
 		for (let i = 0; i < battlefield.length; i++) {
 			for (let j = 0; j < battlefield[0].length; j++) {

@@ -3,7 +3,7 @@ class Effect {
 	constructor(params) {
 		this.name = params.name;
 		this.duration = params.duration;
-		this.damage = params.defense;
+		this.damage = params.damage;
 		this.defense = params.defense;
 		this.health = params.health;
 		this.energy = params.energy;
