@@ -1,4 +1,3 @@
-let canvassize = 400;
 let dialogue = 4;
 let battlefield_active = true;
 let controller;
@@ -6,7 +5,8 @@ let chosen_unit;
 let turn = 0;
 let shiftX = 25;
 let shiftY = 25;
-let tile_size = 25;
+let tile_size = 50;
+let canvassize = tile_size*20;
 
 let unit_info;
 let dialogue_zone;
@@ -66,10 +66,10 @@ function draw() {
 	}
 	strokeWeight(1);
 
-	if (dialogue === 4) {
+	if (dialogue === 4 && unit_info) {
 		drawUnitInfo();
 		image(unit_info, 0, 250);
-	} else {
+	} else if(dialogue_zone){
 		drawDialogue();
 		image(dialogue_zone, 0, 250);
 	}

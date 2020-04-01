@@ -146,7 +146,7 @@ const drawPersonInfo = (unit, type) => {
 };
 
 const drawUnitInfo = () => {
-	if (controller) {
+	if (controller && unit_info) {
 		unit_info.background(255);
 		unit_info.strokeWeight(1);
 		unit_info.fill(0);
