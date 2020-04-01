@@ -16,14 +16,16 @@ const drawPerson = (unit, type) => {
 			break;
 		}
 		case PersonType.MONSTER: {
-			battlefield_map.fill(0, 255, 0);
+			battlefield_map.fill('red');
+			battlefield_map.stroke(0);
+			battlefield_map.strokeWeight(1);
 			battlefield_map.ellipse(
 				unit.X * tile_size + tile_size / 2 + shiftX,
 				unit.Y * tile_size + tile_size / 2 + shiftY,
 				23,
 				23
 			);
-			battlefield_map.fill('yellow');
+			battlefield_map.fill(0);
 			battlefield_map.ellipse(
 				unit.X * tile_size + 16 / 2 + shiftX,
 				unit.Y * tile_size + 16 / 2 + shiftY,
