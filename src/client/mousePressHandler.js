@@ -1,7 +1,18 @@
+const tileActivatedHandler = (mouseX, mouseY) => {
+	// highlight the click area
+	drawClick(mouseX, mouseY);
+
+	setTimeout(() => {
+		battlefield_map_overlay.clear();
+	}, 1000);
+};
+
 function mousePressed() {
 	if (battlefield_active && move_through_path === -1) {
 		if (mouseButton === 'left') {
 			// Left click
+			tileActivatedHandler(mouseX, mouseY);
+
 			let index = checkClickOnUnit();
 			if (index !== -1) {
 				if (!draw_path) {

@@ -75,7 +75,15 @@ const drawTile = (tile, isFoggy) => {
 			}
 			case TileType.HOUSE: {
 				makeCommonTile(coordinates, 'red', 0);
+				break;
 			}
 		}
 	}
+};
+
+const drawClick = (x, y) => {
+	battlefield_map_overlay.fill('grey');
+	battlefield_map_overlay.noStroke();
+	battlefield_map_overlay.circle(x, y, tile_size);
+	battlefield_map_overlay.noFill();
 };

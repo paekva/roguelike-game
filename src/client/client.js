@@ -25,7 +25,8 @@ function setup() {
 	// TODO: tmp comment, need to understand if we need it
 	// unit_info = createGraphics(400, 100);
 	// dialogue_zone = createGraphics(400, 100);
-	battlefield_map = createGraphics(tile_size*16, tile_size*12);
+	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
+	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
 	// unit_info_popup = createGraphics(225, 150);
 
 	socket.on(SocketReceiveEventType.INIT, function(data) {

@@ -6,11 +6,12 @@ let turn = 0;
 let shiftX = 25;
 let shiftY = 25;
 let tile_size = 50;
-let canvassize = tile_size*20;
+let canvassize = tile_size * 20;
 
 let unit_info;
 let dialogue_zone;
 let battlefield_map;
+let battlefield_map_overlay;
 let unit_info_popup;
 let unit_info_required = false;
 let unit_info_requested;
@@ -63,13 +64,14 @@ function draw() {
 	if (controller) {
 		drawBattlefieldMap();
 		image(battlefield_map, 0, 0);
+		image(battlefield_map_overlay, 0, 0);
 	}
 	strokeWeight(1);
 
 	if (dialogue === 4 && unit_info) {
 		drawUnitInfo();
 		image(unit_info, 0, 250);
-	} else if(dialogue_zone){
+	} else if (dialogue_zone) {
 		drawDialogue();
 		image(dialogue_zone, 0, 250);
 	}
