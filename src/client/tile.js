@@ -85,7 +85,7 @@ const drawClick = (x, y) => {
 	battlefield_map_overlay.fill('red');
 	battlefield_map_overlay.stroke(0);
 	battlefield_map_overlay.strokeWeight(4);
-	star(x, y, tile_size/4, tile_size/2, 10);
+	star(x, y, tile_size / 4, tile_size / 2, 10);
 	battlefield_map_overlay.noFill();
 };
 

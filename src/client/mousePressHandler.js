@@ -4,7 +4,7 @@ const tileActivatedHandler = (mouseX, mouseY) => {
 
 	setTimeout(() => {
 		battlefield_map_overlay.clear();
-	}, 1000);
+	}, 200);
 };
 
 function mousePressed() {

@@ -22,6 +22,7 @@ let unit_that_is_moved = null;
 let path_to_move;
 let confirm_move_info;
 let chosen_tile;
+let characterIcons;
 
 const PersonType = {
 	HERO: 'hero',
