@@ -22,10 +22,16 @@ function setup() {
 	socket = io.connect();
 	createCanvas(canvassize + 100, canvassize);
 	textSize(15);
-	unit_info = createGraphics(400, 100);
-	dialogue_zone = createGraphics(400, 100);
-	battlefield_map = createGraphics(400, 300);
-	unit_info_popup = createGraphics(225, 150);
+	// TODO: tmp comment, need to understand if we need it
+	// unit_info = createGraphics(400, 100);
+	// dialogue_zone = createGraphics(400, 100);
+	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
+	characterIcons = {
+		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
+		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
+	};
+	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
+	// unit_info_popup = createGraphics(225, 150);
 
 	socket.on(SocketReceiveEventType.INIT, function(data) {
 		console.warn(data);

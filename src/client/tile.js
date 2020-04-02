@@ -75,7 +75,31 @@ const drawTile = (tile, isFoggy) => {
 			}
 			case TileType.HOUSE: {
 				makeCommonTile(coordinates, 'red', 0);
+				break;
 			}
 		}
 	}
 };
+
+const drawClick = (x, y) => {
+	battlefield_map_overlay.fill('red');
+	battlefield_map_overlay.stroke(0);
+	battlefield_map_overlay.strokeWeight(4);
+	star(x, y, tile_size / 4, tile_size / 2, 10);
+	battlefield_map_overlay.noFill();
+};
+
+function star(x, y, radius1, radius2, npoints) {
+	let angle = TWO_PI / npoints;
+	let halfAngle = angle / 2.0;
+	battlefield_map_overlay.beginShape();
+	for (let a = 0; a < TWO_PI; a += angle) {
+		let sx = x + cos(a) * radius2;
+		let sy = y + sin(a) * radius2;
+		battlefield_map_overlay.vertex(sx, sy);
+		sx = x + cos(a + halfAngle) * radius1;
+		sy = y + sin(a + halfAngle) * radius1;
+		battlefield_map_overlay.vertex(sx, sy);
+	}
+	battlefield_map_overlay.endShape(CLOSE);
+}
