@@ -18,14 +18,6 @@ function drawBattlefieldMap() {
 			drawPerson(unit, unit.energy ? PersonType.HERO : PersonType.MONSTER);
 		}
 	}
-
-	if (draw_path) {
-		drawPath(path);
-	}
-
-	if (move_through_path >= 0) {
-		moveThroughPath(path_to_move, unit_that_is_moved);
-	}
 }
 
 const checkInsideBattlefield = (valX, valY) => {

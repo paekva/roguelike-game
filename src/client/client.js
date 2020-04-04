@@ -18,9 +18,19 @@ const SocketEmitEventType = {
 	END_TURN: 'endturn',
 };
 
+function setup() {
+	socket = io.connect();
+	applySocketListeners(socket);
+	initCanvas();
+
+	characterIcons = {
+		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
+		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
+	};
+}
+
 const applySocketListeners = socket => {
 	socket.on(SocketReceiveEventType.INIT, function(data) {
-		console.warn(data);
 		controller = data;
 	});
 
@@ -37,55 +47,16 @@ const applySocketListeners = socket => {
 	});
 
 	socket.on(SocketReceiveEventType.UPDATE_UNIT, function(data) {
-		// console.log(controller.players[controller.turn].visibility_map)
-		if (!data.path) {
-			controller.units[data.index] = data.unit;
-		} else {
-			move_through_path = 0;
-			path_to_move = data.path;
-			unit_that_is_moved = controller.players[data.player].units[data.index];
-		}
+		controller.units[data.index] = data.unit;
 	});
 
 	socket.on(SocketReceiveEventType.GET_VISIBILITY, function(data) {
 		controller.players[data.player].visibility_map = data.visibility_map;
 	});
-
-	socket.on(SocketReceiveEventType.DRAW_PATH, function(data) {
-		draw_path = true;
-		path = data.res[0];
-		confirm_move_info = data.res;
-	});
-
-	socket.on(SocketReceiveEventType.DRAW_PATH_STOP, function(data) {
-		draw_path = false;
-		path = null;
-		confirm_move_info = null;
-	});
-
-	socket.on(SocketReceiveEventType.UPDATE_TURN, function(data) {
-		chosen_unit = null;
-		draw_path = false;
-		path = null;
-		confirm_move_info = null;
-		controller.turn = data.index;
-		console.log('Turn of player: ' + controller.turn);
-	});
 };
 
 const initCanvas = () => {
-	createCanvas(canvassize + 100, canvassize).parent('battlefield');
+	createCanvas(canvasSize + 100, canvasSize).parent('battlefield');
 	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
 	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
 };
-
-function setup() {
-	socket = io.connect();
-	applySocketListeners(socket);
-	initCanvas();
-
-	characterIcons = {
-		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
-		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
-	};
-}
