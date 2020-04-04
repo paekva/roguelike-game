@@ -18,21 +18,7 @@ const SocketEmitEventType = {
 	END_TURN: 'endturn',
 };
 
-function setup() {
-	socket = io.connect();
-	createCanvas(canvassize + 100, canvassize).parent("battlefield");
-	textSize(15);
-	// TODO: tmp comment, need to understand if we need it
-	// unit_info = createGraphics(400, 100);
-	// dialogue_zone = createGraphics(400, 100);
-	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
-	characterIcons = {
-		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
-		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
-	};
-	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
-	// unit_info_popup = createGraphics(225, 150);
-
+const applySocketListeners = socket => {
 	socket.on(SocketReceiveEventType.INIT, function(data) {
 		console.warn(data);
 		controller = data;
@@ -85,4 +71,21 @@ function setup() {
 		controller.turn = data.index;
 		console.log('Turn of player: ' + controller.turn);
 	});
+};
+
+const initCanvas = () => {
+	createCanvas(canvassize + 100, canvassize).parent('battlefield');
+	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
+	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
+};
+
+function setup() {
+	socket = io.connect();
+	applySocketListeners(socket);
+	initCanvas();
+
+	characterIcons = {
+		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
+		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
+	};
 }
