@@ -64,6 +64,7 @@ function draw() {
 	background(255);
 	if (controller) {
 		drawBattlefieldMap();
+		drawSideBar();
 		image(battlefield_map, 0, 0);
 		image(battlefield_map_overlay, 0, 0);
 	}

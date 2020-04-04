@@ -20,7 +20,7 @@ const SocketEmitEventType = {
 
 function setup() {
 	socket = io.connect();
-	createCanvas(canvassize + 100, canvassize);
+	createCanvas(canvassize + 100, canvassize).parent("battlefield");
 	textSize(15);
 	// TODO: tmp comment, need to understand if we need it
 	// unit_info = createGraphics(400, 100);
