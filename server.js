@@ -152,6 +152,11 @@ io.sockets.on('connection', function(socket) {
 		}
 	});
 
+	socket.on('updatemetabolism', function(data) {
+		controller.hero.update_metabolism(data.stance)
+		io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 })
+	})
+
 	socket.on('skipturn', function(data) {
 		controller.turn += 1
 		controller.make_AI_turns()
