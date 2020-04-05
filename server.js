@@ -152,6 +152,12 @@ io.sockets.on('connection', function(socket) {
 		}
 	});
 
+	socket.on('skipturn', function(data) {
+		controller.turn += 1
+		controller.make_AI_turns()
+		io.sockets.emit('updateunits', { units: controller.units });
+	})
+
 	socket.on('endturn', function(data) {
 		for (let j = 0; j < controller.players[controller.turn].units.length; j++) {
 			let unit = controller.players[controller.turn].units[j];
