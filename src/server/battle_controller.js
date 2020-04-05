@@ -61,17 +61,17 @@ class battle_controller {
 					(i === 4 && j === 6) ||
 					(i === 3 && j === 6)
 				) {
-					this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, 15));
-				} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
-					this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, 0));
+					this.battlefield[i].push(Tile.new(i, j, 'slowdown', 'desert', 2, true, 15));
+				} else if (i === 4 && j === 4) {
+					this.battlefield[i].push(Tile.new(i, j, 'wall', 'desert', 1, false, 0));
 				} else {
-					this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, 0));
+					this.battlefield[i].push(Tile.new(i, j, 'floor', 'desert', 1, true, 0));
 				}
 			}
 		}
 		for (let j = 0; j < this.battlefield_X; j++) {
-			this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
-			this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
+			this.battlefield[j][1] = Tile.new(j, 1, 'wall', 'desert', 2, false, 0);
+			this.battlefield[j][2] = Tile.new(j, 2, 'wall', 'desert', 2, false, 0);
 		}
 
 		for (let i = 0; i < this.battlefield_X; i++) {

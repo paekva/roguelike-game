@@ -1,7 +1,7 @@
 const TileType = {
-	DESERT: 'desert',
-	DESERT_HILL: 'desert_hill',
-	HOUSE: 'house',
+	DESERT: 'floor',
+	DESERT_HILL: 'slowdown',
+	HOUSE: 'wall',
 };
 
 const getTileCoords = tile => {
