@@ -80,14 +80,26 @@ const initSideBar = () => {
 	container.style.height = `${sideBarSize}px`;
 
 	initProgressBarsArea();
+	initSettingsArea();
 };
 
+const initSettingsArea = () => {
+	document.getElementById(
+		'controlsWrapper'
+	).style.padding = `${progressBarAreaPadding * 1.5}px`;
+
+	document.getElementsByName("light").forEach(el => {
+		el.addEventListener('click', (event) => {
+			// sendToServer(event.id); TODO: when server is ready
+		})
+	})
+};
 const initProgressBarsArea = () => {
 	const progressCanvas = function(sketch) {
 		sketch.setup = function() {
 			sketch
 				.createCanvas(sideBarSize, progressBarAreaHeight)
-				.parent('progressBar').c;
+				.parent('progressBar');
 			side_bar = sketch;
 		};
 	};
