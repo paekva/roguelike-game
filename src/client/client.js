@@ -22,6 +22,7 @@ function setup() {
 	socket = io.connect();
 	applySocketListeners(socket);
 	initCanvas();
+	initProgressBarsArea();
 
 	characterIcons = {
 		monster: battlefield_map.loadImage('src/client/assets/monster.png'),

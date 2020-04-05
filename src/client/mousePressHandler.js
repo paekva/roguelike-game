@@ -15,12 +15,12 @@ function mousePressed() {
 
 			let index = checkClickOnUnit();
 			if (index !== -1) {
-					let unit = controller.units[index];
-					if (index !== 0) {
-						// if (chosen_unit) {
-						socket.emit(SocketEmitEventType.ATTACK_UNIT, { defender: index });
-						// }
-					}
+				let unit = controller.units[index];
+				if (index !== 0) {
+					// if (chosen_unit) {
+					socket.emit(SocketEmitEventType.ATTACK_UNIT, { defender: index });
+					// }
+				}
 			}
 		}
 	}
