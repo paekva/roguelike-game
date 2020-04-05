@@ -3,7 +3,7 @@ function getRandomInt(max) {
 }
 
 class Tile {
-	constructor(X, Y, type, tileset, mp_required, is_passable, eva_bonus) {
+	constructor(X, Y, type, tileset, mp_required, eva_bonus) {
 		this.unit_id = null;
 		this.squad_player = null;
 		this.unit = null;
@@ -12,7 +12,9 @@ class Tile {
 		this.type = type;
 		this.tileset = tileset;
 		this.mp_required = mp_required;
-		this.is_passable = is_passable;
+
+		this.is_passable = type !== 'wall';
+
 		this.neighbors = [];
 	}
 
@@ -21,8 +23,8 @@ class Tile {
 	}
 }
 let tile = null;
-module.exports.new = function(X, Y, type, tileset, mp_required, is_passable, eva_bonus) {
-	new_tile = new Tile(X, Y, type, tileset, mp_required, is_passable, eva_bonus);
+module.exports.new = function(X, Y, type, tileset, mp_required, eva_bonus) {
+	new_tile = new Tile(X, Y, type, tileset, mp_required, eva_bonus);
 	tile = new_tile;
 	return new_tile;
 };

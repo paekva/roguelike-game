@@ -1,7 +1,9 @@
 const TileType = {
-	DESERT: 'floor',
-	DESERT_HILL: 'slowdown',
-	HOUSE: 'wall',
+	FLOOR: 'floor',
+	SLOWDOWN: 'slowdown',
+	WALL: 'wall',
+	TRAP: 'trap',
+	DOOR: 'door'
 };
 
 const getTileCoords = tile => {
@@ -31,7 +33,7 @@ const drawTile = (tile, isFoggy) => {
 		makeCommonTile(coordinates, '#919491', '#919491');
 	} else {
 		switch (tile.type) {
-			case TileType.DESERT: {
+			case TileType.FLOOR: {
 				makeCommonTile(coordinates, 'yellow', 0);
 				battlefield_map.stroke(0);
 				battlefield_map.strokeWeight(2);
@@ -47,7 +49,7 @@ const drawTile = (tile, isFoggy) => {
 				);
 				break;
 			}
-			case TileType.DESERT_HILL: {
+			case TileType.SLOWDOWN: {
 				makeCommonTile(coordinates, '#91701b', 0);
 				battlefield_map.stroke(0);
 				battlefield_map.strokeWeight(2);
@@ -73,7 +75,7 @@ const drawTile = (tile, isFoggy) => {
 				);
 				break;
 			}
-			case TileType.HOUSE: {
+			case TileType.WALL: {
 				makeCommonTile(coordinates, 'red', 0);
 				break;
 			}
