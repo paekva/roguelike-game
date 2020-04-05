@@ -88,11 +88,11 @@ const initSettingsArea = () => {
 		'controlsWrapper'
 	).style.padding = `${progressBarAreaPadding * 1.5}px`;
 
-	document.getElementsByName("light").forEach(el => {
-		el.addEventListener('click', (event) => {
+	document.getElementsByName('light').forEach(el => {
+		el.addEventListener('click', event => {
 			// sendToServer(event.id); TODO: when server is ready
-		})
-	})
+		});
+	});
 };
 const initProgressBarsArea = () => {
 	const progressCanvas = function(sketch) {

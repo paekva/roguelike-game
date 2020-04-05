@@ -27,3 +27,14 @@ const drawPerson = (unit, type) => {
 			break;
 	}
 };
+
+const drawCharacters = () => {
+	for (let i = 0; i < controller.units.length; i++) {
+		let unit = controller.units[i];
+		const isPersonInFog =
+			controller.player_human.visibility_map[unit.X][unit.Y] !== 0;
+		if (isPersonInFog) {
+			drawPerson(unit, unit.energy ? PersonType.HERO : PersonType.MONSTER);
+		}
+	}
+};

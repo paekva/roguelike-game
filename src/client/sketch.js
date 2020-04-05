@@ -3,7 +3,6 @@ let controller;
 let shiftX = 25;
 let shiftY = 25;
 let tile_size = 50;
-let canvasSize = tile_size * 10;
 
 let battlefield_map;
 let battlefield_map_overlay;
@@ -48,6 +47,7 @@ function draw() {
 
 	if (controller) {
 		drawBattlefieldMap();
+		drawCharacters();
 		drawSideBar();
 		image(battlefield_map, 0, 0);
 		image(battlefield_map_overlay, 0, 0);
