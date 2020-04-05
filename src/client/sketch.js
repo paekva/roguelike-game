@@ -8,6 +8,7 @@ let canvasSize = tile_size * 10;
 let battlefield_map;
 let battlefield_map_overlay;
 let battlefield_active = true;
+let side_bar;
 
 let characterIcons;
 
