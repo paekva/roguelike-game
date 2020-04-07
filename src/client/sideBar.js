@@ -90,7 +90,7 @@ const initSettingsArea = () => {
 
 	document.getElementsByName('light').forEach(el => {
 		el.addEventListener('click', event => {
-			// sendToServer(event.id); TODO: when server is ready
+			socket.emit(SocketReceiveEventType.UPDATE_METABOLISM, event.target.id);
 		});
 	});
 };
