@@ -8,7 +8,6 @@ const SocketReceiveEventType = {
 	DRAW_PATH: 'drawpath',
 	DRAW_PATH_STOP: 'drawpathstop',
 	UPDATE_TURN: 'updateturn',
-	UPDATE_METABOLISM: 'updatemetabolism',
 };
 
 const SocketEmitEventType = {
@@ -17,6 +16,8 @@ const SocketEmitEventType = {
 	MOVE_UNIT_TILE_2: 'moveunittile2',
 	MOVE_HERO_TILE: 'moveherotile',
 	END_TURN: 'endturn',
+	SKIP_TURN: 'skipturn',
+	UPDATE_METABOLISM: 'updatemetabolism',
 };
 
 function setup() {

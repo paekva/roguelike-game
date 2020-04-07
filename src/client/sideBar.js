@@ -90,7 +90,7 @@ const initSettingsArea = () => {
 
 	document.getElementsByName('light').forEach(el => {
 		el.addEventListener('click', event => {
-			socket.emit(SocketReceiveEventType.UPDATE_METABOLISM, event.target.id);
+			socket.emit(SocketEmitEventType.UPDATE_METABOLISM, event.target.id);
 		});
 	});
 };

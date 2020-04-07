@@ -27,6 +27,10 @@ function keyPressed() {
 				console.log('End turn of player: ' + controller.turn);
 				socket.emit(SocketEmitEventType.END_TURN, { index: controller.turn });
 			}
+			break;
+		}
+		case 32: {
+			socket.emit(SocketEmitEventType.SKIP_TURN);
 		}
 	}
 }
