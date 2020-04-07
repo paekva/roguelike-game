@@ -21,7 +21,7 @@ class Hero {
 		this.effects = [];
 		this.min_range = 1;
 		this.max_range = 1;
-		this.metabolism = 1
+		this.metabolism = 1;
 	}
 
 	move_unit(target_tile) {
@@ -76,30 +76,30 @@ class Hero {
 		return reduction;
 	}
 
-	get_passive_cost () {
-		let cost = 0
+	get_passive_cost() {
+		let cost = 0;
 		for (let part of this.modifications) {
 			if (part.is_active) {
 				cost += part.passive_cost;
 			}
 		}
 		if (this.metabolism === 0) {
-			cost = cost * 0.5
+			cost = cost * 0.5;
 		}
 		if (this.metabolism === 2) {
-			cost = cost * 2
+			cost = cost * 2;
 		}
 
 		for (let effect of this.effects) {
 			cost += effect.cost;
 		}
 
-		return cost
+		return cost;
 	}
 
 	get_attack_cost() {
 		let cost = 0;
-		cost += this.get_passive_cost
+		cost += this.get_passive_cost;
 		for (let part of this.modifications) {
 			if (part.is_active && part.damage > 0) {
 				energy_cost += part.cost;
@@ -110,7 +110,7 @@ class Hero {
 
 	get_move_cost() {
 		let cost = 0;
-		cost += this.get_passive_cost
+		cost += this.get_passive_cost;
 		for (let part of this.modifications) {
 			if (part.is_active && part.speed > 0) {
 				energy_cost += part.cost;
@@ -140,13 +140,13 @@ class Hero {
 	}
 
 	update_metabolism(stance) {
-		this.metabolism = stance
+		this.metabolism = stance;
 	}
 }
-let unit
+let unit;
 module.exports.new = function(params, modifications, X, Y) {
 	let new_unit = new Hero(params, modifications, X, Y);
-	unit = new_unit
+	unit = new_unit;
 	return new_unit;
 };
 

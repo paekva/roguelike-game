@@ -1,21 +1,161 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang=''>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>roguelike game</title>
-    <style> body {padding: 0; margin: 0;} </style>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="src/client/client.js"></script>
-    <script src="src/client/mousePressHandler.js"></script>
-    <script src="src/client/keyboardClickHandler.js"></script>
-    <script src="src/client/sketch.js"></script>
-    <script src="src/client/tile.js"></script>
-    <script src="src/client/person.js"></script>
-    <script src="src/client/battlefield.js"></script>
+    <style>
+      body {padding: 0; margin: 0;}
+
+      #title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      #controls {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* label */
+      label {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: nowrap;
+
+        margin: 8px 0;
+
+        cursor: pointer;
+        position: relative;
+      }
+
+
+      /* input */
+      input {
+        opacity: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+
+      /* .design */
+      .design {
+        width: 12px;
+        height: 12px;
+
+        border: 1px solid #000;
+        border-radius: 100%;
+        margin-right: 16px;
+
+        position: relative;
+      }
+
+      .design::before,
+      .design::after {
+        content: '';
+        display: block;
+
+        width: inherit;
+        height: inherit;
+
+        border-radius: inherit;
+
+        position: absolute;
+        transform: scale(0);
+        transform-origin: center center;
+      }
+
+      .design:before {
+        background: #000;
+        opacity: 0;
+        transition: .3s;
+      }
+
+      .design::after {
+        background: yellow;
+        opacity: .4;
+        transition: .6s;
+      }
+
+
+      /* .text */
+      .text {
+        color: #000;
+        font-weight: bold;
+      }
+
+
+      /* checked state */
+      input:checked+.design::before {
+        opacity: 1;
+        transform: scale(.6);
+      }
+
+
+      /* other states */
+      input:hover+.design,
+      input:focus+.design {
+        border: 1px solid yellow;
+      }
+
+      input:hover+.design:before,
+      input:focus+.design:before {
+        background: yellow;
+      }
+
+      input:hover~.text {
+        color: yellow;
+      }
+
+      input:focus+.design::after,
+      input:active+.design::after {
+        opacity: .1;
+        transform: scale(2.6);
+      }
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js'></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='src/client/client.js'></script>
+    <script src='src/client/mousePressHandler.js'></script>
+    <script src='src/client/keyboardClickHandler.js'></script>
+    <script src='src/client/sketch.js'></script>
+    <script src='src/client/tile.js'></script>
+    <script src='src/client/person.js'></script>
+    <script src='src/client/battlefield.js'></script>
+    <script src='src/client/sideBar.js'></script>
 
   </head>
   <body>
+  <div style='display: flex; flex-direction: row;'>
+  <div id='battlefield' style='display: inline-block;' ></div>
+  <div id='sidebar' >
+    <div id='progressBar' ></div>
+    <div id='controlsWrapper' >
+      <div id='title' >Choose energy consuming type:</div>
+      <div id='controls' >
+        <label>
+          <input id='0' type='radio' name='light' checked>
+          <span class='design'></span>
+          <span class='text'>Option 1</span>
+        </label>
+
+        <label>
+          <input id='1' type='radio' name='light'>
+          <span class='design'></span>
+          <span class='text'>Option 2</span>
+        </label>
+
+        <label>
+          <input id='2' type='radio' name='light'>
+          <span class='design'></span>
+          <span class='text'>Option 3</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  </div>
   </body>
 </html>
