@@ -21,6 +21,7 @@ class Hero {
 		this.effects = [];
 		this.min_range = 1;
 		this.max_range = 1;
+		this.metabolism = 1
 	}
 
 	move_unit(target_tile) {
@@ -46,20 +47,19 @@ class Hero {
 
 	get_damage() {
 		let dmg = 0;
-		let energy_cost = 0;
+		let energy_cost = this.get_attack_cost();
 		let atk_effects = [];
 		for (let part of this.modifications) {
 			if (part.is_active) {
 				dmg += part.damage;
-				energy_cost += part.cost;
 				atk_effects = atk_effects.concat(part.effects);
 			}
 		}
 		for (let effect of this.effects) {
 			dmg += effect.damage;
-			energy_cost += effect.cost;
 			atk_effects = atk_effects.concat(effect.effects);
 		}
+
 		return [dmg, energy_cost, atk_effects];
 	}
 
@@ -76,15 +76,45 @@ class Hero {
 		return reduction;
 	}
 
-	get_move_cost() {
-		let cost = 0;
+	get_passive_cost () {
+		let cost = 0
 		for (let part of this.modifications) {
 			if (part.is_active) {
 				cost += part.passive_cost;
 			}
 		}
+		if (this.metabolism === 0) {
+			cost = cost * 0.5
+		}
+		if (this.metabolism === 2) {
+			cost = cost * 2
+		}
+
 		for (let effect of this.effects) {
-			cost += effect.energy;
+			cost += effect.cost;
+		}
+
+		return cost
+	}
+
+	get_attack_cost() {
+		let cost = 0;
+		cost += this.get_passive_cost
+		for (let part of this.modifications) {
+			if (part.is_active && part.damage > 0) {
+				energy_cost += part.cost;
+			}
+		}
+		return cost;
+	}
+
+	get_move_cost() {
+		let cost = 0;
+		cost += this.get_passive_cost
+		for (let part of this.modifications) {
+			if (part.is_active && part.speed > 0) {
+				energy_cost += part.cost;
+			}
 		}
 		return cost;
 	}
@@ -108,9 +138,18 @@ class Hero {
 		}
 		this.energy -= damage_stats[1];
 	}
-}
 
+	update_metabolism(stance) {
+		this.metabolism = stance
+	}
+}
+let unit
 module.exports.new = function(params, modifications, X, Y) {
-	let unit = new Hero(params, modifications, X, Y);
-	return unit;
+	let new_unit = new Hero(params, modifications, X, Y);
+	unit = new_unit
+	return new_unit;
 };
+
+// module.exports.update_metabolism = function(stance) {
+// 	unit.update_metabolism(stance)
+// };

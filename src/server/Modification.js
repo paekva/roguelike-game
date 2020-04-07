@@ -8,6 +8,7 @@ class Modification {
 		this.health = params.health;
 		this.passive_cost = params.passive_cost;
 		this.is_active = params.is_active;
+		this.speed = params.speed
 	}
 }
 
