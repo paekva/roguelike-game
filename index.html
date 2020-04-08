@@ -7,9 +7,10 @@
     <style>
       body {padding: 0; margin: 0;}
 
-      #title {
+      .title {
         font-weight: bold;
         margin-bottom: 5px;
+        text-align: center;
       }
 
       #controls {
@@ -149,12 +150,22 @@
         height: 50%;
         width: 30%;
         margin: 20px;
+
+        padding: 20px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
-      #startMenuHeader {
+      #startScreenHeader {
         color: yellow;
         font-weight: bold;
         font-size: 40px;
+      }
+
+      #charactersList {
+        flex: 8;
       }
     </style>
     <script src='https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js'></script>
@@ -172,8 +183,12 @@
   </head>
   <body>
   <div id="startScreen" >
-    <div id="startMenuHeader">"APEX" GAME</div>
-    <div id="startMenu"></div>
+    <div id="startScreenHeader">"APEX" GAME</div>
+    <div id="startMenu">
+      <div class="title" style="flex: 1">Choose your character type:</div>
+      <div id="charactersList" >
+      </div>
+    </div>
     <button id="startBtn">Start game</button>
   </div>
   <div style='display: flex; flex-direction: row;'>
@@ -181,7 +196,7 @@
     <div id='sidebar' >
       <div id='progressBar' ></div>
       <div id='controlsWrapper' >
-        <div id='title' >Choose energy consuming type:</div>
+        <div class='title' >Choose energy consuming type:</div>
         <div id='controls' >
           <label>
             <input id='0' type='radio' name='light' checked>
