@@ -99,10 +99,10 @@ class Hero {
 
 	get_attack_cost() {
 		let cost = 0;
-		cost += this.get_passive_cost;
+		cost += this.get_passive_cost();
 		for (let part of this.modifications) {
 			if (part.is_active && part.damage > 0) {
-				energy_cost += part.cost;
+				cost += part.cost;
 			}
 		}
 		return cost;
@@ -110,10 +110,10 @@ class Hero {
 
 	get_move_cost() {
 		let cost = 0;
-		cost += this.get_passive_cost;
+		cost += this.get_passive_cost();
 		for (let part of this.modifications) {
 			if (part.is_active && part.speed > 0) {
-				energy_cost += part.cost;
+				cost += part.cost;
 			}
 		}
 		return cost;
