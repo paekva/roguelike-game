@@ -102,6 +102,7 @@ const initProgressBarsArea = () => {
 				.parent('progressBar');
 			side_bar = sketch;
 		};
+		sketch.keyPressed = () => {};
 	};
 
 	new p5(progressCanvas);
