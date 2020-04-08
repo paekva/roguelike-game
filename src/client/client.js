@@ -18,11 +18,13 @@ const SocketEmitEventType = {
 	END_TURN: 'endturn',
 	SKIP_TURN: 'skipturn',
 	UPDATE_METABOLISM: 'updatemetabolism',
+	CHARACTER_SELECTED: ''
 };
 
 function setup() {
 	socket = io.connect();
 	applySocketListeners(socket);
+	initSettingMenu();
 	initCanvas();
 	initSideBar();
 
