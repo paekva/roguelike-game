@@ -100,22 +100,22 @@ io.sockets.on('connection', function(socket) {
 		let result = false;
 		let orig_tile =
 			controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y];
-		if (data === 'right') {
+		if (data === 'right' && controller.player_human.hero.X + 1 < controller.battlefield_X) {
 			result = controller.player_human.hero.move_unit(
 				controller.battlefield[controller.player_human.hero.X + 1][controller.player_human.hero.Y]
 			);
 		}
-		if (data === 'left') {
+		if (data === 'left' && controller.player_human.hero.X - 1 >= 0) {
 			result = controller.player_human.hero.move_unit(
 				controller.battlefield[controller.player_human.hero.X - 1][controller.player_human.hero.Y]
 			);
 		}
-		if (data === 'up') {
+		if (data === 'up' && controller.player_human.hero.Y - 1 >= 0) {
 			result = controller.player_human.hero.move_unit(
 				controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y - 1]
 			);
 		}
-		if (data === 'down') {
+		if (data === 'down' && controller.player_human.hero.Y + 1 < controller.battlefield_Y) {
 			result = controller.player_human.hero.move_unit(
 				controller.battlefield[controller.player_human.hero.X][controller.player_human.hero.Y + 1]
 			);
