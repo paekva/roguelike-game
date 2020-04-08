@@ -1,5 +1,5 @@
 const initSettingMenu = () => {
-    document.getElementById("startBtn").addEventListener(onStartGame);
+    document.getElementById("startBtn").addEventListener('click', onStartGame);
 };
 
 const onStartGame = () => {
