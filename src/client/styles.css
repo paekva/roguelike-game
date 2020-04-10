@@ -124,21 +124,25 @@ input:active+.design::after {
     z-index: 2;
 }
 
-#startBtn{
+.startBtn, .startBtnDisabled{
     color: black;
     font-family: 'Josefin Sans', sans-serif;
     cursor: pointer;
 }
 
-#startBtn:hover {
+.startBtn:hover, .startBtnDisabled {
     opacity: 0.7;
 }
 
-#startBtn, #startMenu {
+.startBtn,  .startBtnDisabled, #startMenu {
     background: yellow;
     border: 1px solid black;
     border-radius: 4px;
     padding: 6px 12px;
+}
+
+.startBtnDisabled {
+    cursor: not-allowed;
 }
 
 #startMenu {
