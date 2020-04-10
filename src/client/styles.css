@@ -177,6 +177,11 @@ input:active+.design::after {
 
     margin: 8px;
     padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .holder:hover, .selected {

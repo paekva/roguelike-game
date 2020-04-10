@@ -28,9 +28,6 @@ function setup() {
 	initCanvas();
 	initSideBar();
 
-	characterIconsLinks.forEach(link => {
-		characterIcons.push(battlefield_map.loadImage(link))
-	});
 }
 
 const applySocketListeners = socket => {

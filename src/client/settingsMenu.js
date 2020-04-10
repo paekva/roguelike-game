@@ -23,6 +23,12 @@ const initSettingMenu = () => {
 const onStartGame = () => {
 	document.getElementById('startScreen').style.display = 'none';
 
+	characterIconsLinks.forEach(link => {
+		if(link !== heroIconLink) monsterIcons.push(battlefield_map.loadImage(link))
+	});
+
+	heroIcon = battlefield_map.loadImage(heroIconLink);
+
 	socket.emit(SocketEmitEventType.CHARACTER_SELECTED, 'data');
 };
 
