@@ -24,18 +24,13 @@ const SocketEmitEventType = {
 function setup() {
 	socket = io.connect();
 	applySocketListeners(socket);
+	initSettingMenu();
 	initCanvas();
 	initSideBar();
 
-	characterIcons = [
-		battlefield_map.loadImage('src/client/assets/m1.png'),
-		battlefield_map.loadImage('src/client/assets/m2.png'),
-		battlefield_map.loadImage('src/client/assets/m3.png'),
-		battlefield_map.loadImage('src/client/assets/m4.png'),
-		battlefield_map.loadImage('src/client/assets/m5.png'),
-	];
-
-	initSettingMenu();
+	characterIconsLinks.forEach(link => {
+		characterIcons.push(battlefield_map.loadImage(link))
+	});
 }
 
 const applySocketListeners = socket => {

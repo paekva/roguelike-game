@@ -10,7 +10,15 @@ let battlefield_active = true;
 let side_bar;
 
 let characterIcons;
-let heroIcon = 1;
+const characterIconsLinks = [
+	'/public/assets/m1.png',
+	'/public/assets/m2.png',
+	'/public/assets/m3.png',
+	'/public/assets/m4.png',
+	'/public/assets/m5.png',
+];
+
+let heroIconLink;
 
 const PersonType = {
 	HERO: 'hero',
