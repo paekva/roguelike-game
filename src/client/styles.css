@@ -1,0 +1,183 @@
+body {padding: 0; margin: 0;
+    font-family: 'Josefin Sans', sans-serif;}
+
+.title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+}
+
+/* label */
+label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    margin: 8px 0;
+
+    cursor: pointer;
+    position: relative;
+}
+
+
+/* input */
+input {
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* .design */
+.design {
+    width: 12px;
+    height: 12px;
+
+    border: 1px solid #000;
+    border-radius: 100%;
+    margin-right: 16px;
+
+    position: relative;
+}
+
+.design::before,
+.design::after {
+    content: '';
+    display: block;
+
+    width: inherit;
+    height: inherit;
+
+    border-radius: inherit;
+
+    position: absolute;
+    transform: scale(0);
+    transform-origin: center center;
+}
+
+.design:before {
+    background: #000;
+    opacity: 0;
+    transition: .3s;
+}
+
+.design::after {
+    background: yellow;
+    opacity: .4;
+    transition: .6s;
+}
+
+
+/* .text */
+.text {
+    color: #000;
+    font-weight: bold;
+}
+
+
+/* checked state */
+input:checked+.design::before {
+    opacity: 1;
+    transform: scale(.6);
+}
+
+
+/* other states */
+input:hover+.design,
+input:focus+.design {
+    border: 1px solid yellow;
+}
+
+input:hover+.design:before,
+input:focus+.design:before {
+    background: yellow;
+}
+
+input:hover~.text {
+    color: yellow;
+}
+
+input:focus+.design::after,
+input:active+.design::after {
+    opacity: .1;
+    transform: scale(2.6);
+}
+
+#startScreen{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+#startBtn{
+    color: black;
+    font-family: 'Josefin Sans', sans-serif;
+    cursor: pointer;
+}
+
+#startBtn:hover {
+    opacity: 0.7;
+}
+
+#startBtn, #startMenu {
+    background: yellow;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+#startMenu {
+    background: white;
+    height: 50%;
+    width: 30%;
+    margin: 20px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#startScreenHeader {
+    color: yellow;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+#charactersList {
+    padding: 0 20px;
+    flex: 8;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 40px;
+    grid-row-gap: 10px;
+}
+
+.holder {
+    flex: 1;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+
+    margin: 8px;
+}
+
+.holder:hover {
+    background: lightgray;
+}

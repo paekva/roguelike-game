@@ -2,7 +2,7 @@ const drawPerson = (unit, type) => {
 	switch (type) {
 		case PersonType.HERO: {
 			battlefield_map.image(
-				characterIcons.hero,
+				characterIcons[heroIcon],
 				unit.X * tile_size + shiftX,
 				unit.Y * tile_size + shiftY,
 				tile_size,
@@ -14,7 +14,7 @@ const drawPerson = (unit, type) => {
 			const energyPercentage = unit.health / unit.max_health;
 			battlefield_map.tint(255, 255 * energyPercentage);
 			battlefield_map.image(
-				characterIcons.monster,
+				characterIcons[0],
 				unit.X * tile_size + shiftX,
 				unit.Y * tile_size + shiftY,
 				tile_size,

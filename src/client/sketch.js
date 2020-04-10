@@ -10,6 +10,7 @@ let battlefield_active = true;
 let side_bar;
 
 let characterIcons;
+let heroIcon = 1;
 
 const PersonType = {
 	HERO: 'hero',

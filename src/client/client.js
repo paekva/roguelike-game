@@ -18,20 +18,24 @@ const SocketEmitEventType = {
 	END_TURN: 'endturn',
 	SKIP_TURN: 'skipturn',
 	UPDATE_METABOLISM: 'updatemetabolism',
-	CHARACTER_SELECTED: ''
+	CHARACTER_SELECTED: '',
 };
 
 function setup() {
 	socket = io.connect();
 	applySocketListeners(socket);
-	initSettingMenu();
 	initCanvas();
 	initSideBar();
 
-	characterIcons = {
-		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
-		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
-	};
+	characterIcons = [
+		battlefield_map.loadImage('src/client/assets/m1.png'),
+		battlefield_map.loadImage('src/client/assets/m2.png'),
+		battlefield_map.loadImage('src/client/assets/m3.png'),
+		battlefield_map.loadImage('src/client/assets/m4.png'),
+		battlefield_map.loadImage('src/client/assets/m5.png'),
+	];
+
+	initSettingMenu();
 }
 
 const applySocketListeners = socket => {
