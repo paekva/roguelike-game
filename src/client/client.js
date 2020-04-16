@@ -18,18 +18,16 @@ const SocketEmitEventType = {
 	END_TURN: 'endturn',
 	SKIP_TURN: 'skipturn',
 	UPDATE_METABOLISM: 'updatemetabolism',
+	CHARACTER_SELECTED: '',
 };
 
 function setup() {
 	socket = io.connect();
 	applySocketListeners(socket);
+	initSettingMenu();
 	initCanvas();
 	initSideBar();
 
-	characterIcons = {
-		monster: battlefield_map.loadImage('src/client/assets/monster.png'),
-		hero: battlefield_map.loadImage('src/client/assets/hero.png'),
-	};
 }
 
 const applySocketListeners = socket => {

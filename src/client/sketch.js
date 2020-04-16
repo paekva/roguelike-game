@@ -9,7 +9,17 @@ let battlefield_map_overlay;
 let battlefield_active = true;
 let side_bar;
 
-let characterIcons;
+const monsterIcons = [];
+const characterIconsLinks = [
+	'/public/assets/m1.png',
+	'/public/assets/m2.png',
+	'/public/assets/m3.png',
+	'/public/assets/m4.png',
+	'/public/assets/m5.png',
+];
+
+let heroIconLink;
+let heroIcon;
 
 const PersonType = {
 	HERO: 'hero',
@@ -45,7 +55,7 @@ function draw() {
 	background(255);
 	strokeWeight(1);
 
-	if (controller) {
+	if (controller && battlefield_map_overlay && battlefield_map && heroIcon) {
 		drawBattlefieldMap();
 		drawCharacters();
 		drawSideBar();
