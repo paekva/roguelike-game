@@ -26,14 +26,16 @@ const initSettingMenu = () => {
 
 const onStartGame = () => {
   document.getElementById("startScreen").style.display = "none";
+  onZoomedInterfaceSelected();
+
+  initCanvas();
+  initSideBar();
 
   characterIconsLinks.forEach(link => {
     if (link !== heroIconLink)
       monsterIcons.push(battlefield_map.loadImage(link));
   });
-
   heroIcon = battlefield_map.loadImage(heroIconLink);
-
   socket.emit(SocketEmitEventType.CHARACTER_SELECTED, "data");
 };
 
@@ -54,8 +56,8 @@ const drawIcons = () => {
 };
 
 const onNextClick = () => {
-  (document.getElementById("nextBtn").style.display = "none");
-  (document.getElementById("characters").style.display = "none");
-  (document.getElementById("startBtn").style.display = "block");
-  (document.getElementById("another").style.display = "block");
+  document.getElementById("nextBtn").style.display = "none";
+  document.getElementById("characters").style.display = "none";
+  document.getElementById("startBtn").style.display = "block";
+  document.getElementById("another").style.display = "block";
 };
