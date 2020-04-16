@@ -1,61 +1,76 @@
 <!DOCTYPE html>
-<html lang=''>
+<html lang="">
   <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>roguelike game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
-    <link href="/src/client/styles.css" rel="stylesheet">
-    <script src='https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js'></script>
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='src/client/client.js'></script>
-    <script src='src/client/mousePressHandler.js'></script>
-    <script src='src/client/keyboardClickHandler.js'></script>
-    <script src='src/client/sketch.js'></script>
-    <script src='src/client/tile.js'></script>
-    <script src='src/client/person.js'></script>
-    <script src='src/client/battlefield.js'></script>
-    <script src='src/client/sideBar.js'></script>
-    <script src='src/client/settingsMenu.js'></script>
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&family=Roboto+Mono:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/src/client/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/client/client.js"></script>
+    <script src="src/client/mousePressHandler.js"></script>
+    <script src="src/client/keyboardClickHandler.js"></script>
+    <script src="src/client/sketch.js"></script>
+    <script src="src/client/tile.js"></script>
+    <script src="src/client/person.js"></script>
+    <script src="src/client/battlefield.js"></script>
+    <script src="src/client/sideBar.js"></script>
+    <script src="src/client/settingsMenu.js"></script>
   </head>
   <body>
-  <div id="startScreen" >
-    <div id="startScreenHeader">"APEX" GAME</div>
-    <div id="startMenu">
-      <div class="title" style="flex: 1">Choose your character type:</div>
-      <div id="charactersList" >
+    <div id="startScreen">
+      <div id="startScreenHeader">"APEX" GAME</div>
+      <div id="startMenu">
+        <div id="characters">
+          <div class="title" style="flex: 1">Choose your character type:</div>
+          <div id="charactersList"></div>
+        </div>
+
+        <div id="another" style="display: none">
+          <div class="title" style="flex: 1">Extra settings:</div>
+        </div>
       </div>
+      <button id="nextBtn" class="startBtnDisabled" disabled>Next</button>
+      <button
+        id="startBtn"
+        class="startBtnDisabled"
+        disabled
+        style="display: none"
+      >
+        Start game
+      </button>
     </div>
-    <button id="startBtn" class="startBtnDisabled" disabled >Start game</button>
-  </div>
-  <div style='display: flex; flex-direction: row;'>
-    <div id='battlefield' style='display: inline-block;' ></div>
-    <div id='sidebar' >
-      <div id='progressBar' ></div>
-      <div id='controlsWrapper' >
-        <div class='title' >Choose energy consuming type:</div>
-        <div id='controls' >
-          <label>
-            <input id='0' type='radio' name='light' checked>
-            <span class='design'></span>
-            <span class='text'>Option 1</span>
-          </label>
+    <div style="display: flex; flex-direction: row;">
+      <div id="battlefield" style="display: inline-block;"></div>
+      <div id="sidebar">
+        <div id="progressBar"></div>
+        <div id="controlsWrapper">
+          <div class="title">Choose energy consuming type:</div>
+          <div id="controls">
+            <label>
+              <input id="0" type="radio" name="light" checked />
+              <span class="design"></span>
+              <span class="text">Option 1</span>
+            </label>
 
-          <label>
-            <input id='1' type='radio' name='light'>
-            <span class='design'></span>
-            <span class='text'>Option 2</span>
-          </label>
+            <label>
+              <input id="1" type="radio" name="light" />
+              <span class="design"></span>
+              <span class="text">Option 2</span>
+            </label>
 
-          <label>
-            <input id='2' type='radio' name='light'>
-            <span class='design'></span>
-            <span class='text'>Option 3</span>
-          </label>
+            <label>
+              <input id="2" type="radio" name="light" />
+              <span class="design"></span>
+              <span class="text">Option 3</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </body>
 </html>
