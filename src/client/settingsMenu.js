@@ -26,7 +26,6 @@ const initSettingMenu = () => {
 
 const onStartGame = () => {
   document.getElementById("startScreen").style.display = "none";
-  onZoomedInterfaceSelected();
 
   initCanvas();
   initSideBar();
@@ -60,4 +59,8 @@ const onNextClick = () => {
   document.getElementById("characters").style.display = "none";
   document.getElementById("startBtn").style.display = "block";
   document.getElementById("another").style.display = "block";
+
+  document
+    .getElementsByName("settings")
+    .forEach(el => el.addEventListener("click", onZoomedInterfaceSelected));
 };
