@@ -10,7 +10,7 @@ body {
   text-align: center;
 }
 
-#controls {
+#energyConsumptionOptions {
   display: flex;
   flex-direction: column;
 }
@@ -194,7 +194,7 @@ input:active + .design::after {
   background: lightgray;
 }
 
-#characters,
+#charactersPanel,
 #another {
   flex: 1;
 

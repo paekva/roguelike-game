@@ -9,6 +9,90 @@
       rel="stylesheet"
     />
     <link href="/src/client/styles.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="startScreen">
+      <div id="startScreenHeader">"APEX" GAME</div>
+      <div id="startMenu"> </div>
+      <button id="nextBtn" class="startBtnDisabled" disabled>Next</button>
+      <button id="startBtn" class="startBtn" style="display: none">
+        Start game
+      </button>
+    </div>
+    <div style="display: flex; flex-direction: row;">
+      <div id="battlefield" style="display: inline-block;"></div>
+      <div id="sidebar">
+        <div id="progressBar"></div>
+        <div id="controlsWrapper">
+          <div class="title">Choose energy consuming type:</div>
+          <div id="energyConsumptionOptions"> </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TEMPLATES -->
+
+    <template id="startMenuTemplate">
+      <div id="characters">
+        <div class="title" style="flex: 1">Choose your character type:</div>
+        <div id="charactersList"></div>
+      </div>
+    </template>
+
+    <template id="startMenuSettingsTemplate">
+      <div id="another">
+        <div class="title" style="flex: 1">Extra settings:</div>
+        <div id="scaleOptions" style="flex: 8" >
+          <label>
+            <input id="noScale" type="radio" name="settings" checked />
+            <span class="design"></span>
+            <span class="text">No scale</span>
+          </label>
+          <label>
+            <input id="sc10" type="radio" name="settings" />
+            <span class="design"></span>
+            <span class="text">Scale 30%</span>
+          </label>
+          <label>
+            <input id="sc50" type="radio" name="settings" />
+            <span class="design"></span>
+            <span class="text">Scale 50%</span>
+          </label>
+          <label>
+            <input id="sc80" type="radio" name="settings" />
+            <span class="design"></span>
+            <span class="text">Scale 80%</span>
+          </label>
+        </div>
+      </div>
+    </template>
+
+    <template id="energyConsumptionOptionsTemplate">
+      <label>
+        <input id="0" type="radio" name="light" checked />
+        <span class="design"></span>
+        <span class="text">Option 1</span>
+      </label>
+
+      <label>
+        <input id="1" type="radio" name="light" />
+        <span class="design"></span>
+        <span class="text">Option 2</span>
+      </label>
+
+      <label>
+        <input id="2" type="radio" name="light" />
+        <span class="design"></span>
+        <span class="text">Option 3</span>
+      </label>
+    </template>
+
+    <!-- TEMPLATES -->
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="src/client/client.js"></script>
@@ -21,74 +105,15 @@
     <script src="src/client/sideBar.js"></script>
     <script src="src/client/settingsMenu.js"></script>
     <script src="src/client/settingsHandlers.js"></script>
-  </head>
-  <body>
-    <div id="startScreen">
-      <div id="startScreenHeader">"APEX" GAME</div>
-      <div id="startMenu">
-        <div id="characters">
-          <div class="title" style="flex: 1">Choose your character type:</div>
-          <div id="charactersList"></div>
-        </div>
+    <script>
+      const names = [ 'startMenu', 'energyConsumptionOptions', ];
+      names.forEach(name => {
+        let clone = document.importNode(document.getElementById(`${name}Template`).content, true);
+        document.getElementById(name).appendChild(clone);
+      });
 
-        <div id="another" style="display: none">
-          <div class="title" style="flex: 1">Extra settings:</div>
-          <div id="scaleOptions" style="flex: 8">
-            <label>
-              <input id="noScale" type="radio" name="settings" checked />
-              <span class="design"></span>
-              <span class="text">No scale</span>
-            </label>
-            <label>
-              <input id="sc10" type="radio" name="settings" />
-              <span class="design"></span>
-              <span class="text">Scale 30%</span>
-            </label>
-            <label>
-              <input id="sc50" type="radio" name="settings" />
-              <span class="design"></span>
-              <span class="text">Scale 50%</span>
-            </label>
-            <label>
-              <input id="sc80" type="radio" name="settings" />
-              <span class="design"></span>
-              <span class="text">Scale 80%</span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <button id="nextBtn" class="startBtnDisabled" disabled>Next</button>
-      <button id="startBtn" class="startBtn" style="display: none">
-        Start game
-      </button>
-    </div>
-    <div style="display: flex; flex-direction: row;">
-      <div id="battlefield" style="display: inline-block;"></div>
-      <div id="sidebar">
-        <div id="progressBar"></div>
-        <div id="controlsWrapper">
-          <div class="title">Choose energy consuming type:</div>
-          <div id="controls">
-            <label>
-              <input id="0" type="radio" name="light" checked />
-              <span class="design"></span>
-              <span class="text">Option 1</span>
-            </label>
+      initSettingMenu();
 
-            <label>
-              <input id="1" type="radio" name="light" />
-              <span class="design"></span>
-              <span class="text">Option 2</span>
-            </label>
-
-            <label>
-              <input id="2" type="radio" name="light" />
-              <span class="design"></span>
-              <span class="text">Option 3</span>
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
+    </script>
   </body>
 </html>
