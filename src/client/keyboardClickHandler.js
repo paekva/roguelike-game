@@ -1,35 +1,51 @@
 function keyPressed() {
 	switch (keyCode) {
 		case 39: {
-			if(!isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'right');
+			if (!isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'right');
 			break;
 		}
 		case 37: {
-			if(!isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'left');
+			if (!isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'left');
 			break;
 		}
 		case 38: {
-			if(!isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'up');
+			if (!isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'up');
 			break;
 		}
 		case 40: {
-			if(!isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'down');
+			if (!isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'down');
+			break;
+		}
+		case 27: {
+			document.getElementById('startScreen').style.display = 'flex';
+			document.getElementById('startBtn').innerText = 'Continue';
+			document.getElementById('startBtn').addEventListener('onclick', () => {
+				document.getElementById('startScreen').style.display = 'none';
+			});
 			break;
 		}
 		case 68: {
-			if(isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'right');
+			if (isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'right');
 			break;
 		}
 		case 65: {
-			if(isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'left');
+			if (isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'left');
 			break;
 		}
 		case 87: {
-			if(isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'up');
+			if (isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'up');
 			break;
 		}
 		case 83: {
-			if(isDefaultKeyboard) socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'down');
+			if (isDefaultKeyboard)
+				socket.emit(SocketEmitEventType.MOVE_HERO_TILE, 'down');
 			break;
 		}
 		case 59: {

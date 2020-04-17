@@ -1,3 +1,5 @@
+// TODO: fix multiple energy bars
+
 const tile_default_size = 50;
 
 let controller;

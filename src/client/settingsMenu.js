@@ -36,6 +36,10 @@ const onStartGame = () => {
 	});
 	heroIcon = battlefield_map.loadImage(heroIconLink);
 	socket.emit(SocketEmitEventType.CHARACTER_SELECTED, 'data');
+
+	document
+		.getElementById('startBtn')
+		.removeEventListener('onclick', onStartGame);
 };
 
 const drawIcons = () => {
