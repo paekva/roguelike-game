@@ -58,8 +58,13 @@ const onNextClick = () => {
 	document.getElementById('nextBtn').style.display = 'none';
 	document.getElementById('startBtn').style.display = 'block';
 
-	document.getElementById('startMenu').removeChild(document.getElementById('characters'));
-	let clone = document.importNode(document.getElementById('startMenuSettingsTemplate').content, true);
+	document
+		.getElementById('startMenu')
+		.removeChild(document.getElementById('characters'));
+	let clone = document.importNode(
+		document.getElementById('startMenuSettingsTemplate').content,
+		true
+	);
 	document.getElementById('startMenu').appendChild(clone);
 
 	document
