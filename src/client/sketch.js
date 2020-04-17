@@ -1,6 +1,5 @@
 const tile_default_size = 50;
 
-let dialogue = 4;
 let controller;
 let shiftX = 25;
 let shiftY = 25;

@@ -40,7 +40,7 @@ const onScaleOptionChange = event => {
 const onKeyboardOptionChange = event => {
   const optionType = event.target.id;
   switch (optionType) {
-    case "Arrow": {
+    case "arrows": {
       isDefaultKeyboard = false;
       return;
     }
