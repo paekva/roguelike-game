@@ -1,8 +1,13 @@
+const tile_default_size = 50;
+
 let dialogue = 4;
 let controller;
 let shiftX = 25;
 let shiftY = 25;
-let tile_size = 50;
+let tile_size = tile_default_size;
+let isDefaultKeyboard = true;
+let isSoundOn = true;
+let isMusicOn = true;
 
 let battlefield_map;
 let battlefield_map_overlay;

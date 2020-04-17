@@ -67,7 +67,5 @@ const onNextClick = () => {
 	);
 	document.getElementById('startMenu').appendChild(clone);
 
-	document
-		.getElementsByName('settings')
-		.forEach(el => el.addEventListener('click', onZoomedInterfaceSelected));
+	initAllSettingsHandlers();
 };
