@@ -4,7 +4,7 @@ body {
   font-family: "Josefin Sans", sans-serif;
 }
 
-.title{
+.title {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -222,4 +222,9 @@ input:active + .design::after {
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 40px;
   grid-row-gap: 10px;
+}
+
+#sidebar {
+  background: gray;
+  flex: 1;
 }
