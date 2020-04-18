@@ -30,6 +30,7 @@ const onStartGame = () => {
 
   if (!isGameOn) {
     initSideBar();
+    playBackMusic();
 
     characterIconsLinks.forEach(link => {
       if (link !== heroIconLink)

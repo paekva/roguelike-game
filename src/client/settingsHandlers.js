@@ -54,11 +54,13 @@ const onMusicOptionChange = event => {
   const optionType = event.target.id;
   switch (optionType) {
     case "musicOn": {
-      isMusicOn = false;
+      isMusicOn = true;
+      playBackMusic();
       return;
     }
     default:
-      isMusicOn = true;
+      isMusicOn = false;
+      stopMusic();
       return;
   }
 };
@@ -74,4 +76,22 @@ const onSoundOptionChange = event => {
       isSoundOn = false;
       return;
   }
+};
+
+const music = new Audio("/public/audio/back-music.mp3");
+const playBackMusic = () => {
+  if (isMusicOn) {
+    music.play();
+    music.addEventListener(
+      "ended",
+      function() {
+        this.currentTime = 0;
+        this.play();
+      },
+      false
+    );
+  }
+};
+const stopMusic = () => {
+  music.pause();
 };
