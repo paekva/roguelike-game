@@ -22,9 +22,11 @@ const SocketEmitEventType = {
 };
 
 const canvasWidth = () =>
-  controller ? (controller.battlefield.length + 1 ) * tile_size : tile_size * 16;
+  controller ? (controller.battlefield.length + 1) * tile_size : tile_size * 16;
 const canvasHeight = () =>
-  controller ? (controller.battlefield[0].length + 1 ) * tile_size : tile_size * 12;
+  controller
+    ? (controller.battlefield[0].length + 1) * tile_size
+    : tile_size * 12;
 
 function setup() {
   socket = io.connect();
@@ -45,6 +47,7 @@ const applySocketListeners = socket => {
   });
 
   socket.on(SocketReceiveEventType.UPDATE_PLAYER, function(data) {
+    drawSideBar();
     controller.player_human = data.player;
   });
 

@@ -7,6 +7,7 @@ let tile_size = tile_default_size;
 let isDefaultKeyboard = true;
 let isSoundOn = true;
 let isMusicOn = true;
+let isGameOn = false;
 
 let battlefield_map;
 let battlefield_map_overlay;
@@ -62,7 +63,7 @@ function draw() {
   if (controller && battlefield_map_overlay && battlefield_map && heroIcon) {
     drawBattlefieldMap();
     drawCharacters();
-    drawSideBar();
+
     image(battlefield_map, 0, 0);
     image(battlefield_map_overlay, 0, 0);
   }

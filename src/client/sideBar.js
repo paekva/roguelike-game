@@ -75,6 +75,7 @@ const drawSideBar = () => {
 const initSideBar = () => {
   initProgressBarsArea();
   initSettingsArea();
+  drawSideBar();
 };
 
 const initSettingsArea = () => {
