@@ -25,8 +25,10 @@ const initSettingMenu = () => {
 };
 
 const onStartGame = () => {
+  initCanvas();
+  document.getElementById("startScreen").style.display = "none";
+
   if (!isGameOn) {
-    initCanvas();
     initSideBar();
 
     characterIconsLinks.forEach(link => {
@@ -37,8 +39,6 @@ const onStartGame = () => {
     socket.emit(SocketEmitEventType.CHARACTER_SELECTED, "data");
     isGameOn = true;
   }
-
-  document.getElementById("startScreen").style.display = "none";
 };
 
 const drawIcons = () => {
