@@ -76,8 +76,3 @@ function keyPressed() {
     }
   }
 }
-
-const audio = new Audio("/public/audio/punch-sound-effect.mp3");
-const playStepSound = () => {
-  if (isSoundOn) audio.play();
-};

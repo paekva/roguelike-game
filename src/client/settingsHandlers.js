@@ -95,3 +95,8 @@ const playBackMusic = () => {
 const stopMusic = () => {
   music.pause();
 };
+
+const audio = new Audio("/public/audio/move-sound.mp3");
+const playStepSound = () => {
+  if (isSoundOn) audio.play();
+};
