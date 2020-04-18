@@ -114,7 +114,8 @@ input:active + .design::after {
   transform: scale(2.6);
 }
 
-#startScreen {
+#startScreen,
+#finishScreen {
   position: absolute;
   top: 0;
   width: 100%;
@@ -125,6 +126,10 @@ input:active + .design::after {
   justify-content: center;
   align-items: center;
   z-index: 2;
+}
+
+#finishScreen {
+  display: none;
 }
 
 .startBtn,
@@ -162,7 +167,7 @@ input:active + .design::after {
   display: flex;
 }
 
-#startScreenHeader {
+.startScreenHeader {
   color: yellow;
   font-weight: bold;
   font-size: 40px;

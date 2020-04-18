@@ -8,6 +8,7 @@ let isDefaultKeyboard = true;
 let isSoundOn = true;
 let isMusicOn = true;
 let isGameOn = false;
+let isGameOver = false;
 
 let battlefield_map;
 let battlefield_map_overlay;

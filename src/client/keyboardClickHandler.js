@@ -1,31 +1,19 @@
 function keyPressed() {
   switch (keyCode) {
     case 39: {
-      if (!isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "right");
-      }
+      if (!isDefaultKeyboard) emitMove(MoveType.RIGHT);
       break;
     }
     case 37: {
-      if (!isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "left");
-      }
+      if (!isDefaultKeyboard) emitMove(MoveType.LEFT);
       break;
     }
     case 38: {
-      if (!isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "up");
-      }
+      if (!isDefaultKeyboard) emitMove(MoveType.UP);
       break;
     }
     case 40: {
-      if (!isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "down");
-      }
+      if (!isDefaultKeyboard) emitMove(MoveType.DOWN);
       break;
     }
     case 27: {
@@ -37,31 +25,19 @@ function keyPressed() {
       break;
     }
     case 68: {
-      if (isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "right");
-      }
+      if (isDefaultKeyboard) emitMove(MoveType.RIGHT);
       break;
     }
     case 65: {
-      if (isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "left");
-      }
+      if (isDefaultKeyboard) emitMove(MoveType.LEFT);
       break;
     }
     case 87: {
-      if (isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "up");
-      }
+      if (isDefaultKeyboard) emitMove(MoveType.UP);
       break;
     }
     case 83: {
-      if (isDefaultKeyboard) {
-        playStepSound();
-        socket.emit(SocketEmitEventType.MOVE_HERO_TILE, "down");
-      }
+      if (isDefaultKeyboard) emitMove(MoveType.DOWN);
       break;
     }
     case 59: {
@@ -76,3 +52,16 @@ function keyPressed() {
     }
   }
 }
+
+const MoveType = {
+  RIGHT: "right",
+  LEFT: "left",
+  UP: "up",
+  DOWN: "down"
+};
+const emitMove = type => {
+  if (!isGameOver) {
+    playStepSound();
+    socket.emit(SocketEmitEventType.MOVE_HERO_TILE, type);
+  }
+};

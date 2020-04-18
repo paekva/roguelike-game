@@ -47,6 +47,7 @@ const applySocketListeners = socket => {
   });
 
   socket.on(SocketReceiveEventType.UPDATE_PLAYER, function(data) {
+    checkIfGameIsOver();
     drawSideBar();
     controller.player_human = data.player;
   });
@@ -67,4 +68,15 @@ const initCanvas = () => {
   createCanvas(width, height).parent("battlefield");
   battlefield_map = createGraphics(width, height);
   battlefield_map_overlay = createGraphics(width, height);
+};
+
+const checkIfGameIsOver = () => {
+  if (
+    controller &&
+    controller.player_human &&
+    controller.player_human.hero.health === 0
+  ) {
+    isGameOver = true;
+    document.getElementById("finishScreen").style.display = "flex";
+  }
 };
