@@ -77,6 +77,8 @@ const checkIfGameIsOver = () => {
     controller.player_human.hero.health === 0
   ) {
     isGameOver = true;
+    const audio = new Audio("/public/audio/fail-sound.mp3");
+    audio.play();
     document.getElementById("finishScreen").style.display = "flex";
   }
 };
