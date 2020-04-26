@@ -6,6 +6,7 @@ let Tile = require('./Tile');
 let Player = require('./Player');
 let PriorityQueue = require('priorityqueuejs');
 let AI = require('./AI');
+let MapGen = require('./map_generator');
 // let weapon_params = require('./weapon_params')
 // let armor_params = require('./armor_params')
 // let unit_params = require('./unit_params')
@@ -48,31 +49,31 @@ class battle_controller {
 			is_active: true,
 		});
 		this.units = [];
-		this.battlefield = [];
-		this.battlefield_X = 15;
-		this.battlefield_Y = 5;
-		for (let i = 0; i < this.battlefield_X; i++) {
-			this.battlefield.push([]);
-			for (let j = 0; j < this.battlefield_Y; j++) {
-				if (
-					(i === 1 && j === 3) ||
-					(i === 0 && j === 1) ||
-					(i === 3 && j === 6) ||
-					(i === 4 && j === 6) ||
-					(i === 3 && j === 6)
-				) {
-					this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, []));
-				} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
-					this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
-				} else {
-					this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
-				}
-			}
-		}
-		for (let j = 0; j < this.battlefield_X; j++) {
-			this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
-			this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
-		}
+		this.battlefield = MapGen.new().generateMap();
+		this.battlefield_X = 25;
+		this.battlefield_Y = 25;
+		// for (let i = 0; i < this.battlefield_X; i++) {
+		// 	this.battlefield.push([]);
+		// 	for (let j = 0; j < this.battlefield_Y; j++) {
+		// 		if (
+		// 			(i === 1 && j === 3) ||
+		// 			(i === 0 && j === 1) ||
+		// 			(i === 3 && j === 6) ||
+		// 			(i === 4 && j === 6) ||
+		// 			(i === 3 && j === 6)
+		// 		) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, []));
+		// 		} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
+		// 		} else {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+		// 		}
+		// 	}
+		// }
+		// for (let j = 0; j < this.battlefield_X; j++) {
+		// 	this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
+		// 	this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
+		// }
 
 		for (let i = 0; i < this.battlefield_X; i++) {
 			for (let j = 0; j < this.battlefield_Y; j++) {
@@ -91,23 +92,32 @@ class battle_controller {
 			}
 		}
 
-		this.hero = Hero.new(hero_params, [big_claw], 3, 3);
-		this.unit_1 = Unit.new(
-			unit_params,
-			[small_claw],
-			5,
-			3,
-			AI.new(this.battlefield, 'attack')
-		);
-		// this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, AI.new(this.battlefield, 'attack'));
-		this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
+		let done = false;
+		while (!done) {
+			let x = getRandomInt(23) + 1;
+			let y = getRandomInt(23) + 1;
+			if (this.battlefield[x][y].is_passable === true) {
+				this.hero = Hero.new(hero_params, [big_claw], x, y);
+				done = true;
+			}
+		}
+		//this.hero = Hero.new(hero_params, [big_claw], 3, 3);
+		// this.unit_1 = Unit.new(
+		// 	unit_params,
+		// 	[small_claw],
+		// 	5,
+		// 	3,
+		// 	AI.new(this.battlefield, 'attack')
+		// );
+		// // this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, AI.new(this.battlefield, 'attack'));
+		// this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
 		this.units.push(this.hero);
-		this.units.push(this.unit_1);
-		this.units.push(this.unit_2);
+		// this.units.push(this.unit_1);
+		// this.units.push(this.unit_2);
 		for (let unit of this.units) {
 			this.battlefield[unit.X][unit.Y].unit = unit;
 		}
-		this.unit_1.create_visibility_map(this.battlefield);
+		// this.unit_1.create_visibility_map(this.battlefield);
 		// this.unit_2.create_visibility_map(this.battlefield);
 		// x * 10 + y
 		this.player_human = Player.new('Player', 0, this.hero);

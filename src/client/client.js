@@ -56,7 +56,7 @@ const applySocketListeners = socket => {
 };
 
 const initCanvas = () => {
-	createCanvas(tile_size * 16, tile_size * 12).parent('battlefield');
-	battlefield_map = createGraphics(tile_size * 16, tile_size * 12);
-	battlefield_map_overlay = createGraphics(tile_size * 16, tile_size * 12);
+	createCanvas(tile_size * 25, tile_size * 25).parent('battlefield');
+	battlefield_map = createGraphics(tile_size * 25, tile_size * 25);
+	battlefield_map_overlay = createGraphics(tile_size * 25, tile_size * 25);
 };
