@@ -156,9 +156,11 @@ class Unit {
 		return distance;
 	}
 
-	onDeath () {
-		let dropItem = this.modifications[getRandomInt(this.modifications.length - 1)]
-		battlefield[this.X][this.neighbor.Y]
+	onDeath(battlefield) {
+		let dropItem = this.modifications[
+			getRandomInt(this.modifications.length - 1)
+		];
+		battlefield[this.X][this.Y];
 	}
 
 	get_visible_tile(battlefield) {

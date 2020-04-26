@@ -119,7 +119,7 @@ class battle_controller {
 		for (let i = 0; i < this.units.length; i++) {
 			let unit = this.units[i];
 			if (unit.health <= 0) {
-				unit.onDeath()
+				unit.onDeath(this.battlefield);
 				this.battlefield[unit.X][unit.Y].unit = null;
 				this.units.splice(i, 1);
 			}

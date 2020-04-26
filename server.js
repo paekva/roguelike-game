@@ -157,6 +157,10 @@ io.sockets.on('connection', function(socket) {
 		io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 })
 	})
 
+	socket.on('changeModifications', function(data) {
+		controller.units[0].modifications = data.modifications
+	})
+
 	socket.on('pickupItems', function(data) {
 		let cur_tile = controller.battlefield[controller.units[0].X][controller.units[0].Y]
 		if (cur_tile.items.length != 0) {
