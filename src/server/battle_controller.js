@@ -6,6 +6,7 @@ let Tile = require('./Tile');
 let Player = require('./Player');
 let PriorityQueue = require('priorityqueuejs');
 let AI = require('./AI');
+let MapGen = require('./map_generator');
 // let weapon_params = require('./weapon_params')
 // let armor_params = require('./armor_params')
 // let unit_params = require('./unit_params')
@@ -48,31 +49,31 @@ class battle_controller {
 			is_active: true,
 		});
 		this.units = [];
-		this.battlefield = [];
-		this.battlefield_X = 15;
-		this.battlefield_Y = 5;
-		for (let i = 0; i < this.battlefield_X; i++) {
-			this.battlefield.push([]);
-			for (let j = 0; j < this.battlefield_Y; j++) {
-				if (
-					(i === 1 && j === 3) ||
-					(i === 0 && j === 1) ||
-					(i === 3 && j === 6) ||
-					(i === 4 && j === 6) ||
-					(i === 3 && j === 6)
-				) {
-					this.battlefield[i].push(Tile.new(i, j, 'slowdown', 'desert', 2, true, 15));
-				} else if (i === 4 && j === 4) {
-					this.battlefield[i].push(Tile.new(i, j, 'wall', 'desert', 1, false, 0));
-				} else {
-					this.battlefield[i].push(Tile.new(i, j, 'floor', 'desert', 1, true, 0));
-				}
-			}
-		}
-		for (let j = 0; j < this.battlefield_X; j++) {
-			this.battlefield[j][1] = Tile.new(j, 1, 'wall', 'desert', 2, false, 0);
-			this.battlefield[j][2] = Tile.new(j, 2, 'wall', 'desert', 2, false, 0);
-		}
+		this.battlefield = MapGen.new().generateMap();
+		this.battlefield_X = 25;
+		this.battlefield_Y = 25;
+		// for (let i = 0; i < this.battlefield_X; i++) {
+		// 	this.battlefield.push([]);
+		// 	for (let j = 0; j < this.battlefield_Y; j++) {
+		// 		if (
+		// 			(i === 1 && j === 3) ||
+		// 			(i === 0 && j === 1) ||
+		// 			(i === 3 && j === 6) ||
+		// 			(i === 4 && j === 6) ||
+		// 			(i === 3 && j === 6)
+		// 		) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'slowdown', 'desert', 2, true, 15));
+		// 		} else if (i === 4 && j === 4) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'wall', 'desert', 1, false, 0));
+		// 		} else {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'floor', 'desert', 1, true, 0));
+		// 		}
+		// 	}
+		// }
+		// for (let j = 0; j < this.battlefield_X; j++) {
+		// 	this.battlefield[j][1] = Tile.new(j, 1, 'wall', 'desert', 2, false, 0);
+		// 	this.battlefield[j][2] = Tile.new(j, 2, 'wall', 'desert', 2, false, 0);
+		// }
 
 		for (let i = 0; i < this.battlefield_X; i++) {
 			for (let j = 0; j < this.battlefield_Y; j++) {
