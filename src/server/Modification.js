@@ -61,6 +61,9 @@ class Modification {
 				this.health = (this.weight * this.getRandomInt(10)) / 20;
 				this.defense = this.weight - this.health - this.damage;
 			}
+			if (this.weight > 10) {
+				this.name += "of" + this.getRandomElement(this.postfixes);
+			}
 			this.effects = [];
 			this.cost = this.weight / 4;
 			this.passive_cost = this.weight / 400;
@@ -68,7 +71,7 @@ class Modification {
 		} else {
 			this.name = params.name;
 			this.effects = [];
-			this.damage = params.damage;
+			this.damage = params.damage;d
 			this.defense = params.defense;
 			this.cost = params.cost;
 			this.health = params.health;
