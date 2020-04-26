@@ -97,7 +97,7 @@ class battle_controller {
 			let x = getRandomInt(23) + 1;
 			let y = getRandomInt(23) + 1;
 			if (this.battlefield[x][y].is_passable === true) {
-				this.hero = Hero.new(hero_params, [big_claw], x, y);
+				this.hero = Hero.new(hero_params, [Modification.new("random attack")], x, y);
 				this.units.push(this.hero);
 				this.battlefield[this.hero.X][this.hero.Y].unit = this.hero;
 				done = true;
