@@ -125,55 +125,91 @@ class MapGenerator {
                         battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                     } else if (i > 0 && i < 8 && j > 0 && j < 8) {
                         if (modules[0][i - 1][j - 1] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 8 && i < 16 && j > 0 && j < 8) {
                         if (modules[1][i - 9][j - 1] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 16 && i < 24 && j > 0 && j < 8) {
                         if (modules[2][i - 17][j - 1] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 0 && i < 8 && j > 8 && j < 16) {
                         if (modules[3][i - 1][j - 9] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 8 && i < 16 && j > 8 && j < 16) {
                         if (modules[4][i - 9][j - 9] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 16 && i < 24 && j > 8 && j < 16) {
                         if (modules[5][i - 17][j - 9] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 0 && i < 8 && j > 16 && j < 24) {
                         if (modules[6][i - 1][j - 17] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 8 && i < 16 && j > 16 && j < 24) {
                         if (modules[7][i - 9][j - 17] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }
                     } else if (i > 16 && i < 24 && j > 16 && j < 24) {
                         if (modules[8][i - 17][j - 17] === " ") {
-                            battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            if (Math.random() < 0.9) {
+                                battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+                            } else {
+                                battlefield[i].push(Tile.new(i, j, 'desert_hill', 1, true, []));
+                            }
                         } else {
                             battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
                         }

@@ -98,7 +98,19 @@ class battle_controller {
 			let y = getRandomInt(23) + 1;
 			if (this.battlefield[x][y].is_passable === true) {
 				this.hero = Hero.new(hero_params, [big_claw], x, y);
+				this.units.push(this.hero);
+				this.battlefield[this.hero.X][this.hero.Y].unit = this.hero;
 				done = true;
+			}
+		}
+
+		for (let i = 0; i < 30; i++) {
+			let x = getRandomInt(23) + 1;
+			let y = getRandomInt(23) + 1;
+			if (this.battlefield[x][y].is_passable === true && this.battlefield[x][y].unit == null) {
+				this.units.push(Unit.new(unit_params, [small_claw], x, y, AI.new(this.battlefield, 'attack')));
+				this.battlefield[this.units[this.units.length - 1].X][this.units[this.units.length - 1].Y].unit = this.units[this.units.length - 1];
+				this.units[this.units.length - 1].create_visibility_map(this.battlefield);
 			}
 		}
 		//this.hero = Hero.new(hero_params, [big_claw], 3, 3);
@@ -111,12 +123,11 @@ class battle_controller {
 		// );
 		// // this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, AI.new(this.battlefield, 'attack'));
 		// this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
-		this.units.push(this.hero);
 		// this.units.push(this.unit_1);
 		// this.units.push(this.unit_2);
-		for (let unit of this.units) {
-			this.battlefield[unit.X][unit.Y].unit = unit;
-		}
+		// for (let unit of this.units) {
+		// 	this.battlefield[unit.X][unit.Y].unit = unit;
+		// }
 		// this.unit_1.create_visibility_map(this.battlefield);
 		// this.unit_2.create_visibility_map(this.battlefield);
 		// x * 10 + y
