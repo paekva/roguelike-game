@@ -110,7 +110,7 @@ class AI {
 			for (let j = 0; j < Xlength; j++) {
 				str += desire_map[j][i] + ' ';
 			}
-			console.log(str);
+			// console.log(str);
 			str = '';
 		}
 	}

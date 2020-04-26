@@ -97,7 +97,12 @@ class battle_controller {
 			let x = getRandomInt(23) + 1;
 			let y = getRandomInt(23) + 1;
 			if (this.battlefield[x][y].is_passable === true) {
-				this.hero = Hero.new(hero_params, [Modification.new("random attack")], x, y);
+				this.hero = Hero.new(
+					hero_params,
+					[Modification.new('random attack')],
+					x,
+					y
+				);
 				this.units.push(this.hero);
 				this.battlefield[this.hero.X][this.hero.Y].unit = this.hero;
 				done = true;
@@ -107,10 +112,25 @@ class battle_controller {
 		for (let i = 0; i < 30; i++) {
 			let x = getRandomInt(23) + 1;
 			let y = getRandomInt(23) + 1;
-			if (this.battlefield[x][y].is_passable === true && this.battlefield[x][y].unit == null) {
-				this.units.push(Unit.new(unit_params, [small_claw], x, y, AI.new(this.battlefield, 'attack')));
-				this.battlefield[this.units[this.units.length - 1].X][this.units[this.units.length - 1].Y].unit = this.units[this.units.length - 1];
-				this.units[this.units.length - 1].create_visibility_map(this.battlefield);
+			if (
+				this.battlefield[x][y].is_passable === true &&
+				this.battlefield[x][y].unit == null
+			) {
+				this.units.push(
+					Unit.new(
+						unit_params,
+						[small_claw],
+						x,
+						y,
+						AI.new(this.battlefield, 'attack')
+					)
+				);
+				this.battlefield[this.units[this.units.length - 1].X][
+					this.units[this.units.length - 1].Y
+				].unit = this.units[this.units.length - 1];
+				this.units[this.units.length - 1].create_visibility_map(
+					this.battlefield
+				);
 			}
 		}
 		//this.hero = Hero.new(hero_params, [big_claw], 3, 3);
@@ -280,13 +300,13 @@ class battle_controller {
 						current_unit.Y,
 						current_unit.get_visible_tile(this.battlefield)
 					);
-					let distances = current_unit.AI.BFS(
-						{ X: current_unit.X, Y: current_unit.Y },
-						this.battlefield,
-						0
-					);
-					console.log('final map');
-					console.log(current_unit.AI.final_desire_map);
+					// let distances = current_unit.AI.BFS(
+					// 	{ X: current_unit.X, Y: current_unit.Y },
+					// 	this.battlefield,
+					// 	0
+					// );
+					// console.log('final map');
+					// console.log(current_unit.AI.final_desire_map);
 					let priority = -1000;
 					let tgt = { X: current_unit.X, Y: current_unit.Y };
 					for (let neighbor_cord of this.battlefield[current_unit.X][
@@ -295,21 +315,18 @@ class battle_controller {
 						// console.log(neighbor);
 						let neighbor = this.battlefield[neighbor_cord.X][neighbor_cord.Y];
 						if (neighbor.is_passable) {
-							console.log(
-								current_unit.AI.final_desire_map[neighbor.X][neighbor.Y]
-							);
 							if (
 								current_unit.AI.final_desire_map[neighbor.X][neighbor.Y] >
 								priority
 							) {
-								console.log('hey1!');
+								// console.log('hey1!');
 								priority =
 									current_unit.AI.final_desire_map[neighbor.X][neighbor.Y];
 								tgt = { X: neighbor.X, Y: neighbor.Y };
 							}
 						}
 					}
-					console.log('MOVVING');
+					// console.log('MOVVING');
 					this.move_unit_to_tile({ index: l }, tgt, 1);
 
 					let target = this.units[0];
