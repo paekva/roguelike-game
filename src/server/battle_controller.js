@@ -61,11 +61,11 @@ class battle_controller {
 					(i === 4 && j === 6) ||
 					(i === 3 && j === 6)
 				) {
-					this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, 15));
+					this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, []));
 				} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
-					this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, 0));
+					this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
 				} else {
-					this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, 0));
+					this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
 				}
 			}
 		}
@@ -119,6 +119,7 @@ class battle_controller {
 		for (let i = 0; i < this.units.length; i++) {
 			let unit = this.units[i];
 			if (unit.health <= 0) {
+				unit.onDeath()
 				this.battlefield[unit.X][unit.Y].unit = null;
 				this.units.splice(i, 1);
 			}

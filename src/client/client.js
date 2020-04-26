@@ -27,7 +27,6 @@ function setup() {
 	initSettingMenu();
 	initCanvas();
 	initSideBar();
-
 }
 
 const applySocketListeners = socket => {

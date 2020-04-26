@@ -25,7 +25,7 @@ class Hero {
 	}
 
 	move_unit(target_tile) {
-		// console.log(target_tile)
+		console.log(target_tile);
 		if (
 			this.energy - this.get_move_cost() >= 0 &&
 			target_tile.is_passable &&
