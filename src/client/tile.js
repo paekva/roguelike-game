@@ -82,6 +82,8 @@ const drawTile = (tile, isFoggy) => {
 };
 
 const drawClick = (x, y) => {
+	if (!battlefield_map_overlay) return;
+
 	battlefield_map_overlay.fill('red');
 	battlefield_map_overlay.stroke(0);
 	battlefield_map_overlay.strokeWeight(4);

@@ -1,61 +1,170 @@
 <!DOCTYPE html>
-<html lang=''>
+<html lang="">
   <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>roguelike game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
-    <link href="/src/client/styles.css" rel="stylesheet">
-    <script src='https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js'></script>
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='src/client/client.js'></script>
-    <script src='src/client/mousePressHandler.js'></script>
-    <script src='src/client/keyboardClickHandler.js'></script>
-    <script src='src/client/sketch.js'></script>
-    <script src='src/client/tile.js'></script>
-    <script src='src/client/person.js'></script>
-    <script src='src/client/battlefield.js'></script>
-    <script src='src/client/sideBar.js'></script>
-    <script src='src/client/settingsMenu.js'></script>
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&family=Roboto+Mono:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/src/client/styles.css" rel="stylesheet" />
   </head>
+
   <body>
-  <div id="startScreen" >
-    <div id="startScreenHeader">"APEX" GAME</div>
-    <div id="startMenu">
-      <div class="title" style="flex: 1">Choose your character type:</div>
-      <div id="charactersList" >
-      </div>
+    <div id="startScreen">
+      <div class="startScreenHeader">"APEX" GAME</div>
+      <div id="startMenu"></div>
+      <button id="nextBtn" class="startBtnDisabled" disabled>Next</button>
+      <button id="startBtn" class="startBtn" style="display: none">
+        Start game
+      </button>
     </div>
-    <button id="startBtn" class="startBtnDisabled" disabled >Start game</button>
-  </div>
-  <div style='display: flex; flex-direction: row;'>
-    <div id='battlefield' style='display: inline-block;' ></div>
-    <div id='sidebar' >
-      <div id='progressBar' ></div>
-      <div id='controlsWrapper' >
-        <div class='title' >Choose energy consuming type:</div>
-        <div id='controls' >
-          <label>
-            <input id='0' type='radio' name='light' checked>
-            <span class='design'></span>
-            <span class='text'>Option 1</span>
-          </label>
-
-          <label>
-            <input id='1' type='radio' name='light'>
-            <span class='design'></span>
-            <span class='text'>Option 2</span>
-          </label>
-
-          <label>
-            <input id='2' type='radio' name='light'>
-            <span class='design'></span>
-            <span class='text'>Option 3</span>
-          </label>
+    <div style="display: flex; flex-direction: row;">
+      <div id="battlefield" style="display: inline-block;"></div>
+      <div id="sidebar">
+        <div id="progressBar"></div>
+        <div id="controlsWrapper">
+          <div class="title">Choose energy consuming type:</div>
+          <div id="energyConsumptionOptions"></div>
         </div>
       </div>
     </div>
-  </div>
+    <div id="finishScreen">
+      <div class="startScreenHeader">"APEX" GAME is OVER</div>
+    </div>
+
+    <!-- TEMPLATES -->
+
+    <template id="startMenuTemplate">
+      <div id="characters">
+        <div class="title" style="flex: 1">Choose your character type:</div>
+        <div id="charactersList"></div>
+      </div>
+    </template>
+
+    <template id="startMenuSettingsTemplate">
+      <div id="another">
+        <div class="settingsWrapper">
+          <div class="settingsInnerWrapper">
+            <div class="title">Field settings:</div>
+            <div class="settingsInnerWrapper">
+              <label>
+                <input id="noScale" type="radio" name="scaleOptions" checked />
+                <span class="design"></span>
+                <span class="text">Not scaled</span>
+              </label>
+              <label>
+                <input id="sc10" type="radio" name="scaleOptions" />
+                <span class="design"></span>
+                <span class="text">Scale 30%</span>
+              </label>
+              <label>
+                <input id="sc50" type="radio" name="scaleOptions" />
+                <span class="design"></span>
+                <span class="text">Scale 50%</span>
+              </label>
+              <label>
+                <input id="sc80" type="radio" name="scaleOptions" />
+                <span class="design"></span>
+                <span class="text">Scale 80%</span>
+              </label>
+            </div>
+          </div>
+          <div class="settingsInnerWrapper">
+            <div class="title">Move keys settings:</div>
+            <div class="settingsInnerWrapper">
+              <label>
+                <input id="WASD" type="radio" name="keyboardOptions" checked />
+                <span class="design"></span>
+                <span class="text">WASD</span>
+              </label>
+              <label>
+                <input id="arrows" type="radio" name="keyboardOptions" />
+                <span class="design"></span>
+                <span class="text">Arrows</span>
+              </label>
+            </div>
+          </div>
+          <div class="settingsInnerWrapper">
+            <div class="title">Background music settings:</div>
+            <div class="settingsInnerWrapper">
+              <label>
+                <input id="musicOn" type="radio" name="musicOptions" checked />
+                <span class="design"></span>
+                <span class="text">Music on</span>
+              </label>
+              <label>
+                <input id="musicOff" type="radio" name="musicOptions" />
+                <span class="design"></span>
+                <span class="text">Music off</span>
+              </label>
+            </div>
+          </div>
+          <div class="settingsInnerWrapper">
+            <div class="title">Sounds settings:</div>
+            <div class="settingsInnerWrapper">
+              <label>
+                <input id="soundOn" type="radio" name="soundOptions" checked />
+                <span class="design"></span>
+                <span class="text">Sound on</span>
+              </label>
+              <label>
+                <input id="soundOff" type="radio" name="soundOptions" />
+                <span class="design"></span>
+                <span class="text">Sound off</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="energyConsumptionOptionsTemplate">
+      <label>
+        <input id="0" type="radio" name="light" checked />
+        <span class="design"></span>
+        <span class="text">Standard energy and consumption</span>
+      </label>
+
+      <label>
+        <input id="1" type="radio" name="light" />
+        <span class="design"></span>
+        <span class="text">Quick metabolism, high energy consumption</span>
+      </label>
+
+      <label>
+        <input id="2" type="radio" name="light" />
+        <span class="design"></span>
+        <span class="text">Energy recover with health resources</span>
+      </label>
+    </template>
+
+    <!-- TEMPLATES -->
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/client/client.js"></script>
+    <script src="src/client/mousePressHandler.js"></script>
+    <script src="src/client/keyboardClickHandler.js"></script>
+    <script src="src/client/sketch.js"></script>
+    <script src="src/client/tile.js"></script>
+    <script src="src/client/person.js"></script>
+    <script src="src/client/battlefield.js"></script>
+    <script src="src/client/sideBar.js"></script>
+    <script src="src/client/settingsMenu.js"></script>
+    <script src="src/client/settingsHandlers.js"></script>
+    <script>
+      const names = ["startMenu", "energyConsumptionOptions"];
+      names.forEach(name => {
+        let clone = document.importNode(
+          document.getElementById(`${name}Template`).content,
+          true
+        );
+        document.getElementById(name).appendChild(clone);
+      });
+
+      initSettingMenu();
+    </script>
   </body>
 </html>

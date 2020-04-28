@@ -3,6 +3,7 @@ const tileActivatedHandler = (mouseX, mouseY) => {
 	drawClick(mouseX, mouseY);
 
 	setTimeout(() => {
+		if (!battlefield_map_overlay) return;
 		battlefield_map_overlay.clear();
 	}, 200);
 };
