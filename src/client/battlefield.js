@@ -6,6 +6,10 @@ const setFieldBoundaries = (width, height) => {
   tileCountHorizontal = Math.floor(width / tile_size) - 1;
 };
 
+
+// TODO: field should move width person
+// TODO: bug with redrawing
+
 function drawBattlefieldMap() {
   battlefield_map.background(255);
   const { bordersVertical, bordersHorizontal } = transition();
@@ -20,10 +24,20 @@ function drawBattlefieldMap() {
         X: k,
         Y: l
       };
-      drawTile(
-        currentTile,
-        false // controller.player_human.visibility_map[i][j] === 0
-      );
+      const currentTileUnit = {
+        ...currentTile.unit,
+        X: k,
+        Y: l
+      };
+
+      drawTile(currentTile, controller.player_human.visibility_map[i][j] === 0);
+      currentTileUnit &&
+        controller.player_human.visibility_map[i][j] !== 0 &&
+        drawPerson(
+          currentTileUnit,
+          currentTileUnit.energy ? PersonType.HERO : PersonType.MONSTER
+        );
+
       l++;
     }
     k++;
