@@ -157,6 +157,24 @@ io.sockets.on('connection', function(socket) {
 		io.sockets.emit('updateunit', { unit: controller.units[0], index: 0 })
 	})
 
+	socket.on('changeModifications', function(data) {
+		controller.units[0].modifications = data.modifications
+	})
+
+	socket.on('pickupItems', function(data) {
+		let cur_tile = controller.battlefield[controller.units[0].X][controller.units[0].Y]
+		if (cur_tile.items.length != 0) {
+			for (let item of cur_tile.items) {
+				item.is_active = false
+				controller.units[0].modifications.push(item)
+			}
+		}
+		cur_tile.items = []
+		controller.turn += 1
+		controller.make_AI_turns()
+		io.sockets.emit('updateunits', { units: controller.units });
+	})
+
 	socket.on('skipturn', function(data) {
 		controller.turn += 1
 		controller.make_AI_turns()

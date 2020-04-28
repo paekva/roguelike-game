@@ -156,6 +156,13 @@ class Unit {
 		return distance;
 	}
 
+	onDeath(battlefield) {
+		let dropItem = this.modifications[
+			getRandomInt(this.modifications.length - 1)
+		];
+		battlefield[this.X][this.Y];
+	}
+
 	get_visible_tile(battlefield) {
 		let distances = this.BFS({ X: this.X, Y: this.Y }, battlefield, 1);
 		for (let i = 0; i < battlefield.length; i++) {
@@ -173,7 +180,6 @@ class Unit {
 	}
 
 	print_map(desire_map) {
-		console.log('visibility aaaa');
 		let Xlength = desire_map.length;
 		let Ylength = desire_map[0].length;
 		let str = '';

@@ -6,6 +6,7 @@ let Tile = require('./Tile');
 let Player = require('./Player');
 let PriorityQueue = require('priorityqueuejs');
 let AI = require('./AI');
+let MapGen = require('./map_generator');
 // let weapon_params = require('./weapon_params')
 // let armor_params = require('./armor_params')
 // let unit_params = require('./unit_params')
@@ -48,31 +49,31 @@ class battle_controller {
 			is_active: true,
 		});
 		this.units = [];
-		this.battlefield = [];
-		this.battlefield_X = 15;
-		this.battlefield_Y = 5;
-		for (let i = 0; i < this.battlefield_X; i++) {
-			this.battlefield.push([]);
-			for (let j = 0; j < this.battlefield_Y; j++) {
-				if (
-					(i === 1 && j === 3) ||
-					(i === 0 && j === 1) ||
-					(i === 3 && j === 6) ||
-					(i === 4 && j === 6) ||
-					(i === 3 && j === 6)
-				) {
-					this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, 15));
-				} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
-					this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, 0));
-				} else {
-					this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, 0));
-				}
-			}
-		}
-		for (let j = 0; j < this.battlefield_X; j++) {
-			this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
-			this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
-		}
+		this.battlefield = MapGen.new().generateMap();
+		this.battlefield_X = 25;
+		this.battlefield_Y = 25;
+		// for (let i = 0; i < this.battlefield_X; i++) {
+		// 	this.battlefield.push([]);
+		// 	for (let j = 0; j < this.battlefield_Y; j++) {
+		// 		if (
+		// 			(i === 1 && j === 3) ||
+		// 			(i === 0 && j === 1) ||
+		// 			(i === 3 && j === 6) ||
+		// 			(i === 4 && j === 6) ||
+		// 			(i === 3 && j === 6)
+		// 		) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'desert_hill', 2, true, []));
+		// 		} else if ((i === 4 && j === 4) || (i === 4 && j === 5)) {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'house', 1, false, []));
+		// 		} else {
+		// 			this.battlefield[i].push(Tile.new(i, j, 'desert', 1, true, []));
+		// 		}
+		// 	}
+		// }
+		// for (let j = 0; j < this.battlefield_X; j++) {
+		// 	this.battlefield[j][1] = Tile.new(j, 1, 'house', 2, false, 0);
+		// 	this.battlefield[j][2] = Tile.new(j, 2, 'house', 2, false, 0);
+		// }
 
 		for (let i = 0; i < this.battlefield_X; i++) {
 			for (let j = 0; j < this.battlefield_Y; j++) {
@@ -91,23 +92,63 @@ class battle_controller {
 			}
 		}
 
-		this.hero = Hero.new(hero_params, [big_claw], 3, 3);
-		this.unit_1 = Unit.new(
-			unit_params,
-			[small_claw],
-			5,
-			3,
-			AI.new(this.battlefield, 'attack')
-		);
-		// this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, AI.new(this.battlefield, 'attack'));
-		this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
-		this.units.push(this.hero);
-		this.units.push(this.unit_1);
-		this.units.push(this.unit_2);
-		for (let unit of this.units) {
-			this.battlefield[unit.X][unit.Y].unit = unit;
+		let done = false;
+		while (!done) {
+			let x = getRandomInt(23) + 1;
+			let y = getRandomInt(23) + 1;
+			if (this.battlefield[x][y].is_passable === true) {
+				this.hero = Hero.new(
+					hero_params,
+					[Modification.new('random attack')],
+					x,
+					y
+				);
+				this.units.push(this.hero);
+				this.battlefield[this.hero.X][this.hero.Y].unit = this.hero;
+				done = true;
+			}
 		}
-		this.unit_1.create_visibility_map(this.battlefield);
+
+		for (let i = 0; i < 30; i++) {
+			let x = getRandomInt(23) + 1;
+			let y = getRandomInt(23) + 1;
+			if (
+				this.battlefield[x][y].is_passable === true &&
+				this.battlefield[x][y].unit == null
+			) {
+				this.units.push(
+					Unit.new(
+						unit_params,
+						[small_claw],
+						x,
+						y,
+						AI.new(this.battlefield, 'attack')
+					)
+				);
+				this.battlefield[this.units[this.units.length - 1].X][
+					this.units[this.units.length - 1].Y
+				].unit = this.units[this.units.length - 1];
+				this.units[this.units.length - 1].create_visibility_map(
+					this.battlefield
+				);
+			}
+		}
+		//this.hero = Hero.new(hero_params, [big_claw], 3, 3);
+		// this.unit_1 = Unit.new(
+		// 	unit_params,
+		// 	[small_claw],
+		// 	5,
+		// 	3,
+		// 	AI.new(this.battlefield, 'attack')
+		// );
+		// // this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, AI.new(this.battlefield, 'attack'));
+		// this.unit_2 = Unit.new(unit_params, [small_claw], 7, 3, null);
+		// this.units.push(this.unit_1);
+		// this.units.push(this.unit_2);
+		// for (let unit of this.units) {
+		// 	this.battlefield[unit.X][unit.Y].unit = unit;
+		// }
+		// this.unit_1.create_visibility_map(this.battlefield);
 		// this.unit_2.create_visibility_map(this.battlefield);
 		// x * 10 + y
 		this.player_human = Player.new('Player', 0, this.hero);
@@ -119,6 +160,7 @@ class battle_controller {
 		for (let i = 0; i < this.units.length; i++) {
 			let unit = this.units[i];
 			if (unit.health <= 0) {
+				unit.onDeath(this.battlefield);
 				this.battlefield[unit.X][unit.Y].unit = null;
 				this.units.splice(i, 1);
 			}
@@ -258,13 +300,13 @@ class battle_controller {
 						current_unit.Y,
 						current_unit.get_visible_tile(this.battlefield)
 					);
-					let distances = current_unit.AI.BFS(
-						{ X: current_unit.X, Y: current_unit.Y },
-						this.battlefield,
-						0
-					);
-					console.log('final map');
-					console.log(current_unit.AI.final_desire_map);
+					// let distances = current_unit.AI.BFS(
+					// 	{ X: current_unit.X, Y: current_unit.Y },
+					// 	this.battlefield,
+					// 	0
+					// );
+					// console.log('final map');
+					// console.log(current_unit.AI.final_desire_map);
 					let priority = -1000;
 					let tgt = { X: current_unit.X, Y: current_unit.Y };
 					for (let neighbor_cord of this.battlefield[current_unit.X][
@@ -273,21 +315,18 @@ class battle_controller {
 						// console.log(neighbor);
 						let neighbor = this.battlefield[neighbor_cord.X][neighbor_cord.Y];
 						if (neighbor.is_passable) {
-							console.log(
-								current_unit.AI.final_desire_map[neighbor.X][neighbor.Y]
-							);
 							if (
 								current_unit.AI.final_desire_map[neighbor.X][neighbor.Y] >
 								priority
 							) {
-								console.log('hey1!');
+								// console.log('hey1!');
 								priority =
 									current_unit.AI.final_desire_map[neighbor.X][neighbor.Y];
 								tgt = { X: neighbor.X, Y: neighbor.Y };
 							}
 						}
 					}
-					console.log('MOVVING');
+					// console.log('MOVVING');
 					this.move_unit_to_tile({ index: l }, tgt, 1);
 
 					let target = this.units[0];
