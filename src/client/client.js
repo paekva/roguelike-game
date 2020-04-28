@@ -21,12 +21,8 @@ const SocketEmitEventType = {
   CHARACTER_SELECTED: ""
 };
 
-const canvasWidth = () =>
-  controller ? (controller.battlefield.length + 1) * tile_size : tile_size * 16;
-const canvasHeight = () =>
-  controller
-    ? (controller.battlefield[0].length + 1) * tile_size
-    : tile_size * 12;
+const canvasWidth = () => window.innerWidth - sideBarSize() - 2 * tile_size;
+const canvasHeight = () => window.innerHeight - 2 * tile_size;
 
 function setup() {
   socket = io.connect();
@@ -64,6 +60,7 @@ const applySocketListeners = socket => {
 const initCanvas = () => {
   const width = canvasWidth();
   const height = canvasHeight();
+  setFieldBoundaries(width, height);
 
   createCanvas(width, height).parent("battlefield");
   battlefield_map = createGraphics(width, height);
