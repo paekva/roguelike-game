@@ -160,7 +160,7 @@ class Unit {
 		let dropItem = this.modifications[
 			getRandomInt(this.modifications.length - 1)
 		];
-		battlefield[this.X][this.Y];
+		battlefield[this.X][this.Y].items.push(dropItem);
 	}
 
 	get_visible_tile(battlefield) {
