@@ -71,7 +71,7 @@ class Modification {
 		} else {
 			this.name = params.name;
 			this.effects = [];
-			this.damage = params.damage;d
+			this.damage = params.damage;
 			this.defense = params.defense;
 			this.cost = params.cost;
 			this.health = params.health;
