@@ -155,17 +155,20 @@
 
     <template id="modificationOptions">
       <div data-key="title"></div>
-      <label>
-        <input data-key="on" type="radio" name="light" checked />
-        <span class="design"></span>
-        <span class="text">On</span>
-      </label>
+      <div data-key="description"></div>
+      <div data-key="options">
+        <label >
+          <input type="radio" name="light" data-key="on"/>
+          <span class="design"></span>
+          <span class="text">On</span>
+        </label>
 
-      <label>
-        <input data-key="off" type="radio" name="light" />
-        <span class="design"></span>
-        <span class="text">Off</span>
-      </label>
+        <label>
+          <input type="radio" name="light"  data-key="of"/>
+          <span class="design"></span>
+          <span class="text">Off</span>
+        </label>
+      </div>
     </template>
 
     <!-- TEMPLATES -->

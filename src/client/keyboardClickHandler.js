@@ -86,6 +86,14 @@ const onOpenModificationScreenEvent = () => {
   if (holder.childNodes.length === 0) addModifications();
 };
 
+const modificationParams = [
+  "damage",
+  "defense",
+  "health",
+  "cost",
+  "passive_cost"
+];
+
 const addModifications = () => {
   const holder = document.getElementById("modificationsHolder");
   controller.hero.modifications.forEach(modification => {
@@ -100,6 +108,16 @@ const addModifications = () => {
     const childList = el.children;
     childList[0].innerHTML = modification.name;
 
+    const modificationItems = document.createElement("div");
+    modificationItems.style.display = "flex";
+    modificationItems.style.flexDirection = "column";
+
+    modificationParams.forEach(param => {
+      const item = document.createElement("div");
+      item.innerHTML = `${param}:\t${modification[param]}`;
+      modificationItems.appendChild(item);
+    });
+    childList[1].appendChild(modificationItems);
     holder.appendChild(el);
   });
 };
