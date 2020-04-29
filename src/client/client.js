@@ -68,6 +68,8 @@ const initCanvas = () => {
   createCanvas(width, height).parent("battlefield");
   battlefield_map = createGraphics(width, height);
   battlefield_map_overlay = createGraphics(width, height);
+
+  document.getElementById("sidebar").style.margin = `${shiftY}px ${shiftX}px`;
 };
 
 const checkIfGameIsOver = () => {
@@ -80,5 +82,6 @@ const checkIfGameIsOver = () => {
     const audio = new Audio("/public/audio/fail-sound.mp3");
     audio.play();
     document.getElementById("finishScreen").style.display = "flex";
+    document.getElementById("battlefield").style.display = "none";
   }
 };

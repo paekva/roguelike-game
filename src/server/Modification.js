@@ -3,14 +3,14 @@ class Modification {
 		this.attackNames = ['Claw', 'Tentacle', 'Talons', 'Fangs', 'Blade'];
 		this.defenseNames = ['Spine', 'Spikes', 'Carapace', 'Skin', 'Hide'];
 		this.utilityNames = ['Glands', 'Fiber', 'Symbiont'];
-		this.prefixesCommon = ['Petty', 'Small', 'Medium', 'Big'];
-		this.prefixesRare = ['Swift', 'Dense', 'Solid', 'Enhanced'];
+		this.prefixesCommon = ['Petty ', 'Small ', 'Medium ', 'Big '];
+		this.prefixesRare = ['Swift ', 'Dense ', 'Solid ', 'Enhanced '];
 		this.prefixesEpic = [
-			'Superior',
-			'Ravenous',
-			'Horrific',
-			'Perpetual',
-			'Murderous',
+			'Superior ',
+			'Ravenous ',
+			'Horrific ',
+			'Perpetual ',
+			'Murderous ',
 		];
 		this.postfixes = [
 			'Doom',
@@ -39,11 +39,11 @@ class Modification {
 			this.weight = this.getRandomInt(11) + 1;
 
 			if (this.weight < 7) {
-				this.name = this.prefixesCommon;
+				this.name = this.getRandomElement(this.prefixesCommon);
 			} else if (this.weight > 6 && this.weight < 11) {
-				this.name = this.prefixesRare;
+				this.name = this.getRandomElement(this.prefixesRare);
 			} else {
-				this.name = this.prefixesEpic;
+				this.name = this.getRandomElement(this.prefixesEpic);
 			}
 			if (this.type === 'Attack') {
 				this.name += this.getRandomElement(this.attackNames);
@@ -62,7 +62,7 @@ class Modification {
 				this.defense = this.weight - this.health - this.damage;
 			}
 			if (this.weight > 10) {
-				this.name += "of" + this.getRandomElement(this.postfixes);
+				this.name += " of " + this.getRandomElement(this.postfixes);
 			}
 			this.effects = [];
 			this.cost = this.weight / 4;
