@@ -49,6 +49,11 @@ function keyPressed() {
     }
     case 32: {
       socket.emit(SocketEmitEventType.SKIP_TURN);
+      break;
+    }
+    case 13: {
+      onOpenModificationScreenEvent();
+      break;
     }
   }
 }
@@ -64,4 +69,37 @@ const emitMove = type => {
     playStepSound();
     socket.emit(SocketEmitEventType.MOVE_HERO_TILE, type);
   }
+};
+
+const onOpenModificationScreenEvent = () => {
+  document.getElementById("modificationsScreen").style.display = "flex";
+
+  document.getElementById("backBtn").addEventListener("click", () => {
+    document.getElementById("modificationsScreen").style.display = "none";
+  });
+
+  document.getElementById("saveBtn").addEventListener("click", () => {
+    console.warn("saved");
+  });
+
+  const holder = document.getElementById("modificationsHolder");
+  if (holder.childNodes.length === 0) addModifications();
+};
+
+const addModifications = () => {
+  const holder = document.getElementById("modificationsHolder");
+  controller.hero.modifications.forEach(modification => {
+    const el = document.createElement("div");
+    el.className = "modificationOption";
+
+    let clone = document.importNode(
+      document.getElementById("modificationOptions").content,
+      true
+    );
+    el.appendChild(clone);
+    const childList = el.children;
+    childList[0].innerHTML = modification.name;
+
+    holder.appendChild(el);
+  });
 };

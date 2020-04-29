@@ -33,7 +33,20 @@
     <div id="finishScreen">
       <div class="startScreenHeader">"APEX" GAME is OVER</div>
     </div>
-
+    <div id="modificationsScreen">
+      <div class="startScreenHeader">
+        You can switch on/off your modifications
+      </div>
+      <div id="modificationsHolder"></div>
+      <div class="btnsHolder">
+        <button id="saveBtn" class="startBtn">
+          Save modifications settings
+        </button>
+        <button id="backBtn" class="startBtn">
+          Back to game
+        </button>
+      </div>
+    </div>
     <!-- TEMPLATES -->
 
     <template id="startMenuTemplate">
@@ -137,6 +150,21 @@
         <input id="2" type="radio" name="light" />
         <span class="design"></span>
         <span class="text">Energy recover with health resources</span>
+      </label>
+    </template>
+
+    <template id="modificationOptions">
+      <div data-key="title"></div>
+      <label>
+        <input data-key="on" type="radio" name="light" checked />
+        <span class="design"></span>
+        <span class="text">On</span>
+      </label>
+
+      <label>
+        <input data-key="off" type="radio" name="light" />
+        <span class="design"></span>
+        <span class="text">Off</span>
       </label>
     </template>
 
