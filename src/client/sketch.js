@@ -63,7 +63,6 @@ function draw() {
 
   if (controller && battlefield_map_overlay && battlefield_map && heroIcon) {
     drawBattlefieldMap();
-    drawCharacters();
 
     image(battlefield_map, 0, 0);
     image(battlefield_map_overlay, 0, 0);
