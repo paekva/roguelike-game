@@ -18,7 +18,8 @@ const SocketEmitEventType = {
   END_TURN: "endturn",
   SKIP_TURN: "skipturn",
   UPDATE_METABOLISM: "updatemetabolism",
-  CHARACTER_SELECTED: ""
+  CHARACTER_SELECTED: "",
+  CHANGE_MODIFICATIONS: "changeModifications"
 };
 
 const canvasWidth = () =>

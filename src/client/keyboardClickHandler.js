@@ -81,7 +81,7 @@ const onOpenModificationScreenEvent = () => {
   });
 
   document.getElementById("saveBtn").addEventListener("click", () => {
-    console.warn("saved");
+    socket.emit(SocketEmitEventType.CHANGE_MODIFICATIONS, currentModifications);
   });
 
   const holder = document.getElementById("modificationsHolder");
@@ -98,28 +98,48 @@ const modificationParams = [
 
 const addModifications = () => {
   const holder = document.getElementById("modificationsHolder");
-  controller.hero.modifications.forEach(modification => {
-    const el = document.createElement("div");
-    el.className = "modificationOption";
+  controller.hero.modifications &&
+    controller.hero.modifications.forEach(modification => {
+      const el = document.createElement("div");
+      el.className = "modificationOption";
 
-    let clone = document.importNode(
-      document.getElementById("modificationOptions").content,
-      true
-    );
-    el.appendChild(clone);
-    const childList = el.children;
-    childList[0].innerHTML = modification.name;
+      let clone = document.importNode(
+        document.getElementById("modificationOptions").content,
+        true
+      );
+      el.appendChild(clone);
+      const childList = el.children;
+      childList[0].innerHTML = modification.name;
 
-    const modificationItems = document.createElement("div");
-    modificationItems.style.display = "flex";
-    modificationItems.style.flexDirection = "column";
+      const modificationItems = document.createElement("div");
+      modificationItems.style.display = "flex";
+      modificationItems.style.flexDirection = "column";
 
-    modificationParams.forEach(param => {
-      const item = document.createElement("div");
-      item.innerHTML = `${param}:\t${modification[param]}`;
-      modificationItems.appendChild(item);
+      modificationParams.forEach(param => {
+        const item = document.createElement("div");
+        item.innerHTML = `${param}:\t${modification[param]}`;
+        modificationItems.appendChild(item);
+      });
+      childList[1].appendChild(modificationItems);
+      childList[2].setAttribute("name", modification.name);
+      childList[2].addEventListener("mousedown", e => {
+        onModificationUpdate(modification.name);
+      });
+
+      holder.appendChild(el);
     });
-    childList[1].appendChild(modificationItems);
-    holder.appendChild(el);
-  });
+};
+
+const currentModifications = [];
+const onModificationUpdate = name => {
+  const el = document.getElementsByName(name);
+  const title = el[0].getElementsByClassName("text");
+  title.text = "On";
+
+  // const index = currentModifications.findIndex(el => el === name);
+  // delete currentModifications[index];
+  //
+  // currentModifications.push(name);
+  //
+  // console.warn(currentModifications);
 };
