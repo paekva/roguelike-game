@@ -52,6 +52,7 @@ function keyPressed() {
       break;
     }
     case 13: {
+      document.getElementById("overlayLayer").style.display = "block";
       onOpenModificationScreenEvent();
       break;
     }
@@ -76,6 +77,7 @@ const onOpenModificationScreenEvent = () => {
 
   document.getElementById("backBtn").addEventListener("click", () => {
     document.getElementById("modificationsScreen").style.display = "none";
+    document.getElementById("overlayLayer").style.display = "none";
   });
 
   document.getElementById("saveBtn").addEventListener("click", () => {
