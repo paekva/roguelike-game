@@ -63,6 +63,7 @@ function draw() {
   strokeWeight(1);
 
   if (controller && battlefield_map_overlay && battlefield_map && heroIcon) {
+    if (!isGameOver) checkIfGameIsOver();
     drawBattlefieldMap();
 
     image(battlefield_map, 0, 0);

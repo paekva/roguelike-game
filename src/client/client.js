@@ -45,16 +45,17 @@ const applySocketListeners = socket => {
   });
 
   socket.on(SocketReceiveEventType.UPDATE_UNITS, function(data) {
+    drawSideBar();
     controller.units = data.units;
   });
 
   socket.on(SocketReceiveEventType.UPDATE_PLAYER, function(data) {
-    checkIfGameIsOver();
     drawSideBar();
     controller.player_human = data.player;
   });
 
   socket.on(SocketReceiveEventType.UPDATE_UNIT, function(data) {
+    drawSideBar();
     controller.units[data.index] = data.unit;
   });
 
