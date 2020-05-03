@@ -38,6 +38,13 @@
       <div class="startScreenHeader">
         You can switch on/off your modifications
       </div>
+      <div class="tableHeader">
+        <div>
+          <span class="text">state</span>
+        </div>
+        <div data-key="title">name</div>
+        <div class="description">power description</div>
+      </div>
       <div id="modificationsHolder"></div>
       <div class="btnsHolder">
         <button id="saveBtn" class="startBtn">
@@ -155,12 +162,12 @@
     </template>
 
     <template id="modificationOptions">
-      <div data-key="title"></div>
-      <div data-key="description"></div>
-      <div data-key="options">
+      <div class="options">
         <input type="radio" name="off" />
         <span class="text">Off</span>
       </div>
+      <div data-key="title"></div>
+      <div class="description"></div>
     </template>
 
     <!-- TEMPLATES -->

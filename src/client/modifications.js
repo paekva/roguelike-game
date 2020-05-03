@@ -42,9 +42,9 @@ const addModifications = () => {
       const newElement = createItemForSingleModification();
       const childList = newElement.children;
 
-      applyModificationName(childList[0], modification);
-      applyModificationCharacteristics(childList[1], modification);
-      applyModificationStatus(childList[2], modification);
+      applyModificationStatus(childList[0], modification);
+      applyModificationName(childList[1], modification);
+      applyModificationCharacteristics(childList[2], modification);
 
       holder.appendChild(newElement);
     });
@@ -67,19 +67,15 @@ const applyModificationName = (child, modification) => {
 };
 
 const applyModificationCharacteristics = (child, modification) => {
-  const modificationItems = document.createElement("div");
-  modificationItems.style.display = "flex";
-  modificationItems.style.flexDirection = "column";
-
   modificationParams.forEach(param => {
     const item = document.createElement("div");
     item.innerHTML = `${param}:\t${modification[param]}`;
-    modificationItems.appendChild(item);
+    child.appendChild(item);
   });
-  child.appendChild(modificationItems);
 };
 
 const applyModificationStatus = (child, modification) => {
+  child.innerHTML = modification.is_active ? "ON" : "OFF";
   child.setAttribute("name", modification.name);
   child.addEventListener("mousedown", () => {
     onModificationUpdate(modification.name);

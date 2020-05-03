@@ -194,6 +194,18 @@ input:active + .design::after {
   font-size: 40px;
 }
 
+.tableHeader {
+  margin-top: 15px;
+  padding: 10px 5px;
+  font-weight: bold;
+  font-size: 28px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 7fr;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
 #charactersList {
   padding: 0 20px;
   flex: 8;
@@ -268,14 +280,27 @@ input:active + .design::after {
 .modificationOption {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 7fr;
 
   color: white;
   font-size: 20px;
+}
+
+.description {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .btnsHolder {
   display: flex;
   flex-direction: row;
   max-height: 30px;
+}
+.options {
+  cursor: pointer;
+}
+
+.options:hover {
+  font-size: x-large;
+  font-weight: bold;
 }
