@@ -305,3 +305,22 @@ input:active + .design::after {
   font-size: x-large;
   font-weight: bold;
 }
+
+.keyCheatSheet {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+}
+
+.keyCheatSheetItem {
+  flex: 1;
+  margin: 5px 0;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.keyCheatSheetItemTitle {
+  color: yellow;
+}
