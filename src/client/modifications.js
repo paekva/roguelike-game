@@ -1,9 +1,11 @@
 const onOpenModificationScreenEvent = () => {
   document.getElementById("modificationsScreen").style.display = "flex";
-  addEventListenersForModificationsScreen();
 
   const holder = document.getElementById("modificationsHolder");
-  if (holder.childNodes.length === 0) addModifications();
+  if (holder.childNodes.length === 0) {
+    addEventListenersForModificationsScreen();
+    addModifications();
+  }
 };
 
 const closeModificationsWindow = () => {
@@ -17,7 +19,11 @@ const addEventListenersForModificationsScreen = () => {
     .addEventListener("click", closeModificationsWindow);
 
   document.getElementById("saveBtn").addEventListener("click", () => {
-    socket.emit(SocketEmitEventType.CHANGE_MODIFICATIONS, currentModifications);
+    socket.emit(
+      SocketEmitEventType.CHANGE_MODIFICATIONS,
+      currentModifications.filter(el => el !== null)
+    );
+    closeModificationsWindow();
   });
 };
 
@@ -39,9 +45,12 @@ const addModifications = () => {
   const holder = document.getElementById("modificationsHolder");
   controller.hero.modifications &&
     controller.hero.modifications.forEach(modification => {
-      const newElement = createItemForSingleModification();
-      const childList = newElement.children;
+      if (modification.is_active) currentModifications.push(modification.name);
 
+      const newElement = createItemForSingleModification();
+      newElement.setAttribute("name", modification.name);
+
+      const childList = newElement.children;
       applyModificationStatus(childList[0], modification);
       applyModificationName(childList[1], modification);
       applyModificationCharacteristics(childList[2], modification);
@@ -76,22 +85,24 @@ const applyModificationCharacteristics = (child, modification) => {
 
 const applyModificationStatus = (child, modification) => {
   child.innerHTML = modification.is_active ? "ON" : "OFF";
-  child.setAttribute("name", modification.name);
-  child.addEventListener("mousedown", () => {
+
+  child.addEventListener("mousedown", event => {
+    event.stopPropagation();
     onModificationUpdate(modification.name);
   });
 };
 
 const currentModifications = [];
-const onModificationUpdate = name => {
-  const el = document.getElementsByName(name);
-  const title = el[0].getElementsByClassName("text");
-  title.text = "On";
 
-  // const index = currentModifications.findIndex(el => el === name);
-  // delete currentModifications[index];
-  //
-  // currentModifications.push(name);
-  //
-  // console.warn(currentModifications);
+const onModificationUpdate = name => {
+  const el = document.getElementsByName(name)[0];
+  const is_active = el.childNodes[1].innerHTML === "ON";
+  el.childNodes[1].innerHTML = is_active ? "OFF" : "ON";
+
+  if (is_active) {
+    const index = currentModifications.findIndex(el => el === name);
+    delete currentModifications[index];
+  } else currentModifications.push(name);
+
+  console.warn(currentModifications);
 };

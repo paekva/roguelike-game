@@ -155,6 +155,7 @@ input:active + .design::after {
 .startBtn,
 .startBtnDisabled {
   color: black;
+  font-weight: bold;
   font-family: "Josefin Sans", sans-serif;
   cursor: pointer;
 }
