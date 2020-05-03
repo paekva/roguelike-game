@@ -9,18 +9,17 @@ const tileActivatedHandler = (mouseX, mouseY) => {
 };
 
 function mousePressed() {
+	if (checkIfSettingWindowOpened() || checkIfModificationsScreenOpened())
+		return;
+
 	if (battlefield_active) {
 		if (mouseButton === 'left') {
-			// Left click
 			tileActivatedHandler(mouseX, mouseY);
 
 			let index = checkClickOnUnit();
 			if (index !== -1) {
-				let unit = controller.units[index];
 				if (index !== 0) {
-					// if (chosen_unit) {
 					socket.emit(SocketEmitEventType.ATTACK_UNIT, { defender: index });
-					// }
 				}
 			}
 		}

@@ -46,8 +46,8 @@ const drawProgressBar = (title, percentage, color, coordinates) => {
   side_bar.fill(0);
   side_bar.textSize(14);
   side_bar.text(
-    title,
-    coordinates.x,
+    `${title} ${Math.floor(percentage * 100)}%`,
+    coordinates.x - 30,
     progressBarAreaHeight - progressBarAreaPadding
   );
   side_bar.noFill();

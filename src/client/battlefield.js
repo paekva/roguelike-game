@@ -11,6 +11,10 @@ function drawBattlefieldMap() {
         : getUnitOnTheTile(currentTile.X, currentTile.Y);
       if (unit)
         drawPerson(unit, unit.energy ? PersonType.HERO : PersonType.MONSTER);
+
+      if(currentTile.items.length>0 && !isFoggy){
+        drawItem(currentTile);
+      }
     }
   }
 }

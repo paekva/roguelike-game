@@ -37,6 +37,7 @@ const onStartGame = () => {
         monsterIcons.push(battlefield_map.loadImage(link));
     });
     heroIcon = battlefield_map.loadImage(heroIconLink);
+    itemIcon = battlefield_map.loadImage("/public/assets/item.png");
     socket.emit(SocketEmitEventType.CHARACTER_SELECTED, "data");
     isGameOn = true;
   }
@@ -72,4 +73,20 @@ const onNextClick = () => {
   document.getElementById("startMenu").appendChild(clone);
 
   initAllSettingsHandlers();
+};
+
+const openSettingsWindow = () => {
+  document.getElementById("startScreen").style.display = "flex";
+  document.getElementById("startBtn").innerText = "Continue";
+  document
+    .getElementById("startBtn")
+    .addEventListener("onclick", closeSettingWindow);
+};
+
+const closeSettingWindow = () => {
+  document.getElementById("startScreen").style.display = "none";
+};
+
+const checkIfSettingWindowOpened = () => {
+  return document.getElementById("startScreen").style.display === "flex";
 };

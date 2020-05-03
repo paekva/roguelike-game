@@ -18,7 +18,9 @@ const SocketEmitEventType = {
   END_TURN: "endturn",
   SKIP_TURN: "skipturn",
   UPDATE_METABOLISM: "updatemetabolism",
-  CHARACTER_SELECTED: ""
+  CHARACTER_SELECTED: "",
+  CHANGE_MODIFICATIONS: "changeModifications",
+  PICK_UP_ITEMS: "pickUpItems"
 };
 
 const canvasWidth = () =>
@@ -43,16 +45,17 @@ const applySocketListeners = socket => {
   });
 
   socket.on(SocketReceiveEventType.UPDATE_UNITS, function(data) {
+    drawSideBar();
     controller.units = data.units;
   });
 
   socket.on(SocketReceiveEventType.UPDATE_PLAYER, function(data) {
-    checkIfGameIsOver();
     drawSideBar();
     controller.player_human = data.player;
   });
 
   socket.on(SocketReceiveEventType.UPDATE_UNIT, function(data) {
+    drawSideBar();
     controller.units[data.index] = data.unit;
   });
 
