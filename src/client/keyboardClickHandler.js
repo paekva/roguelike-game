@@ -52,6 +52,10 @@ function keyPressed() {
       break;
     }
     case 13: {
+      socket.emit(SocketEmitEventType.PICK_UP_ITEMS);
+      break
+    }
+    case 14: {
       document.getElementById("overlayLayer").style.display = "block";
       onOpenModificationScreenEvent();
       break;

@@ -19,7 +19,8 @@ const SocketEmitEventType = {
   SKIP_TURN: "skipturn",
   UPDATE_METABOLISM: "updatemetabolism",
   CHARACTER_SELECTED: "",
-  CHANGE_MODIFICATIONS: "changeModifications"
+  CHANGE_MODIFICATIONS: "changeModifications",
+  PICK_UP_ITEMS: "pickUpItems"
 };
 
 const canvasWidth = () =>
