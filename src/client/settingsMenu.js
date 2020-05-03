@@ -37,6 +37,7 @@ const onStartGame = () => {
         monsterIcons.push(battlefield_map.loadImage(link));
     });
     heroIcon = battlefield_map.loadImage(heroIconLink);
+    itemIcon = battlefield_map.loadImage("/public/assets/item.png");
     socket.emit(SocketEmitEventType.CHARACTER_SELECTED, "data");
     isGameOn = true;
   }

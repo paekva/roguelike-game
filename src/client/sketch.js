@@ -26,6 +26,7 @@ const characterIconsLinks = [
 
 let heroIconLink;
 let heroIcon;
+let itemIcon;
 
 const PersonType = {
   HERO: "hero",
