@@ -171,6 +171,7 @@ input:active + .design::after {
   border: 1px solid black;
   border-radius: 4px;
   padding: 6px 12px;
+  margin: 0 6px;
 }
 
 .startBtnDisabled {

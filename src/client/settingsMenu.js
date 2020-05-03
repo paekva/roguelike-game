@@ -74,3 +74,19 @@ const onNextClick = () => {
 
   initAllSettingsHandlers();
 };
+
+const openSettingsWindow = () => {
+  document.getElementById("startScreen").style.display = "flex";
+  document.getElementById("startBtn").innerText = "Continue";
+  document
+    .getElementById("startBtn")
+    .addEventListener("onclick", closeSettingWindow);
+};
+
+const closeSettingWindow = () => {
+  document.getElementById("startScreen").style.display = "none";
+};
+
+const checkIfSettingWindowOpened = () => {
+  return document.getElementById("startScreen").style.display === "flex";
+};

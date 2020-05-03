@@ -1,4 +1,7 @@
 function keyPressed() {
+  if (checkIfSettingWindowOpened() || checkIfModificationsScreenOpened())
+    return;
+
   switch (keyCode) {
     case 39: {
       if (!isDefaultKeyboard) emitMove(MoveType.RIGHT);
@@ -17,11 +20,7 @@ function keyPressed() {
       break;
     }
     case 27: {
-      document.getElementById("startScreen").style.display = "flex";
-      document.getElementById("startBtn").innerText = "Continue";
-      document.getElementById("startBtn").addEventListener("onclick", () => {
-        document.getElementById("startScreen").style.display = "none";
-      });
+      openSettingsWindow();
       break;
     }
     case 68: {
@@ -53,7 +52,7 @@ function keyPressed() {
     }
     case 13: {
       socket.emit(SocketEmitEventType.PICK_UP_ITEMS);
-      break
+      break;
     }
     case 16: {
       document.getElementById("overlayLayer").style.display = "block";
