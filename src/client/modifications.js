@@ -77,9 +77,13 @@ const applyModificationName = (child, modification) => {
 
 const applyModificationCharacteristics = (child, modification) => {
   modificationParams.forEach(param => {
-    const item = document.createElement("div");
-    item.innerHTML = `${param}:\t${modification[param]}`;
-    child.appendChild(item);
+    if (modification[param] !== 0) {
+      const item = document.createElement("div");
+      item.innerHTML = `${
+        param === "passive_cost" ? "Passive cost" : param[0].toLocaleUpperCase() + param.substr(1)
+      }:\t${modification[param]}`;
+      child.appendChild(item);
+    }
   });
 };
 

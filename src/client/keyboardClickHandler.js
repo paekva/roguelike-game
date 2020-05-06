@@ -1,5 +1,8 @@
 function keyPressed() {
-  if (checkIfSettingWindowOpened() || checkIfModificationsScreenOpened())
+  if (
+    checkIfSettingWindowOpened() ||
+    (checkIfModificationsScreenOpened() && keyCode !== 16)
+  )
     return;
 
   switch (keyCode) {
@@ -55,8 +58,12 @@ function keyPressed() {
       break;
     }
     case 16: {
-      document.getElementById("overlayLayer").style.display = "block";
-      onOpenModificationScreenEvent();
+      if (checkIfModificationsScreenOpened()) {
+        closeModificationsWindow();
+      } else {
+        document.getElementById("overlayLayer").style.display = "block";
+        onOpenModificationScreenEvent();
+      }
       break;
     }
   }

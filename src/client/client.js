@@ -85,6 +85,8 @@ const checkIfGameIsOver = () => {
     const audio = new Audio("/public/audio/fail-sound.mp3");
     audio.play();
     document.getElementById("finishScreen").style.display = "flex";
-    document.getElementById("battlefield").style.display = "none";
+    document.getElementById("restartBtn").addEventListener('click', () => {
+      console.warn('want a restart')
+    })
   }
 };
