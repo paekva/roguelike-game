@@ -162,7 +162,6 @@ class battle_controller {
 			if (unit.health <= 0) {
 				unit.onDeath(this.battlefield);
 				// console.log(unit)
-				console.log(this.battlefield[unit.X][unit.Y])
 				this.battlefield[unit.X][unit.Y].unit = null;
 				this.units.splice(i, 1);
 			}

@@ -143,6 +143,7 @@ io.sockets.on('connection', function(socket) {
 			attacker.attack_unit(defender);
 			controller.check_unit_existing();
 			io.sockets.emit('updateunits', { units: controller.units });
+			io.sockets.emit('updatebattlefield', controller)
 			controller.turn += 1
 			controller.make_AI_turns()
 			io.sockets.emit('updateunits', { units: controller.units });
@@ -161,8 +162,9 @@ io.sockets.on('connection', function(socket) {
 		controller.units[0].modifications = data.modifications
 	})
 
-	socket.on('pickupItems', function(data) {
+	socket.on('pickUpItems', function(data) {
 		let cur_tile = controller.battlefield[controller.units[0].X][controller.units[0].Y]
+		console.log(cur_tile.items)
 		if (cur_tile.items.length != 0) {
 			for (let item of cur_tile.items) {
 				item.is_active = false
@@ -171,7 +173,9 @@ io.sockets.on('connection', function(socket) {
 		}
 		cur_tile.items = []
 		controller.turn += 1
+		console.log(controller.units[0].modifications)
 		controller.make_AI_turns()
+		io.sockets.emit('updatebattlefield', controller)
 		io.sockets.emit('updateunits', { units: controller.units });
 	})
 

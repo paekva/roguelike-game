@@ -70,7 +70,6 @@ class Unit {
 	}
 
 	onDeath(battlefield) {
-		console.log("DED")
 		let dropItem = this.modifications[
 			getRandomInt(this.modifications.length - 1)
 		];
