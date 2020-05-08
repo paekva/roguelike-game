@@ -161,6 +161,8 @@ class battle_controller {
 			let unit = this.units[i];
 			if (unit.health <= 0) {
 				unit.onDeath(this.battlefield);
+				// console.log(unit)
+				console.log(this.battlefield[unit.X][unit.Y])
 				this.battlefield[unit.X][unit.Y].unit = null;
 				this.units.splice(i, 1);
 			}
@@ -219,7 +221,7 @@ class battle_controller {
 	// }
 
 	move_unit_to_tile(unit_info, goal, res) {
-		console.log('moving unit');
+		// console.log('moving unit');
 		let unit = this.units[unit_info.index];
 		let prevX = unit.X;
 		let prevY = unit.Y;

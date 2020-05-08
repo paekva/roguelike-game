@@ -69,6 +69,14 @@ class Unit {
 		return reduction;
 	}
 
+	onDeath(battlefield) {
+		console.log("DED")
+		let dropItem = this.modifications[
+			getRandomInt(this.modifications.length - 1)
+		];
+		battlefield[this.X][this.Y].items.push(dropItem);
+	}
+
 	attack_unit(target, tgt_tile) {
 		console.log(this.fullname + ' attacked!');
 		let damage_stats = this.get_damage();
@@ -156,13 +164,6 @@ class Unit {
 		return distance;
 	}
 
-	onDeath(battlefield) {
-		let dropItem = this.modifications[
-			getRandomInt(this.modifications.length - 1)
-		];
-		battlefield[this.X][this.Y].items.push(dropItem);
-	}
-
 	get_visible_tile(battlefield) {
 		let distances = this.BFS({ X: this.X, Y: this.Y }, battlefield, 1);
 		for (let i = 0; i < battlefield.length; i++) {
@@ -193,11 +194,16 @@ class Unit {
 	}
 }
 
+let unit
 module.exports.new = function(params, modifications, X, Y, AI) {
-	let unit = new Unit(params, modifications, X, Y, AI);
+	unit = new Unit(params, modifications, X, Y, AI);
 	return unit;
 };
 
 module.exports.get_visible_tile = function(battlefield) {
-	player.get_visible_tile(battlefield);
+	unit.get_visible_tile(battlefield);
+};
+
+module.exports.onDeath = function(battlefield) {
+	unit.playeronDeath(battlefield);
 };
