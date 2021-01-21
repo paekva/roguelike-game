@@ -6,7 +6,7 @@
   "dependencies": {
     "prettier": "^1.19.1",
     "priorityqueuejs": "^1.0.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {},
   "scripts": {
